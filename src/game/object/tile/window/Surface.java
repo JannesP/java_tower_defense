@@ -13,11 +13,6 @@ import java.awt.image.BufferedImage;
 public class Surface extends JPanel{
 	private static final long serialVersionUID = -5781572850886120486L;
 	ScreenManager sm;
-
-	/**
-	 * Current Dimensions of the JPanel
-	 */
-	Rectangle dimensions = null;
 	
 	public Surface() {
 		super();
@@ -34,7 +29,7 @@ public class Surface extends JPanel{
 		bbg.setFont(new Font("", 0, 26));
 		
 		if (sm == null) return;
-		sm.draw((Graphics2D)bbg);
+		sm.draw(bbg);
 		g.drawImage(bufferedImage, 0, 0, null); 
 	}
 	

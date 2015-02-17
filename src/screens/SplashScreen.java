@@ -17,9 +17,6 @@ public class SplashScreen extends BaseScreen{
 	@Override
 	public void update(long timeDiff) {
 		timeUp += timeDiff;
-		if (timeUp > 3000000000l) {
-			
-		}
 	}
 
 	@Override

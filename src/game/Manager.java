@@ -17,7 +17,9 @@ import java.awt.*;
  */
 public class Manager {
 	public static final int TILESIZE = 20;
-	
+
+    public static boolean isExiting = false;
+
 	private Window win;
 	private ScreenManager screenManager;
 	private Input input;
@@ -39,7 +41,9 @@ public class Manager {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					update();
+                    if (!isExiting) {
+                        update();
+                    }
 				}
 			}
 		});

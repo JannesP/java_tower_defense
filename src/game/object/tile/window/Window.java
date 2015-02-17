@@ -14,7 +14,7 @@ public class Window extends JFrame {
 	
 	public Window() {
 		setTitle("Test");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setMinimumSize(new Dimension(400, 350));
         try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

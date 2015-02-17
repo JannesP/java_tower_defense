@@ -13,7 +13,6 @@ public abstract class Button implements PaintableUpdatableObject {
 	String text;
 	
 	/**
-	 * @param dRect - DestinationRect
 	 * @param image - Image
 	 */
 	public Button(int x, int y, int width, int height, BufferedImage image, String text, Graphics2D g){
@@ -50,7 +49,7 @@ public abstract class Button implements PaintableUpdatableObject {
 			spriteY = 0;
 			break;
 		case HOVER:
-			spriteY = image.getHeight() / 3 * 1;
+			spriteY = image.getHeight() / 3;
 			break;
 		case PRESSED:
 			spriteY = image.getHeight() / 3 * 2;

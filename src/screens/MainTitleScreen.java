@@ -108,9 +108,7 @@ public class MainTitleScreen extends BaseScreen {
 					}
 					break;
 				}
-				
-				
-			} else if (e.getID() == KeyEvent.KEY_RELEASED) {   }
+			}
 		}
 
 	}

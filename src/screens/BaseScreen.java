@@ -44,6 +44,6 @@ public abstract class BaseScreen {
 	
 	public BaseScreen(String name, double width, double height, Graphics2D g) {
 		this.name = name;
-		realign((int) width, (int) this.height, g);
+		realign((int) width, (int) height, g);
 	}
 }

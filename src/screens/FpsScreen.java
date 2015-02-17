@@ -13,10 +13,6 @@ public class FpsScreen extends BaseScreen {
 
 	private int x, y;
 	
-	public FpsScreen(String name, int width, int height, Graphics2D g) {
-		super(name, width, height, g);
-	}
-	
 	public FpsScreen(String name, double width, double height, Graphics2D g) {
 		super(name, width, height, g);
 	}

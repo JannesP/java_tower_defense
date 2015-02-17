@@ -98,7 +98,7 @@ public class ScreenManager {
 	
 	public void unLoadScreen(BaseScreen screen){
 		for (BaseScreen foundScreen : screens){
-			if(foundScreen.name == screen.name){
+			if(foundScreen.name.equals(screen.name)){
 				foundScreen.unLoad();
 				break;
 			}
