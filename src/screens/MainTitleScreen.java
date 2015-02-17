@@ -46,7 +46,7 @@ public class MainTitleScreen extends BaseScreen {
 	@Override
 	public void draw(Graphics2D g) {
 		for (Button b : buttons) {
-			b.paint(g);
+			b.draw(g);
 		}
 	}
 
@@ -55,7 +55,7 @@ public class MainTitleScreen extends BaseScreen {
 		super.realign(rect, g);
 		for (Button b : buttons) {
 			b.setX(this.width / 2 - b.getRect().width / 2);
-			b.realign(g);
+			b.realign(rect.width, rect.height, g);
 		}
 	}
 

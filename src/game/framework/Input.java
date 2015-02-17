@@ -7,7 +7,11 @@ import java.awt.event.*;
 public class Input implements KeyListener, WindowListener, MouseListener, MouseMotionListener, MouseWheelListener{
 
 	ScreenManager sm;
-	
+
+    /**
+     * Initiates a new Instance for receiving several input events.
+     * @param sm - ScreenManager to report the input to.
+     */
 	public Input(ScreenManager sm) {
 		this.sm = sm;
 	}

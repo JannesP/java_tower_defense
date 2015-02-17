@@ -20,17 +20,19 @@ public class Surface extends JPanel{
 	
 	@Override
 	public void paintComponent(Graphics g) {
+        if (sm == null) return;
+
+        //setup buffer image for pre-rendering
 		BufferedImage bufferedImage = new BufferedImage((int)this.getBounds().getWidth(), (int)this.getBounds().getHeight(),BufferedImage.TYPE_INT_ARGB);
 		Graphics2D bbg = bufferedImage.createGraphics();
 		bbg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		bbg.setColor(Color.decode("#FF00D0"));
 		bbg.fillRect(0, 0, (int)this.getBounds().getWidth(), (int)this.getBounds().getHeight());
 		bbg.setColor(Color.BLACK);
-		bbg.setFont(new Font("", 0, 26));
-		
-		if (sm == null) return;
-		sm.draw(bbg);
-		g.drawImage(bufferedImage, 0, 0, null); 
+		bbg.setFont(new Font("", 0, 26));   //TODO select default font
+
+		sm.draw(bbg);   //draw all screens
+		g.drawImage(bufferedImage, 0, 0, null); //draw buffered image on surface
 	}
 	
 

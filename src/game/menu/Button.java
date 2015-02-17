@@ -6,13 +6,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public abstract class Button implements PaintableUpdatableObject {
-	STATE state = STATE.NORMAL;
-	BufferedImage image;
-	int x, y, width, height, spriteY;
-	int stringX, stringY;
-	String text;
+	protected STATE state = STATE.NORMAL;
+    protected BufferedImage image;
+    protected int x, y, width, height, spriteY;
+    protected int stringX, stringY;
+    protected String text;
 	
 	/**
+     * Creates a new button with the given parameters.
 	 * @param image - Image
 	 */
 	public Button(int x, int y, int width, int height, BufferedImage image, String text, Graphics2D g){
@@ -33,11 +34,19 @@ public abstract class Button implements PaintableUpdatableObject {
 	public void setState(STATE state) {
 		this.state = state;
 	}
-	
+
+    /**
+     * Gets the current state of the button.
+     * @return - Button.STATE that's currently set
+     */
 	public STATE getState() {
 		return state;
 	}
 
+    /**
+     * Get REKT ... ääähh
+     * @return - the dimensions of the Button as a Rectangle
+     */
 	public Rectangle getRect() {
 		return new Rectangle(x, y, width, height);
 	}
@@ -55,20 +64,23 @@ public abstract class Button implements PaintableUpdatableObject {
 			spriteY = image.getHeight() / 3 * 2;
 			break;
 		}
-
 		
 	}
 
 	@Override
-	public void paint(Graphics2D g) {
+	public void draw(Graphics2D g) {
 		g.drawImage(image, x, y, width + x, height + y, 0, spriteY, image.getWidth(), image.getHeight() / 3 + spriteY, null);
 		g.drawString(text, stringX, stringY);
 	}
 
+    public void realign(Graphics2D g) {
+        stringX = x + width / 2 - g.getFontMetrics().stringWidth(text) / 2;
+        stringY = y + height / 2 - g.getFontMetrics().getHeight() / 2 + g.getFontMetrics().getAscent();
+    }
+
 	@Override
-	public void realign(Graphics2D g) {
-		stringX = x + width / 2 - g.getFontMetrics().stringWidth(text) / 2;
-		stringY = y + height / 2 - g.getFontMetrics().getHeight() / 2 + g.getFontMetrics().getAscent();
+	public void realign(int width, int height, Graphics2D g) {
+		realign(g);
 	}
 
 	public void setX(int x) {
@@ -78,7 +90,5 @@ public abstract class Button implements PaintableUpdatableObject {
 	public void setY(int y) {
 		this.y = y;
 	}
-	
-	
 
 }

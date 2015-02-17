@@ -73,14 +73,14 @@ public class ScreenManager {
 	}
 	
 	public void draw(Graphics2D g) {
-		if (dimensions == null || !dimensions.equals(win.getSurface().getBounds())) {
+		if (dimensions == null || !dimensions.equals(win.getSurface().getBounds())) {   //check if dimensions changed
 			dimensions = win.getSurface().getBounds();
-			setAlignments(dimensions, g);
+			setAlignments(dimensions, g);   //recalculate drawing positions for UI
 		}
 
-		for (BaseScreen foundScreen : screens){
-			if (foundScreen.state == SCREENSTATE.ACTIVE){
-				foundScreen.draw(g);
+		for (BaseScreen foundScreen : screens){ //draw all screens  //TODO use zOrder
+			if (foundScreen.state == SCREENSTATE.ACTIVE){   //if screen should be drawn
+				foundScreen.draw(g);    //draw screen
 			}
 		}
 	}
