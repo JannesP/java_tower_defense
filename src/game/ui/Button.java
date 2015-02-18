@@ -1,11 +1,12 @@
-package game.menu;
+package game.ui;
 
-import game.drawable.PaintableUpdatableObject;
+import game.drawable.IPaintableUpdatableObject;
+import game.framework.Util;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public abstract class Button implements PaintableUpdatableObject {
+public abstract class Button implements IPaintableUpdatableObject {
 	protected STATE state = STATE.NORMAL;
     protected BufferedImage image;
     protected int x, y, width, height, spriteY;
@@ -23,7 +24,7 @@ public abstract class Button implements PaintableUpdatableObject {
 		this.height = height;
 		this.image = image;
 		this.text = text;
-		realign(g);
+		realign(width, height, g);
 	}
 	public enum STATE{
 		NORMAL,
@@ -73,14 +74,10 @@ public abstract class Button implements PaintableUpdatableObject {
 		g.drawString(text, stringX, stringY);
 	}
 
-    public void realign(Graphics2D g) {
-        stringX = x + width / 2 - g.getFontMetrics().stringWidth(text) / 2;
-        stringY = y + height / 2 - g.getFontMetrics().getHeight() / 2 + g.getFontMetrics().getAscent();
-    }
-
 	@Override
 	public void realign(int width, int height, Graphics2D g) {
-		realign(g);
+        stringX = x + Util.calculateCenterPosition(this.width, g.getFontMetrics().stringWidth(text));
+        stringY = y + Util.calculateCenterPosition(this.height, g.getFontMetrics().getHeight()) + g.getFontMetrics().getAscent();
 	}
 
 	public void setX(int x) {

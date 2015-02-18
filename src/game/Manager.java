@@ -1,13 +1,13 @@
 package game;
 
 import game.framework.Input;
-import game.framework.Textures;
 import game.object.tile.window.Surface;
 import game.object.tile.window.Window;
 import screens.FpsScreen;
-import screens.MainTitleScreen;
 import screens.ScreenManager;
+import screens.SplashScreen;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -23,48 +23,52 @@ public class Manager {
 	private Window win;
 	private ScreenManager screenManager;
 	private Input input;
+    private static Thread updateThread;
 	
 	long lastNanos = 0;
 	
 	public Manager() {
-		Textures.loadImages();
 		win = new Window();
-		win.setVisible(true);
-		
-		Thread t = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				while (true) {
-					try {
-						Thread.sleep(16, 666667);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-                    if (!isExiting) {
-                        update();
-                    }
-				}
-			}
+        win.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+
+        Thread.currentThread().setName("uiThread");
+
+        updateThread = new Thread(() -> {
+            gameLoop : while (true) {
+                try {
+                    Thread.sleep(16, 666667);
+                } catch (InterruptedException e) {
+                    break gameLoop;
+                }
+                if (!isExiting) {
+                    update();
+                }
+            }
 		});
-		t.start();
-		// ADD DEFAULT SCREENS
-		Graphics2D g = (Graphics2D) win.getSurface().getGraphics();
-		Surface s = win.getSurface();
+        updateThread.setName("updateThread");
+
+        screenManager = new ScreenManager(win);
+        input = new Input(screenManager);
+        Surface s = win.getSurface();
+
+        //Add event listeners
+        win.addWindowListener(input);
+        s.addKeyListener(input);
+        s.addMouseListener(input);
+        s.addMouseMotionListener(input);
+        s.addMouseWheelListener(input);
+        win.setVisible(true);
+
+		// setup graphics
+		Graphics2D g = (Graphics2D) s.getGraphics();
 		s.getGraphics().setFont(new Font("", 0, 26));
-		screenManager = new ScreenManager(win);
-		input = new Input(screenManager);
-		win.addKeyListener(input);
-		win.addMouseListener(input);
-		s.addKeyListener(input);
-		s.addMouseListener(input);
-		win.addMouseMotionListener(input);
-		s.addMouseMotionListener(input);
-		win.addMouseWheelListener(input);
-		s.addMouseWheelListener(input);
-		
+        s.requestFocus();
+
+        //add default screens
+		screenManager.addScreen(new SplashScreen("splashScreen", s.getBounds().getWidth(), s.getBounds().getHeight(), g));
 		screenManager.addScreen(new FpsScreen("fpsScreen", s.getBounds().getWidth(), s.getBounds().getHeight() ,g));
-		screenManager.addScreen(new MainTitleScreen("titleScreen", (int)s.getBounds().getWidth(), (int)s.getBounds().getHeight(), g, win));
+
+        updateThread.start();
 		
 	}
 	
@@ -74,7 +78,7 @@ public class Manager {
 	 */
 	private void update() {
 		if (lastNanos == 0) {
-			lastNanos = 16000000;
+			lastNanos = System.nanoTime();
 		}
 		long timeDiff = System.nanoTime() - lastNanos;
 		
@@ -87,4 +91,11 @@ public class Manager {
 	public static void main(String[] args) {
 		new Manager();
 	}
+
+    public static void closeRequested() {
+        if (updateThread != null && updateThread.isAlive()) {
+            updateThread.interrupt();
+        }
+        System.exit(0);
+    }
 }

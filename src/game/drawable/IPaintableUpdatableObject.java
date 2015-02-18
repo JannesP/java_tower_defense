@@ -2,7 +2,7 @@ package game.drawable;
 
 import java.awt.*;
 
-public interface PaintableUpdatableObject {
+public interface IPaintableUpdatableObject {
 
     /**
      * Called once every frame.

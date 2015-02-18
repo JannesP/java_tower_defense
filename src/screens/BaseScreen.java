@@ -1,6 +1,6 @@
 package screens;
 
-import game.drawable.PaintableUpdatableObject;
+import game.drawable.IPaintableUpdatableObject;
 import screens.ScreenManager.SCREENSTATE;
 
 import java.awt.*;
@@ -8,18 +8,21 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public abstract class BaseScreen implements PaintableUpdatableObject {
+public abstract class BaseScreen implements IPaintableUpdatableObject {
 
     /**
      * Indicates the current status of the screen.
      */
     public SCREENSTATE state = SCREENSTATE.ACTIVE;
 
+    private BaseScreen[] requestedScreens = null;
 	protected String name = "";
     protected int width, height;
     protected float zOrder;
     protected boolean focused = false;
     protected boolean grabFocus = true;
+    protected Graphics2D graphics2D = null;
+    protected boolean closeGame = false;
 
     /**
      * Function called once every frame with all Key Events to process.
@@ -72,6 +75,7 @@ public abstract class BaseScreen implements PaintableUpdatableObject {
      */
 	public BaseScreen(String name, int width, int height, Graphics2D g) {
 		this.name = name;
+        this.graphics2D = g;
 		realign(width, height, g);
 	}
 
@@ -84,6 +88,62 @@ public abstract class BaseScreen implements PaintableUpdatableObject {
      */
 	public BaseScreen(String name, double width, double height, Graphics2D g) {
 		this.name = name;
+        this.graphics2D = g;
 		realign((int) width, (int) height, g);
 	}
+
+    /**
+     * Should be overwritten when it should do something!
+     */
+    public void closeRequested() {  }
+
+    /**
+     * Requests a new screen to be displayed.
+     * @param screen - the new screen
+     */
+    protected void requestScreen(BaseScreen screen) {
+        synchronized (ScreenManager.THREADLOCK_REQUESTED_SCREENS) {
+            if (requestedScreens == null) {
+                requestedScreens = new BaseScreen[1];
+            } else {
+                BaseScreen[] buffer = requestedScreens.clone();
+                requestedScreens = new BaseScreen[buffer.length + 1];
+                for (int i = 0; i < buffer.length; i++) {
+                    requestedScreens[i] = buffer[i];
+                }
+            }
+            requestedScreens[requestedScreens.length - 1] = screen;
+        }
+    }
+
+    /**
+     * Returns all requested screens that should be loaded.
+     * @return - null or array with screens
+     */
+    public BaseScreen[] getRequestedScreens() {
+        synchronized (ScreenManager.THREADLOCK_REQUESTED_SCREENS) {
+            return requestedScreens;
+        }
+    }
+
+    /**
+     * Clears all Screens that has been requested.
+     */
+    public void clearRequestedScreens() {
+        synchronized (ScreenManager.THREADLOCK_REQUESTED_SCREENS) {
+            requestedScreens = null;
+        }
+    }
+
+    /**
+     * Checks if the screen gave its ok for closing the game.
+     * @return true if the game should close
+     */
+    public boolean isCloseGame() {
+        return  closeGame;
+    }
+
+    protected void closeGame() {
+        closeGame = true;
+    }
 }

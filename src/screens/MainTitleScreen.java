@@ -1,14 +1,12 @@
 package screens;
 
-import game.framework.Textures;
-import game.menu.Button;
+import game.framework.Util;
 import game.menu.MenuButton;
-import game.object.tile.window.Window;
+import game.ui.Button;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class MainTitleScreen extends BaseScreen {
@@ -20,20 +18,19 @@ public class MainTitleScreen extends BaseScreen {
 		OPTIONS,
 		MULTIPLAYER
 	}
-	
-	ArrayList<MenuButton> buttons;
-	private Window win;
 
-	public MainTitleScreen(String name, int width, int height, Graphics2D g, Window win) {
+    private ArrayList<MenuButton> buttons;
+    private boolean gotInitialResize = false;
+
+	public MainTitleScreen(String name, int width, int height, Graphics2D g) {
 		super(name, width, height, g);
-		BufferedImage img = Textures.button_main_menu;
-		this.win = win;
+        int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
 		buttons = new ArrayList<>();
-		buttons.add(new MenuButton(20, 20, 200, 50, img, "Play", g, BUTTON_ACTION.START));
-		buttons.add(new MenuButton(20, 80, 200, 50, img, "Multiplayer", g, BUTTON_ACTION.MULTIPLAYER));
-		buttons.add(new MenuButton(20, 160, 200, 50, img, "Options", g, BUTTON_ACTION.OPTIONS));
-		buttons.add(new MenuButton(20, 220, 200, 50, img, "Editor", g, BUTTON_ACTION.EDITOR));
-		buttons.add(new MenuButton(20, 280, 200, 50, img, "Exit", g, BUTTON_ACTION.EXIT));
+		buttons.add(new MenuButton(menuButtonCenterX, 20, "Play", g, BUTTON_ACTION.START));
+		buttons.add(new MenuButton(menuButtonCenterX, 80, "Multiplayer", g, BUTTON_ACTION.MULTIPLAYER));
+		buttons.add(new MenuButton(menuButtonCenterX, 160, "Options", g, BUTTON_ACTION.OPTIONS));
+		buttons.add(new MenuButton(menuButtonCenterX, 220, "Editor", g, BUTTON_ACTION.EDITOR));
+		buttons.add(new MenuButton(menuButtonCenterX, 280, "Exit", g, BUTTON_ACTION.EXIT));
 	}
 
 	@Override
@@ -45,18 +42,29 @@ public class MainTitleScreen extends BaseScreen {
 
 	@Override
 	public void draw(Graphics2D g) {
+        if (!gotInitialResize) {
+            for (Button b : buttons) {
+                b.realign(width, height, g);
+            }
+        }
 		for (Button b : buttons) {
 			b.draw(g);
 		}
 	}
 
+    @Override
+    public void realign(int width, int height, Graphics2D g) {
+        super.realign(width, height, g);
+        if (buttons == null) return;
+        for (Button b : buttons) {
+            b.setX(Util.calculateCenterPosition(this.width, MenuButton.WIDTH));
+            b.realign(width, height, g);
+        }
+    }
+
 	@Override
 	public void realign(Rectangle rect, Graphics2D g) {
-		super.realign(rect, g);
-		for (Button b : buttons) {
-			b.setX(this.width / 2 - b.getRect().width / 2);
-			b.realign(rect.width, rect.height, g);
-		}
+        realign(rect.width, rect.height, g);
 	}
 
 	@Override
@@ -156,15 +164,19 @@ public class MainTitleScreen extends BaseScreen {
 		case EDITOR:
 			System.out.println(action);
 			break;
-			
 		case OPTIONS:
 			System.out.println(action);
 			break;
-			
 		case EXIT:
-			win.close();
+            super.closeGame();
 			break;
 		}
 	}
+
+    @Override
+    public void closeRequested() {
+        System.out.println("Close init by: " + this.getClass().toString());
+        super.closeGame();
+    }
 
 }

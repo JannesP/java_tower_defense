@@ -6,14 +6,14 @@ import java.awt.event.*;
 
 public class Input implements KeyListener, WindowListener, MouseListener, MouseMotionListener, MouseWheelListener{
 
-	ScreenManager sm;
+    private ScreenManager sm;
 
     /**
      * Initiates a new Instance for receiving several input events.
      * @param sm - ScreenManager to report the input to.
      */
 	public Input(ScreenManager sm) {
-		this.sm = sm;
+        this.sm = sm;
 	}
 	
 	@Override
@@ -32,17 +32,19 @@ public class Input implements KeyListener, WindowListener, MouseListener, MouseM
 	}
 	
 	@Override
-	public void windowActivated(WindowEvent e) { }//XXX handle game.object.tile.window activated / deactivated }
+	public void windowActivated(WindowEvent e) { }
 
 	@Override
 	public void windowDeactivated(WindowEvent e) { }
-
 
 	@Override
 	public void windowOpened(WindowEvent e) { }
 
 	@Override
-	public void windowClosing(WindowEvent e) { }
+	public void windowClosing(WindowEvent e) {
+        System.out.println("Window Closing Event!");
+        sm.closeRequested();
+    }
 
 	@Override
 	public void windowClosed(WindowEvent e) { }

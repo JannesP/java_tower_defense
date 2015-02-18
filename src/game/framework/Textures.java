@@ -6,19 +6,39 @@ import java.io.File;
 import java.io.IOException;
 
 public class Textures {
+    private static volatile int percentLoaded = 0;
+
 	public static BufferedImage button_main_menu;
 
-    //TODO outsource to new thread
     /**
      * loads all images in a new thread
      */
 	public static void loadImages() {
-		try {
-			button_main_menu = ImageIO.read(new File("assets/img/buttons/menu.png"));
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-
+        getSetPercentLoaded(0);
+        Thread thread = new Thread(() -> {
+            try {
+                System.out.println("Loading assets/img/buttons/menu.png ...");
+                button_main_menu = ImageIO.read(new File("assets/img/buttons/menu.png"));
+                System.out.println("Loaded assets/img/buttons/menu.png !");
+                getSetPercentLoaded(100);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        thread.setName("imageLoaderThread");
+        thread.start();
 	}
+
+    /**
+     * Synchronized function, don't call on UI Thread!
+     * @param percentLoaded - if -1 nothing will be changed
+     * @return The percent loaded.
+     */
+    public static synchronized int getSetPercentLoaded(int percentLoaded) {
+        if (percentLoaded != -1) {
+            System.out.println("Loaded: " + percentLoaded + "%");
+            Textures.percentLoaded = percentLoaded;
+        }
+        return Textures.percentLoaded;
+    }
 }

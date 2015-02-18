@@ -1,5 +1,6 @@
 package screens;
 
+import game.Manager;
 import game.object.tile.window.Window;
 
 import java.awt.*;
@@ -8,15 +9,21 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 public class ScreenManager {
-	
+
+    public final static Object THREADLOCK_REQUESTED_SCREENS = new Object();
 	public final static int PADDING = 10;
-	
-	public enum SCREENSTATE {
+
+    public void closeRequested() {
+        closeRequested = true;
+    }
+
+    public enum SCREENSTATE {
 		ACTIVE,
 		SHUTDOWN,
 		HIDDEN
 	}
-	
+
+    private volatile boolean closeRequested = false;
 	private Rectangle dimensions = null;
 	private Window win;
 	private ArrayList<BaseScreen> screens = new ArrayList<>();
@@ -30,6 +37,16 @@ public class ScreenManager {
 	}
 	
 	public void update(long timeDiff){
+        // ADD REQUESTED SCREENS
+        for (BaseScreen foundScreen : screens) {
+            if (foundScreen.getRequestedScreens() != null) {
+                for (BaseScreen reqScreen : foundScreen.getRequestedScreens()) {
+                    newScreens.add(reqScreen);
+                }
+                foundScreen.clearRequestedScreens();
+            }
+        }
+
 		// REMOVE DEAD SCREENS
 		for (BaseScreen foundScreen : screens){
 			if (foundScreen.state == SCREENSTATE.SHUTDOWN){
@@ -63,13 +80,22 @@ public class ScreenManager {
 					foundScreen.handleKeyInput(keyEvents);
 					foundScreen.handleMouseInput(mouseEvents);
 					foundScreen.update(timeDiff);
+                    if (foundScreen.isCloseGame()) {
+                        Manager.closeRequested();
+                    }
 				}
 				
 				keyEvents.clear();
 				mouseEvents.clear();
 			} 
 		}
-		
+
+        if (closeRequested) {
+            for (BaseScreen foundScreen : screens) {
+                foundScreen.closeRequested();
+            }
+            closeRequested = false;
+        }
 	}
 	
 	public void draw(Graphics2D g) {
@@ -96,9 +122,9 @@ public class ScreenManager {
 		newScreens.add(screen);
 	}
 	
-	public void unLoadScreen(BaseScreen screen){
+	public void unLoadScreen(String screenName){
 		for (BaseScreen foundScreen : screens){
-			if(foundScreen.name.equals(screen.name)){
+			if(foundScreen.name.equals(screenName)){
 				foundScreen.unLoad();
 				break;
 			}
