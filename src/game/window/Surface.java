@@ -1,4 +1,4 @@
-package game.object.tile.window;
+package game.window;
 
 import screens.ScreenManager;
 

@@ -8,7 +8,13 @@ import java.io.IOException;
 public class Textures {
     private static volatile int percentLoaded = 0;
 
+    //UI Elements
 	public static BufferedImage button_main_menu;
+
+    //Towers
+    public static BufferedImage[] arrowTowerTextures;
+
+    //Effects
 
     /**
      * loads all images in a new thread
@@ -19,7 +25,6 @@ public class Textures {
             try {
                 System.out.println("Loading assets/img/buttons/menu.png ...");
                 button_main_menu = ImageIO.read(new File("assets/img/buttons/menu.png"));
-                System.out.println("Loaded assets/img/buttons/menu.png !");
                 getSetPercentLoaded(100);
             } catch (IOException e) {
                 e.printStackTrace();
