@@ -1,7 +1,7 @@
 package screens;
 
 import game.Manager;
-import game.object.tile.window.Window;
+import game.window.Window;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -29,8 +29,8 @@ public class ScreenManager {
 	private ArrayList<BaseScreen> screens = new ArrayList<>();
 	private ArrayList<BaseScreen> newScreens = new ArrayList<>();
 	
-	private ArrayList<MouseEvent> mouseEvents = new ArrayList<>();
-	private ArrayList<KeyEvent> keyEvents = new ArrayList<>();
+	private volatile ArrayList<MouseEvent> mouseEvents = new ArrayList<>();
+	private volatile ArrayList<KeyEvent> keyEvents = new ArrayList<>();
 	
 	public ScreenManager(Window win){
 		this.win = win;
@@ -74,22 +74,18 @@ public class ScreenManager {
 		}
 		
 		// HANDLE INPUT FOR FOCUSED SCREEN
-		synchronized (keyEvents) { 
-			synchronized (mouseEvents) {
-				for (BaseScreen foundScreen : screens){
-					foundScreen.handleKeyInput(keyEvents);
-					foundScreen.handleMouseInput(mouseEvents);
-					foundScreen.update(timeDiff);
-                    if (foundScreen.isCloseGame()) {
-                        Manager.closeRequested();
-                    }
-				}
-				
-				keyEvents.clear();
-				mouseEvents.clear();
-			} 
-		}
+        for (BaseScreen foundScreen : screens){
+            foundScreen.handleKeyInput(keyEvents);
+            foundScreen.handleMouseInput(mouseEvents);
+            foundScreen.update(timeDiff);
+            if (foundScreen.isCloseGame()) {
+                Manager.closeRequested();
+            }
+        }
+        keyEvents.clear();
+        mouseEvents.clear();
 
+        //Handle game closing
         if (closeRequested) {
             for (BaseScreen foundScreen : screens) {
                 foundScreen.closeRequested();
@@ -132,15 +128,11 @@ public class ScreenManager {
 	}
 	
 	public void gotEvent(KeyEvent e) {
-		synchronized (keyEvents) {
-			keyEvents.add(e);
-		}
+		keyEvents.add(e);
 	}
 	
 	public void gotEvent(MouseEvent e) {
-		synchronized (mouseEvents) {
-			mouseEvents.add(e);
-		}
+		mouseEvents.add(e);
 	}
 	
 }

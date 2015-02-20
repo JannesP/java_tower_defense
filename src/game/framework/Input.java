@@ -6,14 +6,14 @@ import java.awt.event.*;
 
 public class Input implements KeyListener, WindowListener, MouseListener, MouseMotionListener, MouseWheelListener{
 
-    private ScreenManager sm;
+    private ScreenManager screenManager;
 
     /**
      * Initiates a new Instance for receiving several input events.
-     * @param sm - ScreenManager to report the input to.
+     * @param screenManager - ScreenManager to report the input to.
      */
-	public Input(ScreenManager sm) {
-        this.sm = sm;
+	public Input(ScreenManager screenManager) {
+        this.screenManager = screenManager;
 	}
 	
 	@Override
@@ -21,13 +21,13 @@ public class Input implements KeyListener, WindowListener, MouseListener, MouseM
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		sm.gotEvent(e);
+		screenManager.gotEvent(e);
 		e.consume();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		sm.gotEvent(e);
+		screenManager.gotEvent(e);
 		e.consume();
 	}
 	
@@ -43,7 +43,7 @@ public class Input implements KeyListener, WindowListener, MouseListener, MouseM
 	@Override
 	public void windowClosing(WindowEvent e) {
         System.out.println("Window Closing Event!");
-        sm.closeRequested();
+        screenManager.closeRequested();
     }
 
 	@Override
@@ -57,19 +57,19 @@ public class Input implements KeyListener, WindowListener, MouseListener, MouseM
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		sm.gotEvent(e);
+		screenManager.gotEvent(e);
 		e.consume();
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		sm.gotEvent(e);
+		screenManager.gotEvent(e);
 		e.consume();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		sm.gotEvent(e);
+		screenManager.gotEvent(e);
 		e.consume();
 	}
 
@@ -81,19 +81,19 @@ public class Input implements KeyListener, WindowListener, MouseListener, MouseM
 
 	@Override
 	public void mouseDragged(MouseEvent e) { 
-		sm.gotEvent(e);
+		screenManager.gotEvent(e);
 		e.consume(); 
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		sm.gotEvent(e);
+		screenManager.gotEvent(e);
 		e.consume();
 	}
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		sm.gotEvent(e);
+		screenManager.gotEvent(e);
 		e.consume();
 	}
 

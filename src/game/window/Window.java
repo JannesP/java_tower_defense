@@ -1,10 +1,10 @@
-package game.object.tile.window;
+package game.window;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 /**
- * Main game.object.tile.window of the game
+ * Main game.tower.tile.window of the game
  * @author Jannes Peters
  *
  */

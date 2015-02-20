@@ -1,8 +1,8 @@
 package game;
 
 import game.framework.Input;
-import game.object.tile.window.Surface;
-import game.object.tile.window.Window;
+import game.window.Surface;
+import game.window.Window;
 import screens.FpsScreen;
 import screens.ScreenManager;
 import screens.SplashScreen;
@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * Manager that creates the game.object.tile.window and update thread
+ * Manager that creates the game.tower.tile.window and update thread
  * @author Jannes Peters
  *
  */
