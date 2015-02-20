@@ -3,15 +3,14 @@ package editor;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created by Jannes Peters on 2/19/2015.
  */
 public class MapIO {
+
+    public static final byte ROW_SEPARATOR = Byte.MAX_VALUE;
 
     public static void saveMap(Component parent, Map map) {
         final JFileChooser fc = new JFileChooser();
@@ -40,7 +39,7 @@ public class MapIO {
 
             for (int x = 0; x < matrix.length; x++) {
                 fileOutputStream.write(matrix[x]);
-                fileOutputStream.write(Byte.MAX_VALUE);
+                fileOutputStream.write(ROW_SEPARATOR);
             }
             fileOutputStream.flush();
             fileOutputStream.close();
@@ -50,8 +49,39 @@ public class MapIO {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    public static Map loadMap(Component parent) throws Exception {
+        final JFileChooser fc = new JFileChooser();
+        fc.setMultiSelectionEnabled(false);
+        int returnVal = fc.showOpenDialog(parent);
 
+        if (returnVal != JFileChooser.APPROVE_OPTION) throw new Exception("User cancelled load.");
+
+        File matrixFile = fc.getSelectedFile();
+
+        if (!matrixFile.exists()) throw new Exception("File doesn't exist!");
+
+        Map map;
+        FileInputStream fileInputStream = new FileInputStream(matrixFile);
+
+        byte[][] matrix = new byte[Map.WIDTH][Map.HEIGHT];
+        int nextValue = fileInputStream.read();
+        int currentX = 0;
+        int currentY = 0;
+        while (nextValue != -1) {
+            if (nextValue == ROW_SEPARATOR) {
+                currentX++;
+                currentY = 0;
+                nextValue = fileInputStream.read();
+                continue;
+            }
+            matrix[currentX][currentY++] = (byte)nextValue;
+            nextValue = fileInputStream.read();
+        }
+
+        map = new Map(matrix);
+        return map;
     }
 
 }

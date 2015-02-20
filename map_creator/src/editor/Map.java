@@ -17,6 +17,11 @@ public class Map {
         matrix = new byte[Map.WIDTH][Map.HEIGHT];
     }
 
+    public Map(byte[][] matrix) {
+        if (matrix == null || matrix[0] == null || matrix.length != Map.WIDTH || matrix[0].length != Map.HEIGHT) throw new IllegalArgumentException("matrix didn't fit to Map class!");
+        this.matrix = matrix;
+    }
+
     public byte[][] getMatrix() {
         return matrix;
     }
@@ -37,6 +42,13 @@ public class Map {
             }
             throw new IllegalArgumentException("val was not found!");
         }
+    }
+
+    public static Point resolvePointToMatrix(Point point) {
+        Point newPoint = new Point();
+        newPoint.setLocation(Math.floor(point.getX() / TILE_SIZE), 0);
+        newPoint.setLocation(newPoint.getX(), Math.floor(point.getY() / TILE_SIZE));
+        return newPoint;
     }
 
     public static Point resolvePixelToMatrix(int mouseX, int mouseY) {

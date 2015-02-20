@@ -32,16 +32,12 @@ public class Window extends JFrame implements KeyListener, MouseListener, MouseM
         surface.setBackground(Color.PINK);
         setLocationRelativeTo(null);
         map = new Map();
-        Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
-        SwingUtilities.convertPointFromScreen(mouseLocation, surface);
-        surface.paint((int)mouseLocation.getX(), (int)mouseLocation.getY(), map);
+        surface.paint(map);
         surface.addMouseListener(this);
         surface.addMouseMotionListener(this);
         surface.addKeyListener(this);
         surface.requestFocus();
     }
-
-
 
     private void changeTile(MouseEvent e) {
         map.setTileAtPixel(e.getX(), e.getY(), selectedTileType);
@@ -70,6 +66,14 @@ public class Window extends JFrame implements KeyListener, MouseListener, MouseM
             case KeyEvent.VK_C:
                 this.selectedTileType = Map.TileType.CASTLE;
                 System.out.println("Selecting: " + this.selectedTileType);
+                break;
+            case KeyEvent.VK_L:
+                try {
+                    this.map = MapIO.loadMap(this);
+                    surface.paint(this.map);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
                 break;
             case KeyEvent.VK_S:
                 MapIO.saveMap(this, map);

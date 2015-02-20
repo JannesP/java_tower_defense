@@ -32,6 +32,12 @@ public class Surface extends JPanel{
 		g.drawImage(this.map.createGridBitmap(), 0, 0, null); //draw buffered image on surface
 	}
 
+    public void paint(Map map) {
+        Point mouseLocation = MouseInfo.getPointerInfo().getLocation();
+        SwingUtilities.convertPointFromScreen(mouseLocation, this);
+        paint((int) mouseLocation.getX(), (int) mouseLocation.getY(), map);
+    }
+
 	/**
 	 * Should be called when something has to be redrawn
 	 */
@@ -43,6 +49,5 @@ public class Surface extends JPanel{
         Point coordinates = Map.resolvePixelToMatrix(mouseX, mouseY);
         g.fillRect((int)coordinates.getX() * Map.TILE_SIZE, (int)coordinates.getY() * Map.TILE_SIZE, Map.TILE_SIZE, Map.TILE_SIZE);
 	}
-	
 	
 }
