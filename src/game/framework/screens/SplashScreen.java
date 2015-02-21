@@ -1,6 +1,6 @@
-package screens;
+package game.framework.screens;
 
-import game.framework.Textures;
+import game.framework.resources.Textures;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

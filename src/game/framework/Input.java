@@ -1,6 +1,6 @@
 package game.framework;
 
-import screens.ScreenManager;
+import game.framework.screens.ScreenManager;
 
 import java.awt.event.*;
 

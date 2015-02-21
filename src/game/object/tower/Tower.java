@@ -16,7 +16,7 @@ public abstract class Tower {
      */
     protected int level = 0;
     /**
-     * reference to textures in <class>game.framework.Textures</class>
+     * reference to textures in <class>game.framework.resources.Textures</class>
      */
     protected BufferedImage[] textures;
     /**

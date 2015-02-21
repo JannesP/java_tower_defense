@@ -1,11 +1,9 @@
-package game;
+package game.framework;
 
-import game.framework.Input;
-import game.window.Surface;
-import game.window.Window;
-import screens.FpsScreen;
-import screens.ScreenManager;
-import screens.SplashScreen;
+import game.framework.screens.FpsScreen;
+import game.framework.screens.ScreenManager;
+import game.framework.screens.SplashScreen;
+import game.ui.Window;
 
 import javax.swing.*;
 import java.awt.*;

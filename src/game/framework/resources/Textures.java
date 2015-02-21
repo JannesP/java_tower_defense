@@ -1,4 +1,4 @@
-package game.framework;
+package game.framework.resources;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -13,6 +13,9 @@ public class Textures {
 
     //Towers
     public static BufferedImage[] arrowTowerTextures;
+
+    //Backgrounds
+    public static BufferedImage[] backgrounds;
 
     //Effects
 

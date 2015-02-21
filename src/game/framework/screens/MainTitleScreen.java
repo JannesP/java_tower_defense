@@ -1,4 +1,4 @@
-package screens;
+package game.framework.screens;
 
 import game.framework.Util;
 import game.menu.MenuButton;

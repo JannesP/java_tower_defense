@@ -1,7 +1,5 @@
-package screens;
+package game.framework.screens;
 
-
-import screens.ScreenManager.SCREENSTATE;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -41,7 +39,7 @@ public class FpsScreen extends BaseScreen {
 		for (KeyEvent e : events){
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
 				if (e.getKeyCode() == 112){
-					this.state = this.state == SCREENSTATE.ACTIVE ? SCREENSTATE.HIDDEN : SCREENSTATE.ACTIVE;
+					this.state = this.state == ScreenManager.SCREENSTATE.ACTIVE ? ScreenManager.SCREENSTATE.HIDDEN : ScreenManager.SCREENSTATE.ACTIVE;
 					
 				}
 			}

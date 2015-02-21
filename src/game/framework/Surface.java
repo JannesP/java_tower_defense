@@ -1,6 +1,6 @@
-package game.window;
+package game.framework;
 
-import screens.ScreenManager;
+import game.framework.screens.ScreenManager;
 
 import javax.swing.*;
 import java.awt.*;

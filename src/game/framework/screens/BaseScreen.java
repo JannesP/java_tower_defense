@@ -1,7 +1,7 @@
-package screens;
+package game.framework.screens;
 
 import game.drawable.IPaintableUpdatableObject;
-import screens.ScreenManager.SCREENSTATE;
+import game.framework.screens.ScreenManager.SCREENSTATE;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

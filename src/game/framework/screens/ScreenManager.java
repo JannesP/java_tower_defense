@@ -1,7 +1,7 @@
-package screens;
+package game.framework.screens;
 
-import game.Manager;
-import game.window.Window;
+import game.framework.Manager;
+import game.ui.Window;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

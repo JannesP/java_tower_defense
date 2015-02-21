@@ -1,7 +1,7 @@
 package game.menu;
 
-import game.framework.Textures;
-import screens.MainTitleScreen.BUTTON_ACTION;
+import game.framework.resources.Textures;
+import game.framework.screens.MainTitleScreen.BUTTON_ACTION;
 
 import java.awt.*;
 

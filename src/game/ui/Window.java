@@ -1,4 +1,6 @@
-package game.window;
+package game.ui;
+
+import game.framework.Surface;
 
 import javax.swing.*;
 import java.awt.*;
