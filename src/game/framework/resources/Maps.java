@@ -13,15 +13,20 @@ public class Maps {
 
     public static final byte ROW_SEPARATOR = Byte.MAX_VALUE;
 
-    public static Map[] maps;
+    public static final int LEVEL_COUNT = 1;
+
+    public static Map[] maps = new Map[LEVEL_COUNT];
 
     public static void loadMaps() {
-        maps = new Map[1];
-        try {
-            maps[0] = loadMap("assets/maps/001.map");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Thread thread = new Thread(() -> {
+            try {
+                maps[0] = loadMap("assets/maps/001.map");
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+        });
+        thread.start();
 
 
     }

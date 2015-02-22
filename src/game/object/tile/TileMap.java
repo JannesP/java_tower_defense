@@ -5,6 +5,7 @@ import game.framework.resources.Maps;
 import game.framework.resources.Textures;
 import game.object.enemy.Enemy;
 import game.object.tower.Castle;
+import game.ui.Window;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,9 +16,10 @@ import java.util.ArrayList;
  */
 public class TileMap {
 
-    public static int tileSize = 30;
-    public static int width = 33;
-    public static int height = 20;
+    public static final int DEFAULT_TILE_SIZE = 30;
+    public static double tileSize = 30;
+    public static final int WIDTH = 33;
+    public static final int HEIGHT = 20;
 
     private BufferedImage background;
     private Tile[][] tileMap;
@@ -32,19 +34,19 @@ public class TileMap {
             for (int y = 0; y < Map.HEIGHT; y++) {
                 switch (Map.TileType.byByteValue(map.getMatrix()[x][y])) {
                     case NOTHING:
-                        tileMap[x][y] = new Tile(x * tileSize, y * tileSize);
+                        tileMap[x][y] = new Tile((int)(x * tileSize), (int)(y * tileSize));
                         break;
                     case ROAD:
-                        tileMap[x][y] = new Tile(x * tileSize, y * tileSize, true);
+                        tileMap[x][y] = new Tile((int)(x * tileSize), (int)(y * tileSize), true);
                         break;
                     case NOT_BUILDABLE:
-                        tileMap[x][y] = new Tile(x * tileSize, y * tileSize, false, false);
+                        tileMap[x][y] = new Tile((int)(x * tileSize), (int)(y * tileSize), false, false);
                         break;
                     case ENTRANCE:
-                        tileMap[x][y] = new Tile(x * tileSize, y * tileSize, true, false, true);
+                        tileMap[x][y] = new Tile((int)(x * tileSize), (int)(y * tileSize), true, false, true);
                         break;
                     case CASTLE:
-                        tileMap[x][y] = new Tile(x * tileSize, y * tileSize, false, true);
+                        tileMap[x][y] = new Tile((int)(x * tileSize), (int)(y * tileSize), false, true);
                         tileMap[x][y].setTileObject(new Castle());
                         break;
                 }
@@ -54,8 +56,7 @@ public class TileMap {
     }
 
     public TileMap(Map map, BufferedImage background) {
-        this.background = background;
-        this.tileMap = TileMap.createTileMap(map);
+        this(TileMap.createTileMap(map), background);
     }
 
     public TileMap(Tile[][] tileMap, BufferedImage background) {
@@ -67,7 +68,6 @@ public class TileMap {
      * Returns the tile at the given x and y with the matrix coordinates!
      * @param x
      * @param y
-     * @exception - Throws an exception if x or y doesn't fit for the tileMap!
      * @return - the <code>Tile</code> at the position
      */
     public Tile getTile(int x, int y) {
@@ -79,14 +79,23 @@ public class TileMap {
 
     public Tile getTileAtPixel(int x, int y) {
         int resX, resY;
-        resX = x / this.tileSize;
-        resY = y / this.tileSize;
+        resX = (int)(x / TileMap.tileSize);
+        resY = (int)(y / TileMap.tileSize);
 
         return getTile(resX, resY);
     }
 
     private boolean doCoordinatesFit(int x, int y) {
         return !((x >= tileMap.length) || (x < 0) || (y >= tileMap[0].length) || (y < 0));
+    }
+
+    public void realign(int width, int height) {    //TODO scale with window size
+        TileMap.tileSize = (double)TileMap.DEFAULT_TILE_SIZE * Window.currentScale;
+        for (int x = 0; x < Map.WIDTH; x++) {
+            for (int y = 0; y < Map.HEIGHT; y++) {
+                tileMap[x][y].realign((int)(x * TileMap.tileSize), (int)(y * TileMap.tileSize));
+            }
+        }
     }
 
     public void update(long timeDiff, ArrayList<Enemy> enemies) {
@@ -98,6 +107,8 @@ public class TileMap {
     }
 
     public void draw(Graphics2D g) {
+        g.drawImage(this.background, 0, 0, (int)(Map.WIDTH * TileMap.tileSize), (int)(Map.HEIGHT * TileMap.tileSize), null);
+
         for (int x = 0; x < Map.WIDTH; x++) {
             for (int y = 0; y < Map.HEIGHT; y++) {
                 tileMap[x][y].draw(g);

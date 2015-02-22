@@ -18,7 +18,7 @@ public abstract class BaseScreen implements IPaintableUpdatableObject {
     private BaseScreen[] requestedScreens = null;
 	protected String name = "";
     protected int width, height;
-    protected float zOrder;
+    protected ScreenManager.ZOrder zOrder = ScreenManager.ZOrder.MIDDLE;
     protected boolean focused = false;
     protected boolean grabFocus = true;
     protected Graphics2D graphics2D = null;
@@ -56,6 +56,7 @@ public abstract class BaseScreen implements IPaintableUpdatableObject {
 	public void realign(int width, int height, Graphics2D g) {
 		this.width = width;
 		this.height = height;
+        this.graphics2D = g;
 	}
 
     /**
@@ -87,9 +88,7 @@ public abstract class BaseScreen implements IPaintableUpdatableObject {
      * @param g - graphics on which it should be created
      */
 	public BaseScreen(String name, double width, double height, Graphics2D g) {
-		this.name = name;
-        this.graphics2D = g;
-		realign((int) width, (int) height, g);
+		this(name, (int)width, (int)height, g);
 	}
 
     /**
@@ -102,7 +101,7 @@ public abstract class BaseScreen implements IPaintableUpdatableObject {
      * @param screen - the new screen
      */
     protected void requestScreen(BaseScreen screen) {
-        synchronized (ScreenManager.THREADLOCK_REQUESTED_SCREENS) {
+        //synchronized (ScreenManager.THREADLOCK_REQUESTED_SCREENS) {
             if (requestedScreens == null) {
                 requestedScreens = new BaseScreen[1];
             } else {
@@ -113,7 +112,7 @@ public abstract class BaseScreen implements IPaintableUpdatableObject {
                 }
             }
             requestedScreens[requestedScreens.length - 1] = screen;
-        }
+        //}
     }
 
     /**
@@ -121,18 +120,22 @@ public abstract class BaseScreen implements IPaintableUpdatableObject {
      * @return - null or array with screens
      */
     public BaseScreen[] getRequestedScreens() {
-        synchronized (ScreenManager.THREADLOCK_REQUESTED_SCREENS) {
+        //synchronized (ScreenManager.THREADLOCK_REQUESTED_SCREENS) {
             return requestedScreens;
-        }
+        //}
     }
 
     /**
      * Clears all Screens that has been requested.
      */
     public void clearRequestedScreens() {
-        synchronized (ScreenManager.THREADLOCK_REQUESTED_SCREENS) {
+        //synchronized (ScreenManager.THREADLOCK_REQUESTED_SCREENS) {
             requestedScreens = null;
-        }
+        //}
+    }
+
+    public ScreenManager.ZOrder getZOrder() {
+        return zOrder;
     }
 
     /**

@@ -1,5 +1,6 @@
 package game.framework.screens;
 
+import game.framework.resources.Maps;
 import game.framework.resources.Textures;
 
 import java.awt.*;
@@ -11,15 +12,16 @@ public class SplashScreen extends BaseScreen{
 
 	private long timeUp = 0;
 	
-	public SplashScreen(String name, double width, double height, Graphics2D g) {
+	public SplashScreen(String name, int width, int height, Graphics2D g) {
 		super(name, width, height, g);
         Textures.loadImages();
+        Maps.loadMaps();
     }
 
 	@Override
 	public void update(long timeDiff) {
         timeUp += timeDiff;
-        if (timeUp > 3000000000d) {
+        if (timeUp > 1000000000d) {
             System.out.println("Splash ran 3 seconds. Requesting MainTitleScreen!");
             super.requestScreen(new MainTitleScreen("titleScreen", (int) width, (int) height, super.graphics2D));
             super.unLoad();
@@ -29,7 +31,7 @@ public class SplashScreen extends BaseScreen{
 	@Override
 	public void draw(Graphics2D g) {
 		g.drawRect(50, 50, super.width - 100, 100);
-        g.fillRect(55, 55, (int)((float)(timeUp / 3000000000d) * (float)(super.width - 110)), 90);
+        g.fillRect(55, 55, (int)((float)(timeUp / 1000000000d) * (float)(super.width - 110)), 90);
 	}
 
     @Override

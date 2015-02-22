@@ -12,7 +12,8 @@ import java.util.ArrayList;
  */
 public class Tile {
 
-	protected Tower tower;
+    public static final int TEXTURE_SIZE = 60;
+    protected Tower tower;
     protected int x, y;
     protected boolean isRoad, isBuildable, isEntrance;
 
@@ -58,6 +59,7 @@ public class Tile {
     public void realign(int x, int y) {
         this.x = x;
         this.y = y;
+        if (this.tower != null) tower.realign(x, y);
     }
 
     public boolean isRoad() {
