@@ -18,8 +18,9 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen(String name, int width, int height, Graphics2D g) {
         super(name, width, height, g);
+        super.requestScreen(new UIScreen("uiScreen", width, height, g));
         tileMap = new TileMap(0);
-        tileMap.realign(super.width, super.height);
+        tileMap.realign();
         enemies = new ArrayList<>();
         super.zOrder = ScreenManager.ZOrder.BACKGROUND;
     }
@@ -37,7 +38,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public void realign(int width, int height, Graphics2D g) {
         super.realign(width, height, g);
-        if (tileMap != null) tileMap.realign(width, height);
+        if (tileMap != null) tileMap.realign();
     }
 
     @Override

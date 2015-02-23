@@ -1,11 +1,11 @@
 package game.object.tile;
 
 import game.framework.Map;
+import game.framework.Window;
 import game.framework.resources.Maps;
 import game.framework.resources.Textures;
 import game.object.enemy.Enemy;
 import game.object.tower.Castle;
-import game.ui.Window;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -66,8 +66,8 @@ public class TileMap {
 
     /**
      * Returns the tile at the given x and y with the matrix coordinates!
-     * @param x
-     * @param y
+     * @param x - matrix x
+     * @param y - matrix y
      * @return - the <code>Tile</code> at the position
      */
     public Tile getTile(int x, int y) {
@@ -89,7 +89,7 @@ public class TileMap {
         return !((x >= tileMap.length) || (x < 0) || (y >= tileMap[0].length) || (y < 0));
     }
 
-    public void realign(int width, int height) {    //TODO scale with window size
+    public void realign() {
         TileMap.tileSize = (double)TileMap.DEFAULT_TILE_SIZE * Window.currentScale;
         for (int x = 0; x < Map.WIDTH; x++) {
             for (int y = 0; y < Map.HEIGHT; y++) {

@@ -1,6 +1,8 @@
 package game.framework.screens;
 
 
+import game.framework.resources.Fonts;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -24,6 +26,7 @@ public class FpsScreen extends BaseScreen {
 
 	@Override
 	public void draw(Graphics2D g) {
+        g.setFont(Fonts.fpsFont);
 		g.drawString("FPS: " + String.valueOf((long)Math.floor(1d / ((double)timeDiff / 1000000000d))), x, y);
 		
 	}
@@ -31,6 +34,8 @@ public class FpsScreen extends BaseScreen {
 	@Override
 	public void realign(int width, int height, Graphics2D g) {
 		super.realign(width, height, g);
+        g.setFont(Fonts.fpsFont);
+        g.setColor(Color.WHITE);
 		x = this.width - ScreenManager.PADDING - g.getFontMetrics().stringWidth("FPS: 60");
 		y = ScreenManager.PADDING * 3;
 	}
