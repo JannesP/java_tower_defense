@@ -2,6 +2,7 @@ package game.ui;
 
 import game.drawable.IPaintableUpdatableObject;
 import game.framework.Util;
+import game.framework.resources.Fonts;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -71,6 +72,7 @@ public abstract class Button implements IPaintableUpdatableObject {
 	@Override
 	public void draw(Graphics2D g) {
 		g.drawImage(image, x, y, width + x, height + y, 0, spriteY, image.getWidth(), image.getHeight() / 3 + spriteY, null);
+        g.setFont(Fonts.getDefaultFont());
 		g.drawString(text, stringX, stringY);
 	}
 

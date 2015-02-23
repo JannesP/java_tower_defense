@@ -3,7 +3,6 @@ package game.framework;
 import game.framework.screens.FpsScreen;
 import game.framework.screens.ScreenManager;
 import game.framework.screens.SplashScreen;
-import game.ui.Window;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,8 +13,6 @@ import java.awt.*;
  *
  */
 public class Manager {
-	public static final int TILESIZE = 20;
-
     public static boolean isExiting = false;
 
 	private Window win;

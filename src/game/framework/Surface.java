@@ -1,5 +1,6 @@
 package game.framework;
 
+import game.framework.resources.Fonts;
 import game.framework.screens.ScreenManager;
 
 import javax.swing.*;
@@ -26,13 +27,15 @@ public class Surface extends JPanel{
 		BufferedImage bufferedImage = new BufferedImage((int)this.getBounds().getWidth(), (int)this.getBounds().getHeight(),BufferedImage.TYPE_INT_ARGB);
 		Graphics2D bbg = bufferedImage.createGraphics();
 		bbg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        bbg.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		bbg.setColor(Color.decode("#FF00D0"));
 		bbg.fillRect(0, 0, (int)this.getBounds().getWidth(), (int)this.getBounds().getHeight());
 		bbg.setColor(Color.BLACK);
-		bbg.setFont(new Font("", 0, 26));   //TODO select default font
+		bbg.setFont(Fonts.getDefaultFont());
 
 		sm.draw(bbg);   //draw all screens
-		g.drawImage(bufferedImage, 0, 0, null); //draw buffered image on surface
+		bbg.dispose();
+        g.drawImage(bufferedImage, 0, 0, null); //draw buffered image on surface
 	}
 	
 

@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 public class Enemy implements IPaintableUpdatableObject {
     protected BufferedImage texture;
     protected int health;
-    protected double moveSpeed;
+    protected double moveSpeed; //TODO test move speeds
     protected int goldToEarn;
 
     @Override

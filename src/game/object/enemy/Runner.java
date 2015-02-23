@@ -9,7 +9,7 @@ public class Runner extends Enemy {
     public Runner() {
         super.texture = Textures.runnerTexture;
         super.health = 5;
-        super.moveSpeed = 50; //TODO Try speed values
+        super.moveSpeed = 50;
         super.goldToEarn = 1;
     }
 }
