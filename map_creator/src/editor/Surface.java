@@ -20,16 +20,10 @@ public class Surface extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
         if (this.map == null || this.getBounds().getHeight() == 0 || this.getBounds().getWidth() == 0) return;
-        //setup buffer image for pre-rendering
-		BufferedImage bufferedImage = new BufferedImage((int)this.getBounds().getWidth(), (int)this.getBounds().getHeight(),BufferedImage.TYPE_INT_ARGB);
-		Graphics2D bbg = bufferedImage.createGraphics();
-		bbg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		bbg.setColor(Color.decode("#FF00D0"));
-		bbg.fillRect(0, 0, (int)this.getBounds().getWidth(), (int)this.getBounds().getHeight());
-		bbg.setColor(Color.BLACK);
-		bbg.setFont(new Font("", 0, 26));   //TODO select default font
 
-		g.drawImage(this.map.createGridBitmap(), 0, 0, null); //draw buffered image on surface
+        BufferedImage img = this.map.createGridBitmap();
+
+        g.drawImage(img, 0, 0, null);
 	}
 
     public void paint(Map map) {
