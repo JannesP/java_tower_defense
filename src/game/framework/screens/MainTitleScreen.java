@@ -46,6 +46,7 @@ public class MainTitleScreen extends BaseScreen {
             for (Button b : buttons) {
                 b.realign(width, height, g);
             }
+            this.gotInitialResize = true;
         }
 		for (Button b : buttons) {
 			b.draw(g);
@@ -156,7 +157,8 @@ public class MainTitleScreen extends BaseScreen {
 	private void performAction(BUTTON_ACTION action) {
 		switch (action) {
 		case START:
-			System.out.println(action);
+			super.requestScreen(new GameScreen("gameScreen", this.width, this.height, super.graphics2D));
+            super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
 			break;
 		case MULTIPLAYER:
 			System.out.println(action);

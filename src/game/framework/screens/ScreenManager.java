@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class ScreenManager {
 
-    public final static Object THREADLOCK_REQUESTED_SCREENS = new Object();
+    //public final static Object THREADLOCK_REQUESTED_SCREENS = new Object();
 	public final static int PADDING = 10;
 
     public void closeRequested() {
@@ -23,14 +23,29 @@ public class ScreenManager {
 		HIDDEN
 	}
 
+    public enum ZOrder {
+        BACKGROUND(0), MIDDLE(1), FOREGROUND(2), UI(3), OVER_UI(4);
+        private int index;
+
+        private ZOrder(int index) {
+            this.index = index;
+        }
+
+        public int getIndex() {
+            return index;
+        }
+    }
+
     private volatile boolean closeRequested = false;
 	private Rectangle dimensions = null;
 	private Window win;
+
+    private boolean screensChanged = true;
 	private ArrayList<BaseScreen> screens = new ArrayList<>();
 	private ArrayList<BaseScreen> newScreens = new ArrayList<>();
 	
-	private volatile ArrayList<MouseEvent> mouseEvents = new ArrayList<>();
-	private volatile ArrayList<KeyEvent> keyEvents = new ArrayList<>();
+	private static final ArrayList<MouseEvent> mouseEvents = new ArrayList<>();
+	private static final ArrayList<KeyEvent> keyEvents = new ArrayList<>();
 	
 	public ScreenManager(Window win){
 		this.win = win;
@@ -59,6 +74,7 @@ public class ScreenManager {
 		// ADD NEW SCREENS TO MANAGER LIST
 		for (BaseScreen foundScreen : newScreens){
 			screens.add(foundScreen);
+            screensChanged = true;
 		}
 		
 		newScreens.clear();
@@ -72,18 +88,22 @@ public class ScreenManager {
 				}
 			}
 		}
-		
-		// HANDLE INPUT FOR FOCUSED SCREEN
-        for (BaseScreen foundScreen : screens){
-            foundScreen.handleKeyInput(keyEvents);
-            foundScreen.handleMouseInput(mouseEvents);
-            foundScreen.update(timeDiff);
-            if (foundScreen.isCloseGame()) {
-                Manager.closeRequested();
+
+		synchronized (keyEvents) {
+            synchronized (mouseEvents) {
+                // HANDLE INPUT FOR FOCUSED SCREEN
+                for (BaseScreen foundScreen : screens) {
+                    foundScreen.handleKeyInput(keyEvents);
+                    foundScreen.handleMouseInput(mouseEvents);
+                    foundScreen.update(timeDiff);
+                    if (foundScreen.isCloseGame()) {
+                        Manager.closeRequested();
+                    }
+                }
+                keyEvents.clear();
+                mouseEvents.clear();
             }
         }
-        keyEvents.clear();
-        mouseEvents.clear();
 
         //Handle game closing
         if (closeRequested) {
@@ -92,15 +112,19 @@ public class ScreenManager {
             }
             closeRequested = false;
         }
+
+        if (screensChanged) {
+            screens.sort((a, b) -> Integer.compare(a.getZOrder().getIndex(), b.getZOrder().getIndex())); //TODO check if right order!
+            screensChanged = false;
+        }
 	}
 	
 	public void draw(Graphics2D g) {
-		if (dimensions == null || !dimensions.equals(win.getSurface().getBounds())) {   //check if dimensions changed
-			dimensions = win.getSurface().getBounds();
-			setAlignments(dimensions, g);   //recalculate drawing positions for UI
-		}
-
-		for (BaseScreen foundScreen : screens){ //draw all screens  //TODO use zOrder
+        if (dimensions == null || !dimensions.equals(win.getContentPane().getBounds())) {
+            dimensions = win.getSurface().getBounds();
+            setAlignments(dimensions, g);   //recalculate drawing positions for UI
+        }
+		for (BaseScreen foundScreen : screens){ //draw all screens
 			if (foundScreen.state == SCREENSTATE.ACTIVE){   //if screen should be drawn
 				foundScreen.draw(g);    //draw screen
 			}
@@ -128,11 +152,15 @@ public class ScreenManager {
 	}
 	
 	public void gotEvent(KeyEvent e) {
-		keyEvents.add(e);
+        synchronized (keyEvents) {
+            keyEvents.add(e);
+        }
 	}
 	
 	public void gotEvent(MouseEvent e) {
-		mouseEvents.add(e);
+        synchronized (mouseEvents) {
+            mouseEvents.add(e);
+        }
 	}
 	
 }

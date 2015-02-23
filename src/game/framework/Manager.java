@@ -32,11 +32,11 @@ public class Manager {
         Thread.currentThread().setName("uiThread");
 
         updateThread = new Thread(() -> {
-            gameLoop : while (true) {
+            while (true) {
                 try {
                     Thread.sleep(16, 666667);
                 } catch (InterruptedException e) {
-                    break gameLoop;
+                    break;
                 }
                 if (!isExiting) {
                     update();
@@ -56,15 +56,15 @@ public class Manager {
         s.addMouseMotionListener(input);
         s.addMouseWheelListener(input);
         win.setVisible(true);
-
+        win.init();
 		// setup graphics
 		Graphics2D g = (Graphics2D) s.getGraphics();
 		s.getGraphics().setFont(new Font("", 0, 26));
         s.requestFocus();
 
         //add default screens
-		screenManager.addScreen(new SplashScreen("splashScreen", s.getBounds().getWidth(), s.getBounds().getHeight(), g));
-		screenManager.addScreen(new FpsScreen("fpsScreen", s.getBounds().getWidth(), s.getBounds().getHeight() ,g));
+		screenManager.addScreen(new SplashScreen("splashScreen", (int) s.getBounds().getWidth(), (int) s.getBounds().getHeight(), g));
+		screenManager.addScreen(new FpsScreen("fpsScreen", (int) s.getBounds().getWidth(), (int) s.getBounds().getHeight() ,g));
 
         updateThread.start();
 		

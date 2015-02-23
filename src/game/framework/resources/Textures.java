@@ -12,13 +12,17 @@ public class Textures {
 	public static BufferedImage button_main_menu;
 
     //Towers
-    public static BufferedImage[] arrowTowerTextures;
+    public static BufferedImage castleTexture;
+    public static BufferedImage arrowTowerTexture;
 
     //Backgrounds
-    public static BufferedImage[] backgrounds;
+    public static BufferedImage[] backgrounds = new BufferedImage[Maps.LEVEL_COUNT];
 
     //Effects
 
+    //Enemies
+    public static BufferedImage runnerTexture;
+    public static BufferedImage giantTexture;
     /**
      * loads all images in a new thread
      */
@@ -26,16 +30,34 @@ public class Textures {
         getSetPercentLoaded(0);
         Thread thread = new Thread(() -> {
             try {
-                System.out.println("Loading assets/img/buttons/menu.png ...");
-                button_main_menu = ImageIO.read(new File("assets/img/buttons/menu.png"));
+                //Buttons
+                button_main_menu = loadImage("assets/img/buttons/menu.png");
+
+                //Backgrounds
+                backgrounds[0] = loadImage("assets/maps/001.png");
+
+                //Towers
+                castleTexture = loadImage("assets/img/tower/castle.png");
+                arrowTowerTexture = loadImage("assets/img/tower/arrow_tower.png");
+
+                //Enemies
+                runnerTexture = loadImage("assets/img/enemy/runner.png");
+                giantTexture = loadImage("assets/img/enemy/giant.png");
+
                 getSetPercentLoaded(100);
             } catch (IOException e) {
                 e.printStackTrace();
+                System.exit(1);
             }
         });
         thread.setName("imageLoaderThread");
         thread.start();
 	}
+
+    private static BufferedImage loadImage(String path) throws IOException {
+        System.out.println("Loading " + path + " ...");
+        return ImageIO.read(new File(path));
+    }
 
     /**
      * Synchronized function, don't call on UI Thread!

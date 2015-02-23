@@ -3,11 +3,17 @@ package game.object.enemy;
 import game.drawable.IPaintableUpdatableObject;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by Jannes Peters on 2/20/2015.
  */
 public class Enemy implements IPaintableUpdatableObject {
+    protected BufferedImage texture;
+    protected int health;
+    protected double moveSpeed;
+    protected int goldToEarn;
+
     @Override
     public void update(long timeDiff) {
         
