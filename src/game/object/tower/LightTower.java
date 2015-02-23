@@ -5,9 +5,9 @@ import game.framework.resources.Textures;
 /**
  * Created by Addy on 23.02.2015.
  */
-public class ArrowTower extends Tower {
+public class LightTower extends Tower {
 
-    public ArrowTower() {
+    public LightTower() {
         super.texture = Textures.arrowTowerTexture;
         super.costPerLevel = new int[]{50, 50, 75, 100, 150};
         super.fireRatePerLevel = new double[]{0.6, 0.7, 0.8, 0.9, 1};
