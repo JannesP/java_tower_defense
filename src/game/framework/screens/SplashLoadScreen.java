@@ -29,6 +29,7 @@ public class SplashLoadScreen extends BaseScreen{
             SplashLoadScreen.getSetPercentLoaded(100);
             System.out.println("Loading took: " + (System.currentTimeMillis() - startLoading) + "ms");
         });
+        thread.setName("loadingThread");
         thread.start();
     }
 

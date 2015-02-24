@@ -1,7 +1,9 @@
 package game.framework.screens;
 
+import game.framework.resources.Sounds;
 import game.object.enemy.Enemy;
 import game.object.tile.TileMap;
+import javafx.scene.media.MediaPlayer;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -44,6 +46,10 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void update(long timeDiff) {
+        if (!Sounds.backgroundMusic[0].getStatus().equals(MediaPlayer.Status.PLAYING)) {
+            Sounds.backgroundMusic[0].setCycleCount(MediaPlayer.INDEFINITE);
+            Sounds.backgroundMusic[0].play();
+        }
         tileMap.update(timeDiff, enemies);
     }
 

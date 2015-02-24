@@ -23,7 +23,7 @@ public class Window extends JFrame implements ComponentListener {
     private static int frameHeight;
     private static int frameWidth;
 
-    Surface surface;
+    private Surface surface;
 
     public Window() {
         super.setTitle("Tower Defence");
@@ -42,7 +42,6 @@ public class Window extends JFrame implements ComponentListener {
     }
 
     public void init() {
-        System.out.println("Init ... X: " + getX() + ", Width: " + getWidth() + ", Height: " + getHeight());
         Window.frameWidth = super.getWidth() - super.getContentPane().getWidth();
         Window.frameHeight = super.getHeight() - super.getContentPane().getHeight();
         super.setSize((int) ((TileMap.WIDTH * TileMap.DEFAULT_TILE_SIZE + Window.frameWidth) * Settings.resolutionScale), (int) ((TileMap.HEIGHT * TileMap.DEFAULT_TILE_SIZE + Window.frameHeight) * Settings.resolutionScale));

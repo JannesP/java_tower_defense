@@ -6,6 +6,7 @@ import game.framework.screens.FpsScreen;
 import game.framework.screens.ScreenManager;
 import game.framework.screens.SplashLoadScreen;
 import game.object.tile.TileMap;
+import javafx.embed.swing.JFXPanel;
 
 import java.awt.*;
 
@@ -24,7 +25,8 @@ public class Manager {
 	
 	public Manager() {
         Thread.currentThread().setName("uiThread");
-		win = new Window();
+		JFXPanel fxPanel = new JFXPanel();
+        win = new Window();
 
         updateThread = new Thread(() -> {
             while (true) {
@@ -60,9 +62,14 @@ public class Manager {
             while (win.getWidth() != (TileMap.WIDTH * TileMap.DEFAULT_TILE_SIZE + win.getFrameWidth()) * Settings.resolutionScale) {
                 System.out.println(win.getWidth());
                 System.out.println((TileMap.WIDTH * TileMap.DEFAULT_TILE_SIZE + win.getFrameWidth()) * Settings.resolutionScale);
-                //add default screens
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             System.out.println("Waited " + (System.currentTimeMillis() - timeWaitingStarted) + "ms for Surface sizing properly!");
+            //add default screens
             screenManager.addScreen(new SplashLoadScreen("splashScreen", (int) s.getBounds().getWidth(), (int) s.getBounds().getHeight(), g));
             screenManager.addScreen(new FpsScreen("fpsScreen", (int) s.getBounds().getWidth(), (int) s.getBounds().getHeight() ,g));
             updateThread.start();
