@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
+ * Screen that handles the game.
  * Created by Jannes Peters on 2/22/2015.
  */
 public class GameScreen extends BaseScreen {

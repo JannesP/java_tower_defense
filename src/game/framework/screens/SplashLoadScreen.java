@@ -10,31 +10,31 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class SplashScreen extends BaseScreen{
+public class SplashLoadScreen extends BaseScreen{
 
     private static volatile int percentLoaded = 0;
 	
-	public SplashScreen(String name, int width, int height, Graphics2D g) {
+	public SplashLoadScreen(String name, int width, int height, Graphics2D g) {
 		super(name, width, height, g);
         Thread thread = new Thread(() -> {
             long startLoading = System.currentTimeMillis();
-            SplashScreen.getSetPercentLoaded(0);
+            SplashLoadScreen.getSetPercentLoaded(0);
             Textures.loadImages();
-            SplashScreen.getSetPercentLoaded(25);
+            SplashLoadScreen.getSetPercentLoaded(25);
             Maps.loadMaps();
-            SplashScreen.getSetPercentLoaded(50);
+            SplashLoadScreen.getSetPercentLoaded(50);
             Fonts.loadFonts();
-            SplashScreen.getSetPercentLoaded(75);
+            SplashLoadScreen.getSetPercentLoaded(75);
             Sounds.loadSounds();
-            SplashScreen.getSetPercentLoaded(100);
-            System.out.println("Loading took: " + (System.currentTimeMillis() - startLoading));
+            SplashLoadScreen.getSetPercentLoaded(100);
+            System.out.println("Loading took: " + (System.currentTimeMillis() - startLoading) + "ms");
         });
         thread.start();
     }
 
 	@Override
 	public void update(long timeDiff) {
-        if (SplashScreen.getSetPercentLoaded(-1) == 100) {
+        if (SplashLoadScreen.getSetPercentLoaded(-1) == 100) {
             System.out.println("Finished loading. Requesting MainTitleScreen!");
             super.requestScreen(new MainTitleScreen("titleScreen", width, height, super.graphics2D));
             super.unLoad();
@@ -43,8 +43,8 @@ public class SplashScreen extends BaseScreen{
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawRect(50, 50, super.width - 100, 100);
-        g.fillRect(55, 55, (int)((SplashScreen.getSetPercentLoaded(-1) / 100d) * (double)(super.width - 110)), 90);
+		g.drawRect(18, super.height - 36, super.width - 36, 20);
+        g.fillRect(21, super.height - 33, (int)((SplashLoadScreen.getSetPercentLoaded(-1) / 100d) * (double)(super.width - 34)), 15);
 	}
 
     @Override
@@ -66,9 +66,8 @@ public class SplashScreen extends BaseScreen{
      */
     public static synchronized int getSetPercentLoaded(int percentLoaded) {
         if (percentLoaded != -1) {
-            System.out.println("Loaded: " + percentLoaded + "%");
-            SplashScreen.percentLoaded = percentLoaded;
+            SplashLoadScreen.percentLoaded = percentLoaded;
         }
-        return SplashScreen.percentLoaded;
+        return SplashLoadScreen.percentLoaded;
     }
 }

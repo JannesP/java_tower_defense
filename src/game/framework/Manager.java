@@ -1,10 +1,12 @@
 package game.framework;
 
+import game.framework.resources.Fonts;
+import game.framework.resources.Settings;
 import game.framework.screens.FpsScreen;
 import game.framework.screens.ScreenManager;
-import game.framework.screens.SplashScreen;
+import game.framework.screens.SplashLoadScreen;
+import game.object.tile.TileMap;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -13,37 +15,31 @@ import java.awt.*;
  *
  */
 public class Manager {
-    public static boolean isExiting = false;
 
 	private Window win;
 	private ScreenManager screenManager;
-	private Input input;
     private static Thread updateThread;
 	
 	long lastNanos = 0;
 	
 	public Manager() {
-		win = new Window();
-        win.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
         Thread.currentThread().setName("uiThread");
+		win = new Window();
 
         updateThread = new Thread(() -> {
             while (true) {
+                update();
                 try {
                     Thread.sleep(16, 666667);
                 } catch (InterruptedException e) {
                     break;
-                }
-                if (!isExiting) {
-                    update();
                 }
             }
 		});
         updateThread.setName("updateThread");
 
         screenManager = new ScreenManager(win);
-        input = new Input(screenManager);
+        Input input = new Input(screenManager);
         Surface s = win.getSurface();
 
         //Add event listeners
@@ -56,15 +52,23 @@ public class Manager {
         win.init();
 		// setup graphics
 		Graphics2D g = (Graphics2D) s.getGraphics();
-		s.getGraphics().setFont(new Font("", 0, 26));
+		g.setFont(Fonts.getDefaultFont());
         s.requestFocus();
 
-        //add default screens
-		screenManager.addScreen(new SplashScreen("splashScreen", (int) s.getBounds().getWidth(), (int) s.getBounds().getHeight(), g));
-		screenManager.addScreen(new FpsScreen("fpsScreen", (int) s.getBounds().getWidth(), (int) s.getBounds().getHeight() ,g));
-
-        updateThread.start();
-		
+        Thread thread = new Thread(() -> {
+            long timeWaitingStarted = System.currentTimeMillis();
+            while (win.getWidth() != (TileMap.WIDTH * TileMap.DEFAULT_TILE_SIZE + win.getFrameWidth()) * Settings.resolutionScale) {
+                System.out.println(win.getWidth());
+                System.out.println((TileMap.WIDTH * TileMap.DEFAULT_TILE_SIZE + win.getFrameWidth()) * Settings.resolutionScale);
+                //add default screens
+            }
+            System.out.println("Waited " + (System.currentTimeMillis() - timeWaitingStarted) + "ms for Surface sizing properly!");
+            screenManager.addScreen(new SplashLoadScreen("splashScreen", (int) s.getBounds().getWidth(), (int) s.getBounds().getHeight(), g));
+            screenManager.addScreen(new FpsScreen("fpsScreen", (int) s.getBounds().getWidth(), (int) s.getBounds().getHeight() ,g));
+            updateThread.start();
+        });
+        thread.setName("startThread");
+        thread.start();
 	}
 	
 	/**

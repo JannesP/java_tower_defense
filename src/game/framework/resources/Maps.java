@@ -29,7 +29,7 @@ public class Maps {
     }
 
     private static Map loadMap(String filePath) throws IOException{
-        System.out.println("Loading " + filePath);
+        System.out.println("Loading " + filePath + " ...");
         Map map;
         FileInputStream fileInputStream = new FileInputStream(new File(filePath));
 

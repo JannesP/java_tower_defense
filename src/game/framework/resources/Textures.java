@@ -31,9 +31,6 @@ public class Textures {
             //Buttons
             button_main_menu = loadImage("assets/img/buttons/menu.png");
 
-            //Backgrounds
-            backgrounds[0] = loadImage("assets/maps/001.png");
-
             //Towers
             castleTexture = loadImage("assets/img/tower/castle.png");
             arrowTowerTexture = loadImage("assets/img/tower/arrow_tower.png");
@@ -42,6 +39,8 @@ public class Textures {
             runnerTexture = loadImage("assets/img/enemy/runner.png");
             //giantTexture = loadImage("assets/img/enemy/giant.png");
 
+            //Backgrounds
+            backgrounds[0] = loadImage("assets/maps/001.png");
 
         } catch (IOException e) {
             e.printStackTrace();

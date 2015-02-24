@@ -1,15 +1,18 @@
 package game.framework;
 
+import game.framework.resources.Settings;
 import game.object.tile.TileMap;
 
 import javax.swing.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 /**
- * Main game.tower.tile.window of the game
+ * Main game.tower.tile.Window of the game
  *
  * @author Jannes Peters
  */
-public class Window extends JFrame {
+public class Window extends JFrame implements ComponentListener {
     private static final long serialVersionUID = 7446192599263749847L;
 
     @SuppressWarnings("Reserved for later!")
@@ -23,9 +26,11 @@ public class Window extends JFrame {
     Surface surface;
 
     public Window() {
-        setTitle("Tower Defence");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setDefaultLookAndFeelDecorated(true);
+        super.setTitle("Tower Defence");
+        super.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        super.setSize(100, 100);
+        JFrame.setDefaultLookAndFeelDecorated(true);
+        super.addComponentListener(this);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
@@ -33,15 +38,20 @@ public class Window extends JFrame {
         }
         super.setResizable(false);
         surface = new Surface();
-        add(surface);
+        super.add(surface);
     }
 
     public void init() {
+        System.out.println("Init ... X: " + getX() + ", Width: " + getWidth() + ", Height: " + getHeight());
         Window.frameWidth = super.getWidth() - super.getContentPane().getWidth();
         Window.frameHeight = super.getHeight() - super.getContentPane().getHeight();
-        super.setSize((int) ((TileMap.WIDTH * TileMap.DEFAULT_TILE_SIZE + Window.frameWidth) * currentScale), (int) ((TileMap.HEIGHT * TileMap.DEFAULT_TILE_SIZE + Window.frameHeight) * currentScale));
+        super.setSize((int) ((TileMap.WIDTH * TileMap.DEFAULT_TILE_SIZE + Window.frameWidth) * Settings.resolutionScale), (int) ((TileMap.HEIGHT * TileMap.DEFAULT_TILE_SIZE + Window.frameHeight) * Settings.resolutionScale));
 
         setLocationRelativeTo(null);
+    }
+
+    public int getFrameWidth() {
+        return super.getWidth() - super.getContentPane().getWidth();
     }
 
     /**
@@ -51,4 +61,12 @@ public class Window extends JFrame {
         return surface;
     }
 
+    @Override
+    public void componentResized(ComponentEvent e) {}
+    @Override
+    public void componentMoved(ComponentEvent e) {}
+    @Override
+    public void componentShown(ComponentEvent e) {}
+    @Override
+    public void componentHidden(ComponentEvent e) {}
 }
