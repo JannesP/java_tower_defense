@@ -22,7 +22,7 @@ public class MainTitleScreen extends BaseScreen implements IButtonActionReceiver
     }
 
     @Override
-    public void performButtonAction(int buttonAction) {
+    public void performButtonAction(Button sender, int buttonAction) {
         switch (buttonAction) {
             case ButtonAction.START:
                 super.requestScreen(new GameScreen("gameScreen", this.width, this.height, super.graphics2D));
@@ -57,7 +57,6 @@ public class MainTitleScreen extends BaseScreen implements IButtonActionReceiver
 		buttons.add(new MenuButton(menuButtonCenterX, 220, "Editor", g, ButtonAction.EDITOR));
 		buttons.add(new MenuButton(menuButtonCenterX, 280, "Exit", g, ButtonAction.EXIT));
         buttonHandler = new ButtonHandler(buttons, this);
-
 	}
 
 	@Override
