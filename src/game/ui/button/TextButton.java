@@ -24,7 +24,7 @@ public class TextButton extends Button {
      * @param text - text to draw on the button
      * @param g - current graphics for calculating text bounds
      */
-    public TextButton(int x, int y, int width, int height, BufferedImage backgroundImage, String text, Graphics2D g, String action){
+    public TextButton(int x, int y, int width, int height, BufferedImage backgroundImage, String text, Graphics2D g, int action){
         super(x, y, width, height, backgroundImage, g, action);
         this.setText(text, g);
     }

@@ -1,6 +1,8 @@
 package game.framework.screens;
 
 import game.framework.Util;
+import game.framework.input.ButtonHandler;
+import game.framework.input.IButtonActionReceiver;
 import game.ui.button.Button;
 import game.ui.button.MenuButton;
 
@@ -9,57 +11,73 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class MainTitleScreen extends BaseScreen {
+public class MainTitleScreen extends BaseScreen implements IButtonActionReceiver{
 
-	public enum BUTTON_ACTION {
-		START,
-		EXIT,
-		EDITOR,
-		OPTIONS,
-		MULTIPLAYER
-	}
+    private class ButtonAction {
+        public static final int START = 0;
+        public static final int MULTIPLAYER = 1;
+        public static final int EDITOR = 2;
+        public static final int OPTIONS = 3;
+        public static final int EXIT = 4;
+    }
 
-    private ArrayList<MenuButton> buttons;
-    private boolean gotInitialResize = false;
+    @Override
+    public void performButtonAction(int buttonAction) {
+        switch (buttonAction) {
+            case ButtonAction.START:
+                super.requestScreen(new GameScreen("gameScreen", this.width, this.height, super.graphics2D));
+                super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
+                break;
+            case ButtonAction.MULTIPLAYER:
+                System.out.println(buttonAction);
+                break;
+            case ButtonAction.EDITOR:
+                System.out.println(buttonAction);
+                break;
+            case ButtonAction.OPTIONS:
+                System.out.println(buttonAction);
+                break;
+            case ButtonAction.EXIT:
+                super.closeGame();
+                break;
+            default:
+                System.out.println("BUTTON FAILURE! Action: '" + buttonAction + "' not defined in " + this.getClass().toString());
+        }
+    }
+
+    private ButtonHandler buttonHandler;
 
 	public MainTitleScreen(String name, int width, int height, Graphics2D g) {
 		super(name, width, height, g);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
-		buttons = new ArrayList<>();
-		buttons.add(new MenuButton(menuButtonCenterX, 20, "Play", g, "start"));
-		buttons.add(new MenuButton(menuButtonCenterX, 80, "Multiplayer", g, "multiplayer"));
-		buttons.add(new MenuButton(menuButtonCenterX, 160, "Options", g, "options"));
-		buttons.add(new MenuButton(menuButtonCenterX, 220, "Editor", g, "editor"));
-		buttons.add(new MenuButton(menuButtonCenterX, 280, "Exit", g, "exit"));
+        ArrayList<Button> buttons = new ArrayList<>();
+		buttons.add(new MenuButton(menuButtonCenterX, 20, "Play", g, ButtonAction.START));
+		buttons.add(new MenuButton(menuButtonCenterX, 80, "Multiplayer", g, ButtonAction.MULTIPLAYER));
+		buttons.add(new MenuButton(menuButtonCenterX, 160, "Options", g, ButtonAction.OPTIONS));
+		buttons.add(new MenuButton(menuButtonCenterX, 220, "Editor", g, ButtonAction.EDITOR));
+		buttons.add(new MenuButton(menuButtonCenterX, 280, "Exit", g, ButtonAction.EXIT));
+        buttonHandler = new ButtonHandler(buttons, this);
+
 	}
 
 	@Override
 	public void update(long timeDiff) {
-		for (Button b : buttons) {
-			b.update(timeDiff);
-		}
+        buttonHandler.update(timeDiff);
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
-        if (!gotInitialResize) {
-            for (Button b : buttons) {
-                b.realign(width, height, g);
-            }
-            this.gotInitialResize = true;
-        }
-		for (Button b : buttons) {
-			b.draw(g);
-		}
+        buttonHandler.draw(g);
 	}
 
     @Override
     public void realign(int width, int height, Graphics2D g) {
         super.realign(width, height, g);
-        if (buttons == null) return;
-        for (Button b : buttons) {
-            b.setX(Util.calculateCenterPosition(this.width, MenuButton.WIDTH));
-            b.realign(width, height, g);
+        if (buttonHandler != null) {
+            for (Button b : buttonHandler.getButtons()) {
+                b.setX(Util.calculateCenterPosition(this.width, MenuButton.WIDTH));
+                b.realign(width, height, g);
+            }
         }
     }
 
@@ -70,112 +88,13 @@ public class MainTitleScreen extends BaseScreen {
 
 	@Override
 	public void handleKeyInput(ArrayList<KeyEvent> events) {
-		for (KeyEvent e : events) {
-			if (e.getID() == KeyEvent.KEY_PRESSED) {
-				
-				switch (e.getKeyCode()) {
-				
-				case KeyEvent.VK_DOWN:	//Arrow down
-					for (int i = 0; i < buttons.size(); i++) {
-						if (buttons.get(i).getState() == Button.STATE.HOVER) {
-							for (Button b : buttons) {
-								b.setState(Button.STATE.NORMAL);
-							}
-							buttons.get((i + 1) % buttons.size()).setState(Button.STATE.HOVER);
-							break;
-						} else {
-							if (i == buttons.size() - 1) {
-								buttons.get(0).setState(Button.STATE.HOVER);
-							}
-						}
-					}
-					break;
-					
-				case KeyEvent.VK_UP:	//Arrow up
-					for (int i = 0; i < buttons.size(); i++) {
-						if (buttons.get(i).getState() == Button.STATE.HOVER) {
-							for (Button b : buttons) {
-								b.setState(Button.STATE.NORMAL);
-							}
-							i = i == 0 ? buttons.size() - 1 : --i; 
-							buttons.get(i).setState(Button.STATE.HOVER);
-							break;
-						} else {
-							if (i == buttons.size() - 1) {
-								buttons.get(0).setState(Button.STATE.HOVER);
-							}
-						}
-					}
-					break;
-					
-				case KeyEvent.VK_ENTER:	//Enter
-					for (MenuButton b : buttons) {
-						if (b.getState() == Button.STATE.HOVER) {
-							performAction(b.getAction());
-							break;
-						}
-					}
-					break;
-				}
-			}
-		}
-
-	}
+        buttonHandler.handleKeyInput(events);
+    }
 
 	@Override
 	public void handleMouseInput(ArrayList<MouseEvent> events) {
-		for (MouseEvent e : events) {
-			if (e.getID() == MouseEvent.MOUSE_DRAGGED || e.getID() == MouseEvent.MOUSE_MOVED) {
-				for (MenuButton b : buttons) {
-					if (b.getState() == Button.STATE.PRESSED) {
-						continue;
-					}
-					if (b.getRect().contains(e.getPoint())) {
-						b.setState(Button.STATE.HOVER);
-					}
-					else b.setState(Button.STATE.NORMAL);
-				}
-			} else if (e.getID() == MouseEvent.MOUSE_PRESSED && e.getButton() == MouseEvent.BUTTON1) {
-				for (MenuButton b : buttons) {
-					if (b.getRect().contains(e.getPoint())) b.setState(Button.STATE.PRESSED);
-					else b.setState(Button.STATE.NORMAL);
-				}
-			} else if (e.getID() == MouseEvent.MOUSE_RELEASED && e.getButton() == MouseEvent.BUTTON1) {
-				for (MenuButton b : buttons) {
-					if (b.getState() == Button.STATE.PRESSED && b.getRect().contains(e.getPoint())) {
-						performAction(b.getAction());
-						b.setState(Button.STATE.HOVER);
-						break;
-					}
-					if (b.getRect().contains(e.getPoint())) b.setState(Button.STATE.HOVER);
-					else b.setState(Button.STATE.NORMAL);
-				}
-			}
-		}
-	}
-
-	private void performAction(String action) {
-		switch (action) {
-		case "start":
-			super.requestScreen(new GameScreen("gameScreen", this.width, this.height, super.graphics2D));
-            super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
-			break;
-		case "multiplayer":
-			System.out.println(action);
-			break;
-		case "editor":
-			System.out.println(action);
-			break;
-		case "options":
-			System.out.println(action);
-			break;
-		case "exit":
-            super.closeGame();
-			break;
-        default:
-            System.out.println("BUTTON FAILURE! Action: '" + action + "' not defined in " + this.getClass().toString());
-        }
-	}
+        buttonHandler.handleMouseInput(events);
+    }
 
     @Override
     public void closeRequested() {

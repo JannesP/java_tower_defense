@@ -1,5 +1,6 @@
 package game.framework;
 
+import game.framework.input.Input;
 import game.framework.resources.Fonts;
 import game.framework.resources.Settings;
 import game.framework.screens.FpsScreen;

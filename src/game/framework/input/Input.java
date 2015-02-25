@@ -1,4 +1,4 @@
-package game.framework;
+package game.framework.input;
 
 import game.framework.screens.ScreenManager;
 

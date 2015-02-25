@@ -7,6 +7,8 @@ import java.io.IOException;
 
 public class Textures {
 
+    //Icons
+    public static BufferedImage iconSpeaker;
 
     //UI Elements
 	public static BufferedImage button_main_menu;
@@ -28,6 +30,9 @@ public class Textures {
 	public static void loadImages() {
 
         try {
+            //Icons
+            iconSpeaker = loadImage("assets/img/icons/speaker.png");
+
             //Buttons
             button_main_menu = loadImage("assets/img/buttons/menu.png");
 

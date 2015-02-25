@@ -9,9 +9,9 @@ public abstract class Button implements IPaintableUpdatableObject {
 	protected STATE state = STATE.NORMAL;
     protected BufferedImage backgroundImage;
     protected int x, y, width, height, spriteY;
-    protected String action;
+    protected int action;
 
-    protected Button(int x, int y, int width, int height, BufferedImage backgroundImage, Graphics2D g, String action) {
+    protected Button(int x, int y, int width, int height, BufferedImage backgroundImage, Graphics2D g, int action) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -78,7 +78,7 @@ public abstract class Button implements IPaintableUpdatableObject {
 		this.y = y;
 	}
 
-    public String getAction() {
+    public int getAction() {
         return action;
     }
 

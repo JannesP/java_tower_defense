@@ -22,7 +22,7 @@ public class ImageButton extends Button {
      * @param image - image to draw on the button
      * @param g - current graphics for calculating text bounds
      */
-    public ImageButton(int x, int y, int width, int height, BufferedImage backgroundImage, BufferedImage image, Graphics2D g, String action){
+    public ImageButton(int x, int y, int width, int height, BufferedImage backgroundImage, BufferedImage image, Graphics2D g, int action){
         super(x, y, width, height, backgroundImage, g, action);
         this.setImage(image, g);
     }

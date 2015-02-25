@@ -95,7 +95,6 @@ public class ScreenManager {
                 for (BaseScreen foundScreen : screens) {
                     foundScreen.handleKeyInput(keyEvents);
                     foundScreen.handleMouseInput(mouseEvents);
-                    foundScreen.update(timeDiff);
                     if (foundScreen.isCloseGame()) {
                         Manager.closeRequested();
                     }
@@ -103,6 +102,11 @@ public class ScreenManager {
                 keyEvents.clear();
                 mouseEvents.clear();
             }
+        }
+
+        // UPDATE ALL SCREENS
+        for (BaseScreen foundScreen : screens) {
+            foundScreen.update(timeDiff);
         }
 
         //Handle game closing
