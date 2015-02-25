@@ -1,8 +1,8 @@
 package game.framework.screens;
 
 import game.framework.Util;
-import game.menu.MenuButton;
-import game.ui.Button;
+import game.ui.button.Button;
+import game.ui.button.MenuButton;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -26,11 +26,11 @@ public class MainTitleScreen extends BaseScreen {
 		super(name, width, height, g);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
 		buttons = new ArrayList<>();
-		buttons.add(new MenuButton(menuButtonCenterX, 20, "Play", g, BUTTON_ACTION.START));
-		buttons.add(new MenuButton(menuButtonCenterX, 80, "Multiplayer", g, BUTTON_ACTION.MULTIPLAYER));
-		buttons.add(new MenuButton(menuButtonCenterX, 160, "Options", g, BUTTON_ACTION.OPTIONS));
-		buttons.add(new MenuButton(menuButtonCenterX, 220, "Editor", g, BUTTON_ACTION.EDITOR));
-		buttons.add(new MenuButton(menuButtonCenterX, 280, "Exit", g, BUTTON_ACTION.EXIT));
+		buttons.add(new MenuButton(menuButtonCenterX, 20, "Play", g, "start"));
+		buttons.add(new MenuButton(menuButtonCenterX, 80, "Multiplayer", g, "multiplayer"));
+		buttons.add(new MenuButton(menuButtonCenterX, 160, "Options", g, "options"));
+		buttons.add(new MenuButton(menuButtonCenterX, 220, "Editor", g, "editor"));
+		buttons.add(new MenuButton(menuButtonCenterX, 280, "Exit", g, "exit"));
 	}
 
 	@Override
@@ -154,25 +154,27 @@ public class MainTitleScreen extends BaseScreen {
 		}
 	}
 
-	private void performAction(BUTTON_ACTION action) {
+	private void performAction(String action) {
 		switch (action) {
-		case START:
+		case "start":
 			super.requestScreen(new GameScreen("gameScreen", this.width, this.height, super.graphics2D));
             super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
 			break;
-		case MULTIPLAYER:
+		case "multiplayer":
 			System.out.println(action);
 			break;
-		case EDITOR:
+		case "editor":
 			System.out.println(action);
 			break;
-		case OPTIONS:
+		case "options":
 			System.out.println(action);
 			break;
-		case EXIT:
+		case "exit":
             super.closeGame();
 			break;
-		}
+        default:
+            System.out.println("BUTTON FAILURE! Action: '" + action + "' not defined in " + this.getClass().toString());
+        }
 	}
 
     @Override
