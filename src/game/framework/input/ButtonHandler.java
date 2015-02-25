@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
+ * Handler class for clearing up classes from basic button stuff.
  * Created by Jannes Peters on 2/25/2015.
  */
 public class ButtonHandler implements IPaintableUpdatableObject{
@@ -47,7 +48,7 @@ public class ButtonHandler implements IPaintableUpdatableObject{
             } else if (e.getID() == MouseEvent.MOUSE_RELEASED && e.getButton() == MouseEvent.BUTTON1) {
                 for (Button b : buttons) {
                     if (b.getState() == Button.STATE.PRESSED && b.getRect().contains(e.getPoint())) {
-                        receiver.performButtonAction(b.getAction());    //send action to listener
+                        receiver.performButtonAction(b, b.getAction());    //send action to listener
                         b.setState(Button.STATE.HOVER);
                         break;
                     }
@@ -100,7 +101,7 @@ public class ButtonHandler implements IPaintableUpdatableObject{
                     case KeyEvent.VK_ENTER:	//Enter
                         for (Button b : buttons) {
                             if (b.getState() == Button.STATE.HOVER) {
-                                receiver.performButtonAction(b.getAction());
+                                receiver.performButtonAction(b, b.getAction());
                                 break;
                             }
                         }

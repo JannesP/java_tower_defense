@@ -1,7 +1,13 @@
 package game.framework.screens;
 
+import game.framework.BackgroundMusicPlayer;
+import game.framework.Util;
+import game.framework.input.IButtonActionReceiver;
 import game.framework.resources.Fonts;
 import game.object.tile.TileMap;
+import game.ui.button.Button;
+import game.ui.button.MultiImageButton;
+import game.ui.object.StatusBar;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -9,32 +15,41 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
+ * Screen which displays the UI over the game.
  * Created by Jannes Peters on 23.02.2015.
  */
-public class UIScreen extends BaseScreen {
+public class UIScreen extends BaseScreen implements IButtonActionReceiver {
+
+    public class ButtonAction {
+        public static final int MUTE = 0;
+    }
+
     private Rectangle bottomDrawBorder;
-    private Rectangle statusBarBorder;
+
+    private StatusBar statusBar;
 
     public UIScreen(String name, int width, int height, Graphics2D g) {
         super(name, width, height, g);
-        statusBarBorder = getStatusBarBorder(width, g);
+
+        statusBar = new StatusBar(width, height, g, this);
+
         bottomDrawBorder = getBottomDrawBorder(width, height);
         super.zOrder = ScreenManager.ZOrder.UI;
     }
 
     @Override
     public void handleKeyInput(ArrayList<KeyEvent> events) {
-
+        statusBar.handleKeyInput(events);
     }
 
     @Override
     public void handleMouseInput(ArrayList<MouseEvent> events) {
-
+        statusBar.handleMouseInput(events);
     }
 
     @Override
     public void update(long timeDiff) {
-
+        statusBar.update(timeDiff);
     }
 
     @Override
@@ -42,19 +57,19 @@ public class UIScreen extends BaseScreen {
         g.setColor(Color.DARK_GRAY);
         g.fillRect((int) bottomDrawBorder.getX(), (int) bottomDrawBorder.getY(), (int) bottomDrawBorder.getWidth(), (int) bottomDrawBorder.getHeight());
 
-        g.fillRect((int) statusBarBorder.getX(), (int) statusBarBorder.getY(), (int) statusBarBorder.getWidth(), (int) statusBarBorder.getHeight());
-
         g.setColor(Color.LIGHT_GRAY);
         g.setFont(Fonts.defaultFont);
-        g.drawString("bottomDrawBorder", (int)bottomDrawBorder.getX() + Fonts.PADDING, (int)bottomDrawBorder.getY() + Fonts.PADDING + g.getFontMetrics().getMaxAscent());
-        g.setFont(Fonts.statusBarFont);
-        g.drawString("statusBarBorder", (int) statusBarBorder.getX() + Fonts.PADDING, (int) statusBarBorder.getY() + Fonts.PADDING + g.getFontMetrics().getMaxAscent());
+        g.drawString("bottomDrawBorder", (int) bottomDrawBorder.getX() + Util.PADDING, (int) bottomDrawBorder.getY() + Util.PADDING + g.getFontMetrics().getMaxAscent());
+
+        statusBar.draw(g);
     }
 
     @Override
     public void realign(int width, int height, Graphics2D g) {
         super.realign(width, height, g);
-        statusBarBorder = getStatusBarBorder(width, g);
+        if (statusBar != null) {
+            statusBar.realign(width, height, g);
+        }
         bottomDrawBorder = getBottomDrawBorder(width, height);
     }
 
@@ -64,10 +79,19 @@ public class UIScreen extends BaseScreen {
         return new Rectangle(0, y, width, drawHeight);
     }
 
-    private Rectangle getStatusBarBorder(int width, Graphics2D g) {
-        g.setFont(Fonts.statusBarFont);
-        int height = g.getFontMetrics().getHeight() + (Fonts.PADDING * 2);
-        return new Rectangle(0, 0, width, height);
-    }
+    @Override
+    public void performButtonAction(Button sender, int buttonAction) {
+        switch (buttonAction) {
+            case ButtonAction.MUTE:
+                if (BackgroundMusicPlayer.isPlaying()) {
+                    BackgroundMusicPlayer.pause();
+                    ((MultiImageButton) sender).setImageIndex(1);
+                } else {
+                    BackgroundMusicPlayer.play();
+                    ((MultiImageButton) sender).setImageIndex(0);
+                }
 
+                break;
+        }
+    }
 }

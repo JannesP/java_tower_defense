@@ -1,7 +1,6 @@
 package game.framework;
 
 import game.framework.input.Input;
-import game.framework.resources.Fonts;
 import game.framework.resources.Settings;
 import game.framework.screens.FpsScreen;
 import game.framework.screens.ScreenManager;
@@ -57,9 +56,6 @@ public class Manager {
         s.addMouseWheelListener(input);
         win.setVisible(true);
         win.init();
-		// setup graphics
-		Graphics2D g = (Graphics2D) s.getGraphics();
-		g.setFont(Fonts.getDefaultFont());
         s.requestFocus();
 
         this.initGame();
