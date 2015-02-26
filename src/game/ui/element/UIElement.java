@@ -14,6 +14,17 @@ import java.util.ArrayList;
  */
 public abstract class UIElement implements IPaintableUpdatableObject{
 
+    public static final int BUTTON_START = 0;
+    public static final int BUTTON_MULTIPLAYER = 1;
+    public static final int BUTTON_OPTIONS = 2;
+    public static final int BUTTON_EDITOR = 3;
+    public static final int BUTTON_EXIT = 4;
+    public static final int BUTTON_MUTE = 5;
+
+    public static final int SLIDER_VOLUME = 6;
+
+
+
     protected IUIActionReceiver actionReceiver = null;
     protected int x, y, width, height, action;
     protected boolean consumesMouseEvents = true;
@@ -61,6 +72,18 @@ public abstract class UIElement implements IPaintableUpdatableObject{
      */
     public Rectangle getRect() {
         return new Rectangle(x, y, width, height);
+    }
+
+    public int getRightBorder() {
+        return this.x + this.width;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public void setX(int x) {

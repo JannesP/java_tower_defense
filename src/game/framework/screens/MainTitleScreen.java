@@ -15,30 +15,26 @@ import java.util.ArrayList;
 public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
 
     private class ButtonAction {
-        public static final int START = 0;
-        public static final int MULTIPLAYER = 1;
-        public static final int OPTIONS = 2;
-        public static final int EDITOR = 3;
-        public static final int EXIT = 4;
+
     }
 
     @Override
     public void performAction(UIElement sender, int buttonAction) {
         switch (buttonAction) {
-            case ButtonAction.START:
+            case UIElement.BUTTON_START:
                 super.requestScreen(new GameScreen("gameScreen", this.width, this.height, super.graphics2D));
                 super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
                 break;
-            case ButtonAction.MULTIPLAYER:
+            case UIElement.BUTTON_MULTIPLAYER:
                 System.out.println(buttonAction);
                 break;
-            case ButtonAction.EDITOR:
+            case UIElement.BUTTON_EDITOR:
                 System.out.println(buttonAction);
                 break;
-            case ButtonAction.OPTIONS:
+            case UIElement.BUTTON_OPTIONS:
                 System.out.println(buttonAction);
                 break;
-            case ButtonAction.EXIT:
+            case UIElement.BUTTON_EXIT:
                 super.closeGame();
                 break;
             default:
@@ -52,11 +48,11 @@ public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
 		super(name, width, height, g);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
         ArrayList<UIElement> elements = new ArrayList<>();
-        elements.add(new MenuButton(menuButtonCenterX, 20, "Play", g, ButtonAction.START, this));
-        elements.add(new MenuButton(menuButtonCenterX, 80, "Multiplayer", g, ButtonAction.MULTIPLAYER, this));
-        elements.add(new MenuButton(menuButtonCenterX, 160, "Options", g, ButtonAction.OPTIONS, this));
-        elements.add(new MenuButton(menuButtonCenterX, 220, "Editor", g, ButtonAction.EDITOR, this));
-        elements.add(new MenuButton(menuButtonCenterX, 280, "Exit", g, ButtonAction.EXIT, this));
+        elements.add(new MenuButton(menuButtonCenterX, 20, "Play", g, UIElement.BUTTON_START, this));
+        elements.add(new MenuButton(menuButtonCenterX, 80, "Multiplayer", g, UIElement.BUTTON_MULTIPLAYER, this));
+        elements.add(new MenuButton(menuButtonCenterX, 160, "Options", g, UIElement.BUTTON_OPTIONS, this));
+        elements.add(new MenuButton(menuButtonCenterX, 220, "Editor", g, UIElement.BUTTON_EDITOR, this));
+        elements.add(new MenuButton(menuButtonCenterX, 280, "Exit", g, UIElement.BUTTON_EXIT, this));
         uiElementContainer = new UIElementContainer(elements);
 	}
 

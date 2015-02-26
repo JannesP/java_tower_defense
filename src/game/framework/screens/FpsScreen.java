@@ -28,6 +28,7 @@ public class FpsScreen extends BaseScreen {
 	@Override
 	public void draw(Graphics2D g) {
         g.setFont(Fonts.fpsFont);
+        g.setColor(Color.LIGHT_GRAY);
 		g.drawString(String.valueOf((long)Math.floor(1d / ((double)timeDiff / 1000000000d))), x, y);
 
 	}

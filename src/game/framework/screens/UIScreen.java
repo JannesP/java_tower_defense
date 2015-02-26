@@ -6,6 +6,7 @@ import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
 import game.object.tile.TileMap;
 import game.ui.container.StatusBar;
+import game.ui.element.Slider;
 import game.ui.element.UIElement;
 import game.ui.element.button.MultiImageButton;
 
@@ -19,10 +20,6 @@ import java.util.ArrayList;
  * Created by Jannes Peters on 23.02.2015.
  */
 public class UIScreen extends BaseScreen implements IUIActionReceiver {
-
-    public class ButtonAction {
-        public static final int MUTE = 0;
-    }
 
     private Rectangle bottomDrawBorder;
 
@@ -82,7 +79,7 @@ public class UIScreen extends BaseScreen implements IUIActionReceiver {
     @Override
     public void performAction(UIElement sender, int buttonAction) {
         switch (buttonAction) {
-            case ButtonAction.MUTE:
+            case UIElement.BUTTON_MUTE:
                 if (BackgroundMusicPlayer.isPlaying()) {
                     BackgroundMusicPlayer.pause();
                     ((MultiImageButton) sender).setImageIndex(1);
@@ -90,7 +87,9 @@ public class UIScreen extends BaseScreen implements IUIActionReceiver {
                     BackgroundMusicPlayer.play();
                     ((MultiImageButton) sender).setImageIndex(0);
                 }
-
+                break;
+            case UIElement.SLIDER_VOLUME:
+                BackgroundMusicPlayer.setVolume(((Slider)sender).getValue());
                 break;
         }
     }

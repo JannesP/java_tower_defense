@@ -29,4 +29,8 @@ public class BackgroundMusicPlayer {
     public static void stop() {
         Sounds.backgroundMusic[currentPlayer].stop();
     }
+
+    public static void setVolume(float volume) {
+        Sounds.backgroundMusic[currentPlayer].setVolume(volume);
+    }
 }
