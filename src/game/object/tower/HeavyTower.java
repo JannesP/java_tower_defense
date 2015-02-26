@@ -14,6 +14,7 @@ public class HeavyTower extends Tower{
         super.damagePerLevel = new int[]{10, 15, 20, 30, 40};
         super.rangePerLevel = new int[]{90, 105, 120, 140, 160};
         super.critRate = 0.0f;
+        super.sellValue = new int[]{0,0,0,0,0};
     }
     @Override
     protected void fire() {

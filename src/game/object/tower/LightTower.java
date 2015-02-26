@@ -14,6 +14,7 @@ public class LightTower extends Tower {
         super.damagePerLevel = new int[]{2, 4, 6, 8, 10};
         super.rangePerLevel = new int[]{80, 100, 120, 140, 160};
         super.critRate = 0.0f;
+        super.sellValue = new int[]{0,0,0,0,0};
     }
 
     @Override
