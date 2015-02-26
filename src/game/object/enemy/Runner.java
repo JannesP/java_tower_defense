@@ -8,7 +8,7 @@ import game.framework.resources.Textures;
 public class Runner extends Enemy {
     public Runner() {
         super.texture = Textures.runnerTexture;
-        super.health = 5;
+        super.health = 5; //TODO Balancing
         super.moveSpeed = 50; //TODO Try speed values
         super.goldToEarn = 1;
     }

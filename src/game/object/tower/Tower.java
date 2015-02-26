@@ -42,7 +42,10 @@ public abstract class Tower {
      * in unscaled pixels
      */
     protected int rangePerLevel[];
-
+    /**
+     *  Critical hit rate in percent
+     */
+    protected float critRate;
     /**
      * Called with already calculated x and y! Just take and save them.
      */

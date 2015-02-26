@@ -10,9 +10,10 @@ public class Castle extends Tower {
     public Castle() {
         super.texture = Textures.castleTexture;
         super.costPerLevel = new int[]{0, 100, 250, 500, 1000};
-        super.fireRatePerLevel = new double[]{0.5, 0.6, 0.7, 0.8, 1};
-        super.damagePerLevel = new int[]{20, 40, 80, 100, 200};
-        super.rangePerLevel = new int[]{100, 110, 130, 140, 180};
+        super.fireRatePerLevel = new double[]{0, 0, 0, 0, 0};
+        super.damagePerLevel = new int[]{0, 0, 0, 0, 0};
+        super.rangePerLevel = new int[]{0, 0, 0, 0, 0};
+        super.critRate = 0.0f;
     }
 
     @Override
