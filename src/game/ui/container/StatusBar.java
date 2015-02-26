@@ -1,14 +1,14 @@
-package game.ui.object;
+package game.ui.container;
 
 import game.drawable.IPaintableUpdatableObject;
 import game.framework.Util;
 import game.framework.input.ButtonHandler;
-import game.framework.input.IButtonActionReceiver;
+import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
 import game.framework.resources.Textures;
 import game.framework.screens.UIScreen;
-import game.ui.button.Button;
-import game.ui.button.MultiImageButton;
+import game.ui.element.button.Button;
+import game.ui.element.button.MultiImageButton;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -24,13 +24,13 @@ public class StatusBar implements IPaintableUpdatableObject {
 
     private ButtonHandler buttonHandler;
 
-    public StatusBar(int width, int height, Graphics2D g, IButtonActionReceiver buttonActionReceiver) {
+    public StatusBar(int width, int height, Graphics2D g, IUIActionReceiver buttonActionReceiver) {
         g.setFont(Fonts.statusBarFont);
         int calcHeight = g.getFontMetrics().getHeight() + (Util.PADDING * 2);
         border = new Rectangle(0, 0, width, calcHeight);
 
         ArrayList<Button> buttons = new ArrayList<>();
-        buttons.add(new MultiImageButton(Util.PADDING, Util.PADDING, this.getHeight() - Util.PADDING * 2, this.getHeight() - Util.PADDING * 2, Textures.button_main_menu, Textures.iconSpeaker, 2, g, UIScreen.ButtonAction.MUTE));
+        buttons.add(new MultiImageButton(Util.PADDING, Util.PADDING, this.getHeight() - Util.PADDING * 2, this.getHeight() - Util.PADDING * 2, Textures.button_main_menu, buttonActionReceiver, Textures.iconSpeaker, 2, g, UIScreen.ButtonAction.MUTE));
         ((MultiImageButton)buttons.get(0)).setImageIndex(1);
         buttonHandler = new ButtonHandler(buttons, buttonActionReceiver);
         realign(width, height, g);

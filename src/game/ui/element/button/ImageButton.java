@@ -1,6 +1,7 @@
-package game.ui.button;
+package game.ui.element.button;
 
 import game.framework.Util;
+import game.framework.input.IUIActionReceiver;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -26,8 +27,8 @@ public class ImageButton extends Button {
      * @param image - image to draw on the button
      * @param g - current graphics for calculating text bounds
      */
-    public ImageButton(int x, int y, int width, int height, BufferedImage backgroundImage, BufferedImage image, Graphics2D g, int action){
-        super(x, y, width, height, backgroundImage, g, action);
+    public ImageButton(int x, int y, int width, int height, BufferedImage backgroundImage, IUIActionReceiver actionReceiver, BufferedImage image, Graphics2D g, int action){
+        super(x, y, width, height, action, actionReceiver, backgroundImage);
         this.setImage(image, g);
     }
 

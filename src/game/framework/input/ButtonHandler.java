@@ -1,7 +1,7 @@
 package game.framework.input;
 
 import game.drawable.IPaintableUpdatableObject;
-import game.ui.button.Button;
+import game.ui.element.button.Button;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -13,16 +13,13 @@ import java.util.ArrayList;
  * Created by Jannes Peters on 2/25/2015.
  */
 public class ButtonHandler implements IPaintableUpdatableObject{
-    private IButtonActionReceiver receiver;
+    private IUIActionReceiver receiver;
     private ArrayList<Button> buttons;
 
-    public ButtonHandler(ArrayList<Button> buttons, IButtonActionReceiver receiver) {
+    public ButtonHandler(ArrayList<Button> buttons, IUIActionReceiver receiver) {
         this.buttons = buttons;
         this.receiver = receiver;
     }
-
-
-
 
     public ArrayList<Button> getButtons() {
         return buttons;
@@ -48,7 +45,7 @@ public class ButtonHandler implements IPaintableUpdatableObject{
             } else if (e.getID() == MouseEvent.MOUSE_RELEASED && e.getButton() == MouseEvent.BUTTON1) {
                 for (Button b : buttons) {
                     if (b.getState() == Button.STATE.PRESSED && b.getRect().contains(e.getPoint())) {
-                        receiver.performButtonAction(b, b.getAction());    //send action to listener
+                        receiver.performAction(b, b.getAction());    //send action to listener
                         b.setState(Button.STATE.HOVER);
                         break;
                     }
@@ -101,7 +98,7 @@ public class ButtonHandler implements IPaintableUpdatableObject{
                     case KeyEvent.VK_ENTER:	//Enter
                         for (Button b : buttons) {
                             if (b.getState() == Button.STATE.HOVER) {
-                                receiver.performButtonAction(b, b.getAction());
+                                receiver.performAction(b, b.getAction());
                                 break;
                             }
                         }

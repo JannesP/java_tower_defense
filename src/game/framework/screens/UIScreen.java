@@ -2,12 +2,12 @@ package game.framework.screens;
 
 import game.framework.BackgroundMusicPlayer;
 import game.framework.Util;
-import game.framework.input.IButtonActionReceiver;
+import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
 import game.object.tile.TileMap;
-import game.ui.button.Button;
-import game.ui.button.MultiImageButton;
-import game.ui.object.StatusBar;
+import game.ui.container.StatusBar;
+import game.ui.element.UIElement;
+import game.ui.element.button.MultiImageButton;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Screen which displays the UI over the game.
  * Created by Jannes Peters on 23.02.2015.
  */
-public class UIScreen extends BaseScreen implements IButtonActionReceiver {
+public class UIScreen extends BaseScreen implements IUIActionReceiver {
 
     public class ButtonAction {
         public static final int MUTE = 0;
@@ -80,7 +80,7 @@ public class UIScreen extends BaseScreen implements IButtonActionReceiver {
     }
 
     @Override
-    public void performButtonAction(Button sender, int buttonAction) {
+    public void performAction(UIElement sender, int buttonAction) {
         switch (buttonAction) {
             case ButtonAction.MUTE:
                 if (BackgroundMusicPlayer.isPlaying()) {

@@ -1,6 +1,7 @@
-package game.ui.button;
+package game.ui.element.button;
 
 import game.framework.Util;
+import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
 
 import java.awt.*;
@@ -24,8 +25,8 @@ public class TextButton extends Button {
      * @param text - text to draw on the button
      * @param g - current graphics for calculating text bounds
      */
-    public TextButton(int x, int y, int width, int height, BufferedImage backgroundImage, String text, Graphics2D g, int action){
-        super(x, y, width, height, backgroundImage, g, action);
+    public TextButton(int x, int y, int width, int height, BufferedImage backgroundImage, IUIActionReceiver actionReceiver, String text, Graphics2D g, int action){
+        super(x, y, width, height, action, actionReceiver, backgroundImage);
         this.setText(text, g);
     }
 

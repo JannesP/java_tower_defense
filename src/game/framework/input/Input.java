@@ -58,19 +58,16 @@ public class Input implements KeyListener, WindowListener, MouseListener, MouseM
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		screenManager.gotEvent(e);
-		e.consume();
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
 		screenManager.gotEvent(e);
-		e.consume();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		screenManager.gotEvent(e);
-		e.consume();
 	}
 
 	@Override
@@ -82,14 +79,12 @@ public class Input implements KeyListener, WindowListener, MouseListener, MouseM
 	@Override
 	public void mouseDragged(MouseEvent e) { 
 		screenManager.gotEvent(e);
-		e.consume(); 
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		screenManager.gotEvent(e);
-		e.consume();
-	}
+        screenManager.gotEvent(e);
+    }
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {

@@ -1,7 +1,6 @@
 package game.object.tower;
 
 import game.framework.resources.Textures;
-import game.object.tile.Tile;
 import game.object.tile.TileMap;
 
 import java.awt.*;
@@ -29,7 +28,7 @@ public class Castle extends Tower {
     @Override
     public void draw(Graphics2D g) {
         if (isFirstCastle) {
-            g.drawImage(texture, x, y, (int) (x + TileMap.tileSize * 2), (int) (y + TileMap.tileSize * 2), Tile.TEXTURE_SIZE * level, 0, Tile.TEXTURE_SIZE * level + Tile.TEXTURE_SIZE, Tile.TEXTURE_SIZE, null);
+            g.drawImage(texture, x, y, (int) (x + TileMap.tileSize * 2), (int) (y + TileMap.tileSize * 2), texture.getHeight() * level, 0, texture.getHeight() * level + texture.getHeight(), texture.getHeight(), null);
         }
     }
 
