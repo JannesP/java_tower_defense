@@ -7,9 +7,10 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
+ * UIElement that tracks if it got the mouse over itself.
  * Created by Jannes Peters on 2/26/2015.
  */
-public class MouseOverTrackingUIElement extends UIElement{
+public class MouseOverTrackingUIElement extends UIElement {
     protected boolean isMouseOver = false;
 
     /**
@@ -20,7 +21,7 @@ public class MouseOverTrackingUIElement extends UIElement{
      * @param width          - width of the element.
      * @param height         - height of the element.
      * @param action         - action ID
-     * @param actionReceiver
+     * @param actionReceiver - action receiver for receiving action updates, can be null
      */
     protected MouseOverTrackingUIElement(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver) {
         super(x, y, width, height, action, actionReceiver);
@@ -30,7 +31,7 @@ public class MouseOverTrackingUIElement extends UIElement{
     public void handleMouseInput(ArrayList<MouseEvent> events) {
         for (MouseEvent e : events) {
             this.isMouseOver = this.isEventInBounds(e);
-            if (this.isMouseOver) handleMouseEvent(e);
+            handleMouseEvent(e);
         }
     }
 

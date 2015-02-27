@@ -6,6 +6,7 @@ import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
 import game.framework.resources.Textures;
 import game.ui.element.Slider;
+import game.ui.element.TextBox;
 import game.ui.element.UIElement;
 import game.ui.element.button.MultiImageButton;
 
@@ -33,6 +34,7 @@ public class StatusBar implements IPaintableUpdatableObject {
         elements.add(new MultiImageButton(Util.PADDING, Util.PADDING, this.getHeight() - Util.PADDING * 2, this.getHeight() - Util.PADDING * 2, Textures.button_main_menu, actionReceiver, Textures.iconSpeaker, 2, g, UIElement.BUTTON_MUTE));
         ((MultiImageButton)elements.get(0)).setImageIndex(1);
         elements.add(new Slider(elements.get(0).getRightBorder() + Util.PADDING, Util.PADDING, 250, this.getHeight() - Util.PADDING * 2, UIElement.SLIDER_VOLUME, actionReceiver, 0f, 1f, 0.5f));
+        elements.add(new TextBox(350 + Util.PADDING, Util.PADDING, 200, this.getHeight() - Util.PADDING * 2, UIElement.TEXTBOX_INPUT, actionReceiver, "Example TextBox", 50));
         uiElementContainer = new UIElementContainer(elements);
         realign(width, height, g);
     }

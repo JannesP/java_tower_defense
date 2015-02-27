@@ -6,7 +6,6 @@ import game.ui.element.MouseOverTrackingUIElement;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 /**
  * Button base. For use refer to <code>ImageButton</code>, <code>MultiImageButton</code> or <code>TextButton</code>.
@@ -42,14 +41,6 @@ public abstract class Button extends MouseOverTrackingUIElement {
 	
 	@Override
 	public void update(long timeDiff) {}
-
-    @Override
-    public void handleMouseInput(ArrayList<MouseEvent> events) {
-        for (MouseEvent e : events) {
-            this.isMouseOver = this.isEventInBounds(e);
-            handleMouseEvent(e);
-        }
-    }
 
     @Override
     protected void handleMouseEvent(MouseEvent event) {

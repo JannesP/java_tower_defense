@@ -7,12 +7,15 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 /**
+ * A simple slider control for setting something.
  * Created by Jannes Peters on 2/26/2015.
  */
 public class Slider extends UIElement {
 
-    private float minValue, maxValue, value;
+    private double minValue, maxValue, value;
     private static Color separatorColor, separatorColor2, selectorColor, selectorColor2;
+
+    private static final int SELECTOR_WIDTH = 5;
 
     /**
      * Initiates the slider with a range from 0f - 1f and a default value of 0f.
@@ -22,8 +25,9 @@ public class Slider extends UIElement {
      * @param height - height of the element.
      * @param action - action ID
      */
+    @SuppressWarnings("all")
     protected Slider(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver) {
-        this(x, y, width, height, action, actionReceiver, 1f);
+        this(x, y, width, height, action, actionReceiver, 1d);
     }
 
     /**
@@ -35,8 +39,8 @@ public class Slider extends UIElement {
      * @param action - action ID
      * @param maxValue - maximum value, has to be greater then 0!
      */
-    protected Slider(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver, float maxValue) {
-        this(x, y, width, height, action, actionReceiver, 0f, maxValue);
+    protected Slider(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver, double maxValue) {
+        this(x, y, width, height, action, actionReceiver, 0d, maxValue);
     }
 
     /**
@@ -49,8 +53,8 @@ public class Slider extends UIElement {
      * @param minValue - minimum value of the element
      * @param maxValue - maximum value of the element, has to be bigger then minValue
      */
-    protected Slider(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver, float minValue, float maxValue) {
-        this(x, y, width, height, action, actionReceiver, minValue, maxValue, 0f);
+    protected Slider(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver, double minValue, double maxValue) {
+        this(x, y, width, height, action, actionReceiver, minValue, maxValue, 0d);
     }
 
     /**
@@ -64,7 +68,7 @@ public class Slider extends UIElement {
      * @param maxValue - maximum value of the element, has to be bigger then minValue
      * @param initialValue - initial value of the element, has to be between minValue and maxValue
      */
-    public Slider(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver, float minValue, float maxValue, float initialValue) {
+    public Slider(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver, double minValue, double maxValue, double initialValue) {
         super(x, y, width, height, action, actionReceiver);
         if (maxValue <= minValue) throw new IllegalArgumentException("maxValue(" + maxValue + ") is not bigger then minValue(" + minValue + ")");
         if (initialValue < minValue || initialValue > maxValue) throw new IllegalArgumentException("initialValue(" + initialValue + ") has to be between minValue and maxValue!");
@@ -77,7 +81,11 @@ public class Slider extends UIElement {
         Slider.selectorColor2 = Color.decode("#7c5023");
     }
 
-    public float getValue() {
+    /**
+     * Returns the value of the element.
+     * @return the value
+     */
+    public double getValue() {
         return value;
     }
 
@@ -90,7 +98,7 @@ public class Slider extends UIElement {
     }
 
     @Override
-    public void draw(Graphics2D g) {    //TODO fix goofy drawing of selector
+    public void draw(Graphics2D g) {
         //draw first separator
         g.setColor(Slider.separatorColor);
         g.fillRect(super.x, super.y, 3, super.height);
@@ -111,16 +119,17 @@ public class Slider extends UIElement {
 
         //draw selector
         g.setColor(Slider.selectorColor);
-        g.fillRect(super.x + (int)(this.value / (maxValue - minValue) * (double)super.width), super.y, 5, super.height);
+        g.fillRect(super.x + (int)(this.value / (maxValue - minValue) * ((double)super.width - SELECTOR_WIDTH)), super.y, 5, super.height);
         g.setColor(Slider.selectorColor2);
-        g.drawRect(super.x + (int) (this.value / (maxValue - minValue) * (double) super.width), super.y, 5, super.height);
+        g.drawRect(super.x + (int) (this.value / (maxValue - minValue) * ((double) super.width - SELECTOR_WIDTH)), super.y, 5, super.height);
 
         g.setColor(Color.LIGHT_GRAY);
-        g.drawString(this.value + "f", super.x + super.width + Util.PADDING, super.height + Util.PADDING);
+        g.drawString((int)Math.floor(this.value * 100) + "%", super.x + super.width + Util.PADDING, super.height + Util.PADDING);
     }
 
     @Override
     public void update(long timeDiff) {}
     @Override
     public void realign(int width, int height, Graphics2D g) {}
+
 }

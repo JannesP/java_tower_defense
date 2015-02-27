@@ -8,7 +8,7 @@ import java.awt.*;
  * Created by Jannes Peters on 2/26/2015.
  */
 public class Label extends UIElement {
-
+    //TODO check if working correctly
     protected String text = "";
 
     /**
