@@ -105,7 +105,7 @@ public class Slider extends UIElement {
 
     @Override
     protected void handleMouseEvent(MouseEvent event) {
-        if (super.isMouseOver && (event.getID() == MouseEvent.MOUSE_DRAGGED || event.getID() == MouseEvent.MOUSE_CLICKED)) {
+        if (super.isMouseOver && (event.getID() == MouseEvent.MOUSE_DRAGGED || event.getID() == MouseEvent.MOUSE_PRESSED)) {
             setValue((((float) (event.getX() - super.x) / (float) super.width) * (maxValue - minValue)) + minValue);
             actionReceiver.performAction(this, super.action);
         }
