@@ -7,14 +7,31 @@ import javafx.scene.media.MediaPlayer;
 import java.nio.file.Paths;
 
 public class Sounds {
+    //TODO implement proper backgorund music play
+    public static MediaPlayer[] backgroundMusic = new MediaPlayer[2];
 
-    public static MediaPlayer[] backgroundMusic = new MediaPlayer[1];
+    //shots
+    public static AudioClip akSingle;
+    public static AudioClip akMulti;
+    public static AudioClip artillery;
+    public static AudioClip gun;
+    public static AudioClip rocketLauncher;
 
     public static void loadSounds() {
         //background
-        backgroundMusic[0] = loadMusic("assets/sounds/music/tier1.mp3");
+        backgroundMusic[0] = loadMusic("assets/sounds/music/tier1.wav");
+        backgroundMusic[1] = loadMusic("assets/sounds/music/tier2.mp3");
 
+        for (MediaPlayer player : backgroundMusic) {
+            player.setCycleCount(MediaPlayer.INDEFINITE);
+        }
 
+        //shots
+        akSingle = loadSound("assets/sounds/shots/ak_single.wav");
+        akMulti = loadSound("assets/sounds/shots/ak_multi.wav");
+        artillery = loadSound("assets/sounds/shots/artillery.wav");
+        gun = loadSound("assets/sounds/shots/gun.wav");
+        rocketLauncher = loadSound("assets/sounds/shots/rocket_launcher.wav");
     }
 
     public static MediaPlayer loadMusic(String path) {
@@ -24,7 +41,7 @@ public class Sounds {
 
     public static AudioClip loadSound(String path) {
         System.out.println("Loading " + path + " ...");
-        return new AudioClip(path);
+        return new AudioClip(Paths.get(path).toUri().toString());
     }
 
 }
