@@ -6,20 +6,16 @@ import game.framework.resources.Fonts;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 /**
  * TextBox to write some text in.
  * Created by Jannes Peters on 2/27/2015.
  */
-public class TextBox extends MouseOverTrackingUIElement {
+public class TextBox extends UIElement {
     private String hint, text = "";
     private boolean isFocused = false;
     private boolean isCursorVisible = false;
     private static final Color COLOR_BACKGROUND = new Color(0f, 0f, 0f, 0.6f);
-    private static final Color COLOR_NORMAL = Color.decode("#ea9742");
-    private static final Color COLOR_FOCUSED = Color.decode("#ea5342");
     private Font font;
     private static final long CURSOR_BLINK_INTERVAL = (long)(Util.NANO_SECOND_SECOND * 0.42d);
     private long timeSinceLastCursorBlinkChange = 0;
@@ -79,47 +75,34 @@ public class TextBox extends MouseOverTrackingUIElement {
     }
 
     @Override
-    public void handleKeyInput(ArrayList<KeyEvent> events) {
-        if (this.isFocused) {
-            for (KeyEvent event : events) {
-                event.consume();
-                if (event.getID() == KeyEvent.KEY_PRESSED) {
-                    String oldText = this.text;
-                    switch (event.getKeyCode()) {
-                        case KeyEvent.VK_BACK_SPACE:
-                        case KeyEvent.VK_DELETE:
-                            if (this.text.length() > 0) {
-                                this.text = this.text.substring(0, this.text.length() - 1); //remove last character
-                            }
-                            break;
-                        case KeyEvent.VK_ENTER:
-                            this.isFocused = false;
-                            break;
-                        default:
-                            if (text.length() != this.inputLength) {
-                                if (this.isCharValid(event.getKeyChar())) this.text += event.getKeyChar();
-                            }
+    protected void handleKeyEvent(KeyEvent event) {
+        event.consume();
+        if (event.getID() == KeyEvent.KEY_PRESSED) {
+            String oldText = this.text;
+            switch (event.getKeyCode()) {
+                case KeyEvent.VK_BACK_SPACE:
+                case KeyEvent.VK_DELETE:
+                    if (this.text.length() > 0) {
+                        this.text = this.text.substring(0, this.text.length() - 1); //remove last character
                     }
-                    if (!oldText.equals(text)) {
-                        super.actionReceiver.performAction(this, super.action);
+                    break;
+                case KeyEvent.VK_ENTER:
+                    this.isFocused = false;
+                    break;
+                default:
+                    if (text.length() != this.inputLength) {
+                        if (this.isCharValid(event.getKeyChar())) this.text += event.getKeyChar();
                     }
-                }
-
+            }
+            if (!oldText.equals(text)) {
+                super.actionReceiver.performAction(this, super.action);
             }
         }
     }
 
     @Override
-    protected void handleMouseEvent(MouseEvent event) {
-        if (event.getID() == MouseEvent.MOUSE_CLICKED) {
-            this.isFocused = super.isMouseOver;
-        }
-        super.handleMouseEvent(event);
-    }
-
-    @Override
     public void update(long timeDiff) {
-        if (!this.isFocused) {
+        if (!this.hasFocus) {
             this.timeSinceLastCursorBlinkChange = 0;
             this.isCursorVisible = true;
             return;
@@ -138,7 +121,7 @@ public class TextBox extends MouseOverTrackingUIElement {
         g.fillRect(super.x, super.y, super.width, super.height);
 
         //draw border
-        g.setColor(this.isFocused ? TextBox.COLOR_FOCUSED : TextBox.COLOR_NORMAL);
+        g.setColor(super.getBorderColor());
         g.drawRect(super.x, super.y, super.width, super.height);
         g.drawRect(super.x + 1, super.y + 1, super.width - 2, super.height - 2);
 
@@ -153,7 +136,7 @@ public class TextBox extends MouseOverTrackingUIElement {
         }
 
         //draw cursor
-        if (this.isCursorVisible && this.isFocused) {
+        if (this.isCursorVisible && this.hasFocus) {
             g.fillRect((int)(super.x + 2 + Util.PADDING + g.getFontMetrics().getStringBounds(this.text, g).getWidth()), super.y + Util.calculateCenterPosition(super.height, this.font.getSize()), 2, this.font.getSize());
         }
     }

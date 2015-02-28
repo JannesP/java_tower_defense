@@ -34,4 +34,9 @@ public class Label extends UIElement {
     public void update(long timeDiff) {}
     @Override
     public void realign(int width, int height, Graphics2D g) {}
+
+    @Override
+    protected void mouseLeft() {
+
+    }
 }

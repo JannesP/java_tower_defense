@@ -6,6 +6,7 @@ import game.framework.screens.ScreenManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashSet;
 
 /**
  * Graphical surface to draw things on.
@@ -17,6 +18,8 @@ public class Surface extends JPanel{
 	
 	public Surface() {
 		super();
+        super.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, new HashSet<KeyStroke>(0));
+        super.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, new HashSet<KeyStroke>(0));
 	}
 	
 	@Override

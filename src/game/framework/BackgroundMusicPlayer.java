@@ -9,7 +9,7 @@ import javafx.scene.media.MediaPlayer;
  */
 public class BackgroundMusicPlayer {
     private static int currentPlayer = 0;
-    private static double volume = 0.5d;
+    private static double volume = 0d;
 
     /**
      * Checks if the background music is running.

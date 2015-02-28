@@ -30,9 +30,58 @@ public class UIElementContainer implements IPaintableUpdatableObject{
         }
 
         public void handleKeyInput(ArrayList<KeyEvent> events) {
+            for (int i = 0; i < events.size(); i++) {
+                if (events.get(i).getID() == KeyEvent.KEY_PRESSED) {
+                    switch (events.get(i).getKeyCode()) {
+                        case KeyEvent.VK_TAB:
+                            if (events.get(i).isShiftDown()) {
+                                setLastFocus();
+                            } else {
+                                setNextFocus();
+                            }
+                            events.remove(i--);
+                            break;
+                        case KeyEvent.VK_ESCAPE:
+                            clearFocus();
+                            break;
+                    }
+
+
+                }
+            }
             for (UIElement element : elements) {
                 element.handleKeyInput(events);
             }
+        }
+
+        private void setLastFocus() {
+            for (int i = 0; i < elements.size(); i++) {
+                if (elements.get(i).hasFocus()) {
+                    clearFocus();
+                    elements.get((i - 1 + elements.size()) % elements.size()).setHasFocus(true);
+                    return;
+                }
+            }
+            if (!elements.isEmpty()) {
+                elements.get(elements.size() - 1).setHasFocus(true);
+            }
+        }
+
+        private void setNextFocus() {
+            for (int i = 0; i < elements.size(); i++) {
+                if (elements.get(i).hasFocus()) {
+                    clearFocus();
+                    elements.get(++i % elements.size()).setHasFocus(true);
+                    return;
+                }
+            }
+            if (!elements.isEmpty()) {
+                elements.get(0).setHasFocus(true);
+            }
+        }
+
+        private void clearFocus() {
+            for (UIElement element : elements) element.setHasFocus(false);
         }
 
         @Override

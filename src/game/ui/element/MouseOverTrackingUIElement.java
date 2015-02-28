@@ -2,16 +2,12 @@ package game.ui.element;
 
 import game.framework.input.IUIActionReceiver;
 
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
 /**
  * UIElement that tracks if it got the mouse over itself.
  * Created by Jannes Peters on 2/26/2015.
  */
-public class MouseOverTrackingUIElement extends UIElement {
-    protected boolean isMouseOver = false;
+public abstract class MouseOverTrackingUIElement extends UIElement {
+
 
     /**
      * Initiates the element with the given parameters.
@@ -27,26 +23,5 @@ public class MouseOverTrackingUIElement extends UIElement {
         super(x, y, width, height, action, actionReceiver);
     }
 
-    @Override
-    public void handleMouseInput(ArrayList<MouseEvent> events) {
-        for (MouseEvent e : events) {
-            this.isMouseOver = this.isEventInBounds(e);
-            handleMouseEvent(e);
-        }
-    }
 
-    @Override
-    public void update(long timeDiff) {
-
-    }
-
-    @Override
-    public void draw(Graphics2D g) {
-
-    }
-
-    @Override
-    public void realign(int width, int height, Graphics2D g) {
-
-    }
 }

@@ -4,6 +4,7 @@ import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 /**
@@ -12,8 +13,8 @@ import java.awt.event.MouseEvent;
  */
 public class Slider extends UIElement {
 
-    private double minValue, maxValue, value;
-    private static Color separatorColor, separatorColor2, selectorColor, selectorColor2;
+    private double minValue, maxValue, value, stepValue;
+    private static Color selectorColor;
 
     private static final int SELECTOR_WIDTH = 5;
 
@@ -25,8 +26,7 @@ public class Slider extends UIElement {
      * @param height - height of the element.
      * @param action - action ID
      */
-    @SuppressWarnings("all")
-    protected Slider(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver) {
+    public Slider(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver) {
         this(x, y, width, height, action, actionReceiver, 1d);
     }
 
@@ -39,7 +39,7 @@ public class Slider extends UIElement {
      * @param action - action ID
      * @param maxValue - maximum value, has to be greater then 0!
      */
-    protected Slider(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver, double maxValue) {
+    public Slider(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver, double maxValue) {
         this(x, y, width, height, action, actionReceiver, 0d, maxValue);
     }
 
@@ -53,7 +53,7 @@ public class Slider extends UIElement {
      * @param minValue - minimum value of the element
      * @param maxValue - maximum value of the element, has to be bigger then minValue
      */
-    protected Slider(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver, double minValue, double maxValue) {
+    public Slider(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver, double minValue, double maxValue) {
         this(x, y, width, height, action, actionReceiver, minValue, maxValue, 0d);
     }
 
@@ -75,10 +75,8 @@ public class Slider extends UIElement {
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.value = initialValue;
-        Slider.separatorColor = Color.decode("#b0913f");
-        Slider.separatorColor2 = Color.decode("#76622a");
-        Slider.selectorColor = Color.decode("#e0913f");
-        Slider.selectorColor2 = Color.decode("#7c5023");
+        this.stepValue = maxValue / 100d;
+        Slider.selectorColor = Color.decode("#ffc790");
     }
 
     /**
@@ -90,29 +88,52 @@ public class Slider extends UIElement {
     }
 
     @Override
-    protected void handleMouseEvent(MouseEvent event) {
-        if (event.getID() == MouseEvent.MOUSE_DRAGGED || event.getID() == MouseEvent.MOUSE_CLICKED) {
-            this.value = (((float)(event.getX() - super.x) / (float)super.width) * (maxValue - minValue)) + minValue;
-            super.handleMouseEvent(event);
+    protected void handleKeyEvent(KeyEvent event) {
+        if (event.getID() == KeyEvent.KEY_PRESSED) {
+            switch (event.getKeyCode()) {
+                case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_UP:
+                    setValue(this.value + stepValue);
+                    break;
+                case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_DOWN:
+                    setValue(this.value - stepValue);
+                    break;
+            }
         }
+    }
+
+    @Override
+    protected void handleMouseEvent(MouseEvent event) {
+        if (super.isMouseOver && (event.getID() == MouseEvent.MOUSE_DRAGGED || event.getID() == MouseEvent.MOUSE_CLICKED)) {
+            setValue((((float) (event.getX() - super.x) / (float) super.width) * (maxValue - minValue)) + minValue);
+            actionReceiver.performAction(this, super.action);
+        }
+    }
+
+    public void setValue(double value) {
+        if (value < this.minValue) {
+            this.value = this.minValue;
+        } else if (value > this.maxValue) {
+            this.value = this.maxValue;
+        } else {
+            this.value = value;
+        }
+        if (Double.compare(this.value, value) == 0) super.actionReceiver.performAction(this, super.action);
     }
 
     @Override
     public void draw(Graphics2D g) {
         //draw first separator
-        g.setColor(Slider.separatorColor);
+        g.setColor(UIElement.COLOR_NORMAL);
         g.fillRect(super.x, super.y, 3, super.height);
-        g.setColor(Slider.separatorColor2);
-        g.drawRect(super.x, super.y, 3, super.height);
 
         //draw last separator
-        g.setColor(Slider.separatorColor);
+        g.setColor(UIElement.COLOR_NORMAL);
         g.fillRect(super.x + super.width - 3, super.y, 3, super.height);
-        g.setColor(Slider.separatorColor2);
-        g.drawRect(super.x + super.width - 3, super.y, 3, super.height);
 
         //draw lines between
-        g.setColor(Slider.separatorColor);
+        g.setColor(UIElement.COLOR_NORMAL);
         for (int i = 1; i < 10; i++) {
             g.fillRect(super.x + (i * (super.width/ 10)) - 1, super.y + Util.calculateCenterPosition(super.height, super.height / 2), 2, super.height / 2);
         }
@@ -120,11 +141,22 @@ public class Slider extends UIElement {
         //draw selector
         g.setColor(Slider.selectorColor);
         g.fillRect(super.x + (int)(this.value / (maxValue - minValue) * ((double)super.width - SELECTOR_WIDTH)), super.y, 5, super.height);
-        g.setColor(Slider.selectorColor2);
+        g.setColor(this.getBorderColor());
         g.drawRect(super.x + (int) (this.value / (maxValue - minValue) * ((double) super.width - SELECTOR_WIDTH)), super.y, 5, super.height);
+        g.drawRect(super.x + (int) (this.value / (maxValue - minValue) * ((double) super.width - SELECTOR_WIDTH)) + 1, super.y + 1, 5 - 2, super.height - 2);
 
         g.setColor(Color.LIGHT_GRAY);
         g.drawString((int)Math.floor(this.value * 100) + "%", super.x + super.width + Util.PADDING, super.height + Util.PADDING);
+    }
+
+    public Color getBorderColor() {
+        if (!this.isMouseOver && !this.hasFocus) {
+            return UIElement.COLOR_NORMAL;
+        } else if (this.isMouseDown) {
+            return UIElement.COLOR_ACTIVE;
+        } else {    //isMouseOver == true
+            return UIElement.COLOR_HOVER;
+        }
     }
 
     @Override

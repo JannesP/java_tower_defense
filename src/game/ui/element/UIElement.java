@@ -25,11 +25,22 @@ public abstract class UIElement implements IPaintableUpdatableObject{
 
     public static final int TEXTBOX_INPUT = 200;
 
+    public static final int CHECKBOX_EXAMPLE = 300;
+
+    protected static final Color COLOR_NORMAL = Color.decode("#ea9742");
+    protected static final Color COLOR_HOVER = Color.decode("#ea7542");
+    protected static final Color COLOR_ACTIVE = Color.decode("#ea5342");
+    protected static final Color COLOR_FONT = Color.LIGHT_GRAY;
 
 
     protected IUIActionReceiver actionReceiver = null;
     protected int x, y, width, height, action;
     protected boolean consumesMouseEvents = true;
+    protected boolean hasFocus = false;
+    protected boolean isMouseOver = false;
+    protected boolean isMouseDown = false;
+
+    private static final IUIActionReceiver NULL_RECEIVER = new EmptyActionReceiver();
 
     /**
      * Initiates the element with the given parameters.
@@ -46,27 +57,69 @@ public abstract class UIElement implements IPaintableUpdatableObject{
         this.width = width;
         this.height = height;
         this.action = action;
-        this.actionReceiver = actionReceiver;
+        if (actionReceiver == null) {
+            this.actionReceiver = NULL_RECEIVER;
+        } else {
+            this.actionReceiver = actionReceiver;
+        }
     }
 
-    public void handleKeyInput(ArrayList<KeyEvent> events) {}
+    protected void handleKeyEvent(KeyEvent event) {}
+
+    //Event listeners
+    protected void handleMouseEvent(MouseEvent event) {}
+    protected void mouseEntered() {}
+    protected void mouseLeft() {}
+    protected void clicked() {}
 
     public void handleMouseInput(ArrayList<MouseEvent> events) {
         for (MouseEvent e : events) {
-            if (!e.isConsumed()) {
-                if (this.isEventInBounds(e)) {
-                    handleMouseEvent(e);
+            boolean newMouseOver = this.isEventInBounds(e);
+            if (this.isMouseOver != newMouseOver) {
+                this.isMouseOver = newMouseOver;
+                if (this.isMouseOver)  mouseEntered(); else mouseLeft();
+            }
+            if (this.isMouseOver) {
+                if (e.getID() == MouseEvent.MOUSE_PRESSED) this.isMouseDown = true;
+            }
+
+            if (e.getID() == MouseEvent.MOUSE_RELEASED && this.isMouseDown) {
+                if (this.isMouseOver) {
+                    this.hasFocus = true;
+                    clicked();
                 }
             }
+
+            if (e.getID() == MouseEvent.MOUSE_RELEASED) {
+                if (!this.isMouseOver && !this.isMouseDown) {
+                    this.hasFocus = false;
+                }
+            }
+
+            if (e.getID() == MouseEvent.MOUSE_RELEASED) this.isMouseDown = false;
+
+            handleMouseEvent(e);
         }
     }
 
-    protected void handleMouseEvent(MouseEvent event) {
-        if (consumesMouseEvents && this.actionReceiver != null) {
-            event.consume();
-            this.actionReceiver.performAction(this, this.action);
+    public void handleKeyInput(ArrayList<KeyEvent> events) {
+        for (KeyEvent event : events) {
+            if (this.hasFocus) handleKeyEvent(event);
         }
     }
+
+    public Color getBorderColor() {
+        if (!this.isMouseOver && !this.hasFocus) {
+            return UIElement.COLOR_NORMAL;
+        } else if (this.hasFocus) {
+            return UIElement.COLOR_ACTIVE;
+        } else {    //isMouseOver == true
+            return UIElement.COLOR_HOVER;
+        }
+    }
+
+    @Override
+    public void update(long timeDiff) {}
 
     /**
      * Get REKT ... ääähh
@@ -78,6 +131,9 @@ public abstract class UIElement implements IPaintableUpdatableObject{
 
     public int getRightBorder() {
         return this.x + this.width;
+    }
+    public int getBottomBorder() {
+        return this.y + this.height;
     }
 
     public int getX() {
@@ -100,6 +156,14 @@ public abstract class UIElement implements IPaintableUpdatableObject{
         return action;
     }
 
+    public void setHasFocus(boolean hasFocus) {
+        this.hasFocus = hasFocus;
+    }
+
+    public boolean hasFocus() {
+        return hasFocus;
+    }
+
     /**
      * Checks if the e.getX() and e.getY() are in bounds of the element.
      * @param e - event to check
@@ -107,5 +171,10 @@ public abstract class UIElement implements IPaintableUpdatableObject{
      */
     public boolean isEventInBounds(MouseEvent e) {
         return (e.getY() >= this.y && e.getY() <= this.y + this.height && e.getX() >= this.x && e.getX() <= this.x + this.width);
+    }
+
+    private static class EmptyActionReceiver implements IUIActionReceiver {
+        @Override
+        public void performAction(UIElement sender, int buttonAction) {}
     }
 }
