@@ -1,6 +1,5 @@
 package game.framework.screens;
 
-
 import game.framework.Util;
 import game.framework.resources.Fonts;
 

@@ -12,13 +12,13 @@ import java.awt.event.KeyEvent;
  * Created by Jannes Peters on 2/27/2015.
  */
 public class TextBox extends UIElement {
-    private String hint, text = "";
-    private boolean isFocused = false;
-    private boolean isCursorVisible = false;
     private static final Color COLOR_BACKGROUND = new Color(0f, 0f, 0f, 0.6f);
-    private Font font;
     private static final long CURSOR_BLINK_INTERVAL = (long)(Util.NANO_SECOND_SECOND * 0.42d);
+
+    private String hint, text = "";
+    private boolean isCursorVisible = false;
     private long timeSinceLastCursorBlinkChange = 0;
+    private Font font;
     private int inputLength;
 
     /**
@@ -87,7 +87,7 @@ public class TextBox extends UIElement {
                     }
                     break;
                 case KeyEvent.VK_ENTER:
-                    this.isFocused = false;
+                    super.hasFocus = false;
                     break;
                 default:
                     if (text.length() != this.inputLength) {
@@ -128,7 +128,7 @@ public class TextBox extends UIElement {
         //draw text
         g.setColor(Color.WHITE);
         g.setFont(this.font);
-        if (text.equals("") && !isFocused) {
+        if (text.equals("") && !super.hasFocus) {
             g.setColor(new Color(g.getColor().getRed(), g.getColor().getGreen(), g.getColor().getBlue(), 123));
             g.drawString(this.hint, super.x + 2 + Util.PADDING, super.y + Util.PADDING + 2 + g.getFontMetrics().getHeight() / 2);
         } else {
