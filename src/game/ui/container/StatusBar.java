@@ -5,10 +5,7 @@ import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
 import game.framework.resources.Textures;
-import game.ui.element.CheckBox;
-import game.ui.element.Slider;
-import game.ui.element.TextBox;
-import game.ui.element.UIElement;
+import game.ui.element.*;
 import game.ui.element.button.MultiImageButton;
 
 import java.awt.*;
@@ -36,7 +33,8 @@ public class StatusBar implements IPaintableUpdatableObject {
         ((MultiImageButton)elements.get(0)).setImageIndex(1);
         elements.add(new Slider(elements.get(0).getRightBorder() + Util.PADDING, Util.PADDING, 250, this.getHeight() - Util.PADDING * 2, UIElement.SLIDER_VOLUME, actionReceiver));
         elements.add(new TextBox(350 + Util.PADDING, Util.PADDING, 200, this.getHeight() - Util.PADDING * 2, UIElement.TEXTBOX_INPUT, actionReceiver, "Example TextBox", 50));
-        elements.add(new CheckBox(elements.get(elements.size() - 1).getRightBorder() + Util.PADDING, Util.PADDING, this.getHeight() - Util.PADDING * 2, UIElement.CHECKBOX_EXAMPLE, actionReceiver, "Example CheckBox"));
+        elements.add(new CheckBox(elements.get(elements.size() - 1).getRightBorder() + Util.PADDING, Util.PADDING, this.getHeight() - Util.PADDING * 2, UIElement.CHECKBOX_EXAMPLE, actionReceiver, "Example CB", g.getFontRenderContext()));
+        elements.add(new DropDownMenu(elements.get(elements.size() - 1).getRightBorder() + Util.PADDING, Util.PADDING, 200, this.getHeight() - Util.PADDING * 2, UIElement.DROPDOWN_SELECTED, actionReceiver, new String[] {"Entry 1", "Entry 2", "Entry 3", "Entry 4"}));
         uiElementContainer = new UIElementContainer(elements);
         realign(width, height, g);
     }

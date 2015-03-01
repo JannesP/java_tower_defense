@@ -28,4 +28,8 @@ public final class Util {
     public static int calculateFontOverhead(Graphics2D graphics2D) {
         return (int)(0.1d * (double)graphics2D.getFontMetrics().getFont().getSize());
     }
+
+    public static int getFontHeight(Graphics2D graphics2D) {
+        return graphics2D.getFontMetrics().getAscent() - calculateFontOverhead(graphics2D);
+    }
 }

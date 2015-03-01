@@ -96,6 +96,9 @@ public class UIElementContainer implements IPaintableUpdatableObject{
             for (UIElement element : elements) {
                 element.draw(g);
             }
+            for (UIElement element : elements) {
+                element.drawOverlay(g);
+            }
         }
 
         @Override

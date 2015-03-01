@@ -5,6 +5,7 @@ import game.ui.element.UIElement;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 /**
@@ -26,7 +27,7 @@ public abstract class Button extends UIElement {
     }
 
     @Override
-    protected void clicked() {
+    protected void clicked(MouseEvent event) {
         super.actionReceiver.performAction(this, super.action);
         super.hasFocus = false;
     }

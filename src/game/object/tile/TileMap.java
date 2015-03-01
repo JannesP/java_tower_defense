@@ -115,4 +115,15 @@ public class TileMap {
             }
         }
     }
+
+    public Point getCastleCoordinates() throws Exception {
+        for (int x = 0; x < Map.WIDTH; x++) {
+            for (int y = 0; y < Map.HEIGHT; y++) {
+                if (tileMap[x][y].tower instanceof Castle) {
+                    return new Point(x, y);
+                }
+            }
+        }
+        throw new Exception("The loaded map is incomplete, castle missing!");
+    }
 }

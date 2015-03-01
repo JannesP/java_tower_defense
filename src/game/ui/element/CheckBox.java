@@ -6,6 +6,8 @@ import game.framework.resources.Fonts;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.font.FontRenderContext;
 
 /**
  * Created by Jannes Peters on 2/28/2015.
@@ -24,8 +26,8 @@ public class CheckBox extends UIElement {
      * @param action         - action ID
      * @param actionReceiver - action receiver for receiving action updates, can be null
      */
-    public CheckBox(int x, int y, int height, int action, IUIActionReceiver actionReceiver, String description) {
-        this(x, y, 0, height, action, actionReceiver, description);
+    public CheckBox(int x, int y, int height, int action, IUIActionReceiver actionReceiver, String description, FontRenderContext frc) {
+        this(x, y, height + Util.PADDING + (int)Fonts.getDefaultFont().getStringBounds(description, frc).getWidth(), height, action, actionReceiver, description);
     }
 
     /**
@@ -46,12 +48,12 @@ public class CheckBox extends UIElement {
     @Override
     protected void handleKeyEvent(KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.VK_ENTER && event.getID() == KeyEvent.KEY_PRESSED) {
-            clicked();
+            clicked(null);
         }
     }
 
     @Override
-    protected void clicked() {
+    protected void clicked(MouseEvent event) {
         this.isChecked = !this.isChecked;
     }
 

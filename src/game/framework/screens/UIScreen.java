@@ -77,8 +77,8 @@ public class UIScreen extends BaseScreen implements IUIActionReceiver {
     }
 
     @Override
-    public void performAction(UIElement sender, int buttonAction) {
-        switch (buttonAction) {
+    public void performAction(UIElement sender, int actionId) {
+        switch (actionId) {
             case UIElement.BUTTON_MUTE:
                 if (BackgroundMusicPlayer.isPlaying()) {
                     BackgroundMusicPlayer.pause();
@@ -90,6 +90,9 @@ public class UIScreen extends BaseScreen implements IUIActionReceiver {
                 break;
             case UIElement.SLIDER_VOLUME:
                 BackgroundMusicPlayer.setVolume(((Slider)sender).getValue());
+                break;
+            default:
+                System.out.println("Event " + actionId + ", sent by " + sender.getClass().toString() + " to " + this.getClass().toString() + " is not implemented!");
                 break;
         }
     }
