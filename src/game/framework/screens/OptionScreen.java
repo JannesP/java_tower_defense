@@ -1,9 +1,12 @@
 package game.framework.screens;
 
+import game.framework.BackgroundMusicPlayer;
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Textures;
 import game.ui.container.UIElementContainer;
+import game.ui.element.Label;
+import game.ui.element.Slider;
 import game.ui.element.UIElement;
 import game.ui.element.button.TextButton;
 
@@ -12,7 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
+public class OptionScreen extends BaseScreen implements IUIActionReceiver {
 
     private class ButtonAction {
 
@@ -21,22 +24,21 @@ public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
     @Override
     public void performAction(UIElement sender, int buttonAction) {
         switch (buttonAction) {
-            case UIElement.BUTTON_START:
-                super.requestScreen(new GameScreen("gameScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
+            case UIElement.SLIDER_VOLUME:
+                BackgroundMusicPlayer.setVolume(((Slider) sender).getValue());
                 break;
-            case UIElement.BUTTON_MULTIPLAYER:
+            /*case UIElement.BUTTON_MULTIPLAYER:
                 System.out.println(buttonAction);
                 break;
             case UIElement.BUTTON_EDITOR:
                 System.out.println(buttonAction);
                 break;
             case UIElement.BUTTON_OPTIONS:
-                super.requestScreen(new OptionScreen("optionScreen", this.width, this.height, super.graphics2D));
+                System.out.println(buttonAction);
+                break;*/
+            case UIElement.BUTTON_BACK:
+                super.requestScreen(new MainTitleScreen("mainScreen",this.width,this.height,super.graphics2D));
                 super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
-                break;
-            case UIElement.BUTTON_EXIT:
-                super.closeGame();
                 break;
             default:
                 System.out.println("BUTTON FAILURE! Action: '" + buttonAction + "' not defined in " + this.getClass().toString());
@@ -45,27 +47,30 @@ public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
 
     private UIElementContainer uiElementContainer;
 
-	public MainTitleScreen(String name, int width, int height, Graphics2D g) {
-		super(name, width, height, g);
+    public OptionScreen(String name, int width, int height, Graphics2D g) {
+        super(name, width, height, g);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
+        int SliderCenterX = Util.calculateCenterPosition(this.width,300 );
+        int LabelCenterX = Util.calculateCenterPosition(this.width,25 );
         ArrayList<UIElement> elements = new ArrayList<>();
-        elements.add(new MenuButton(menuButtonCenterX, 20, "Play", g, UIElement.BUTTON_START, this));
-        elements.add(new MenuButton(menuButtonCenterX, 80, "Multiplayer", g, UIElement.BUTTON_MULTIPLAYER, this));
-        elements.add(new MenuButton(menuButtonCenterX, 160, "Options", g, UIElement.BUTTON_OPTIONS, this));
-        elements.add(new MenuButton(menuButtonCenterX, 220, "Editor", g, UIElement.BUTTON_EDITOR, this));
-        elements.add(new MenuButton(menuButtonCenterX, 280, "Exit", g, UIElement.BUTTON_EXIT, this));
+        elements.add(new Slider(SliderCenterX,20,300,50,UIElement.SLIDER_VOLUME,this,0, 1, 0.5 ));
+        elements.add(new Label((SliderCenterX - 100 ),50,0,"Volume"));
+        elements.add(new Label(LabelCenterX,120,0,this.width + "x" + this.height));
+        elements.add(new MenuButton((LabelCenterX - MenuButton.WIDTH - 25), 120, "Smaller", g, UIElement.BUTTON_SMALLER, this));
+        elements.add(new MenuButton((LabelCenterX + MenuButton.HEIGHT + 25),120 , "Greater", g, UIElement.BUTTON_GREATER, this));
+        elements.add(new MenuButton(menuButtonCenterX, 280, "Back", g, UIElement.BUTTON_BACK, this));
         uiElementContainer = new UIElementContainer(elements);
-	}
+    }
 
-	@Override
-	public void update(long timeDiff) {
+    @Override
+    public void update(long timeDiff) {
         uiElementContainer.update(timeDiff);
-	}
+    }
 
-	@Override
-	public void draw(Graphics2D g) {
+    @Override
+    public void draw(Graphics2D g) {
         uiElementContainer.draw(g);
-	}
+    }
 
     @Override
     public void realign(int width, int height, Graphics2D g) {
@@ -78,18 +83,18 @@ public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
         }
     }
 
-	@Override
-	public void realign(Rectangle rect, Graphics2D g) {
+    @Override
+    public void realign(Rectangle rect, Graphics2D g) {
         realign(rect.width, rect.height, g);
-	}
+    }
 
-	@Override
-	public void handleKeyInput(ArrayList<KeyEvent> events) {
+    @Override
+    public void handleKeyInput(ArrayList<KeyEvent> events) {
         uiElementContainer.handleKeyInput(events);
     }
 
-	@Override
-	public void handleMouseInput(ArrayList<MouseEvent> events) {
+    @Override
+    public void handleMouseInput(ArrayList<MouseEvent> events) {
         uiElementContainer.handleMouseInput(events);
     }
 
@@ -107,5 +112,4 @@ public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
             super(x, y, WIDTH, HEIGHT, Textures.button_main_menu, actionReceiver, text, g, action);
         }
     }
-
 }
