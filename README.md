@@ -1,2 +1,2 @@
 # java_tower_defense
-A school project by me and two others.
+A project by me and a few other people.

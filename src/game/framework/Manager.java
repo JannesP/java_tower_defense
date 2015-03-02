@@ -1,9 +1,12 @@
 package game.framework;
 
+import game.framework.input.Input;
+import game.framework.resources.Settings;
 import game.framework.screens.FpsScreen;
 import game.framework.screens.ScreenManager;
-import game.framework.screens.SplashScreen;
-import game.ui.Window;
+import game.framework.screens.SplashLoadScreen;
+import game.object.tile.TileMap;
+import javafx.embed.swing.JFXPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,39 +17,35 @@ import java.awt.*;
  *
  */
 public class Manager {
-	public static final int TILESIZE = 20;
-
-    public static boolean isExiting = false;
 
 	private Window win;
 	private ScreenManager screenManager;
-	private Input input;
     private static Thread updateThread;
 	
 	long lastNanos = 0;
 	
 	public Manager() {
-		win = new Window();
-        win.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
         Thread.currentThread().setName("uiThread");
+
+        @SuppressWarnings("unused")
+		JFXPanel fxPanel = new JFXPanel();
+
+        win = new Window();
 
         updateThread = new Thread(() -> {
             while (true) {
+                update();
                 try {
                     Thread.sleep(16, 666667);
                 } catch (InterruptedException e) {
                     break;
-                }
-                if (!isExiting) {
-                    update();
                 }
             }
 		});
         updateThread.setName("updateThread");
 
         screenManager = new ScreenManager(win);
-        input = new Input(screenManager);
+        Input input = new Input(screenManager);
         Surface s = win.getSurface();
 
         //Add event listeners
@@ -57,19 +56,21 @@ public class Manager {
         s.addMouseWheelListener(input);
         win.setVisible(true);
         win.init();
-		// setup graphics
-		Graphics2D g = (Graphics2D) s.getGraphics();
-		s.getGraphics().setFont(new Font("", 0, 26));
         s.requestFocus();
 
-        //add default screens
-		screenManager.addScreen(new SplashScreen("splashScreen", (int) s.getBounds().getWidth(), (int) s.getBounds().getHeight(), g));
-		screenManager.addScreen(new FpsScreen("fpsScreen", (int) s.getBounds().getWidth(), (int) s.getBounds().getHeight() ,g));
-
-        updateThread.start();
-		
+        this.initGame();
 	}
-	
+
+    private void initGame() {
+        if ((win.getWidth() == (TileMap.WIDTH * TileMap.DEFAULT_TILE_SIZE + win.getFrameWidth()) * Settings.resolutionScale)) {
+            screenManager.addScreen(new SplashLoadScreen("splashScreen", (int) win.getSurface().getBounds().getWidth(), (int) win.getSurface().getBounds().getHeight(), (Graphics2D)win.getSurface().getGraphics()));
+            screenManager.addScreen(new FpsScreen("fpsScreen", (int) win.getSurface().getBounds().getWidth(), (int) win.getSurface().getBounds().getHeight(), (Graphics2D)win.getSurface().getGraphics()));
+            updateThread.start();
+        } else {
+            SwingUtilities.invokeLater(this::initGame);
+        }
+    }
+
 	/**
 	 * Method called to update the whole game and repaint everything. 
 	 * Should be called 60 times in one second!

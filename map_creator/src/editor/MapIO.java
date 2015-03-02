@@ -3,6 +3,7 @@ package editor;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 
 /**
@@ -24,7 +25,11 @@ public class MapIO {
         File matrixFile = new File(fc.getSelectedFile().getAbsolutePath() + ".map");
 
         try {
-            ImageIO.write(map.createBitmap(), "png", imageFile);
+            BufferedImage mapImage = map.createBitmap();
+            BufferedImage buffer = new BufferedImage(mapImage.getWidth() * 2, mapImage.getHeight() * 2, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = buffer.createGraphics();
+            g.drawImage(mapImage, 0, 0, buffer.getWidth(), buffer.getHeight(), 0, 0, mapImage.getWidth(), mapImage.getHeight(), null);
+            ImageIO.write(buffer, "png", imageFile);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,12 +1,13 @@
 package game.framework.screens;
 
 import game.framework.Manager;
-import game.ui.Window;
+import game.framework.Window;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ScreenManager {
 
@@ -23,6 +24,7 @@ public class ScreenManager {
 		HIDDEN
 	}
 
+    @SuppressWarnings("Saved for later.!")
     public enum ZOrder {
         BACKGROUND(0), MIDDLE(1), FOREGROUND(2), UI(3), OVER_UI(4);
         private int index;
@@ -55,9 +57,7 @@ public class ScreenManager {
         // ADD REQUESTED SCREENS
         for (BaseScreen foundScreen : screens) {
             if (foundScreen.getRequestedScreens() != null) {
-                for (BaseScreen reqScreen : foundScreen.getRequestedScreens()) {
-                    newScreens.add(reqScreen);
-                }
+                Collections.addAll(newScreens, foundScreen.getRequestedScreens());
                 foundScreen.clearRequestedScreens();
             }
         }
@@ -95,7 +95,6 @@ public class ScreenManager {
                 for (BaseScreen foundScreen : screens) {
                     foundScreen.handleKeyInput(keyEvents);
                     foundScreen.handleMouseInput(mouseEvents);
-                    foundScreen.update(timeDiff);
                     if (foundScreen.isCloseGame()) {
                         Manager.closeRequested();
                     }
@@ -103,6 +102,11 @@ public class ScreenManager {
                 keyEvents.clear();
                 mouseEvents.clear();
             }
+        }
+
+        // UPDATE ALL SCREENS
+        for (BaseScreen foundScreen : screens) {
+            foundScreen.update(timeDiff);
         }
 
         //Handle game closing
@@ -114,7 +118,7 @@ public class ScreenManager {
         }
 
         if (screensChanged) {
-            screens.sort((a, b) -> Integer.compare(a.getZOrder().getIndex(), b.getZOrder().getIndex())); //TODO check if right order!
+            screens.sort((a, b) -> Integer.compare(a.getZOrder().getIndex(), b.getZOrder().getIndex()));
             screensChanged = false;
         }
 	}
@@ -140,15 +144,6 @@ public class ScreenManager {
 
 	public void addScreen(BaseScreen screen){
 		newScreens.add(screen);
-	}
-	
-	public void unLoadScreen(String screenName){
-		for (BaseScreen foundScreen : screens){
-			if(foundScreen.name.equals(screenName)){
-				foundScreen.unLoad();
-				break;
-			}
-		}
 	}
 	
 	public void gotEvent(KeyEvent e) {

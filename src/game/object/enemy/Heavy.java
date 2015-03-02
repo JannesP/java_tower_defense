@@ -9,7 +9,7 @@ public class Heavy extends Enemy {
     public Heavy(){
         super.texture = Textures.heavyTexture;
         super.health = 25;
-        super.moveSpeed = 20; //TODO Try speed values
+        super.moveSpeed = 20;
         super.goldToEarn = 8;
     }
 }

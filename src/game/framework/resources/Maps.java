@@ -18,20 +18,18 @@ public class Maps {
     public static Map[] maps = new Map[LEVEL_COUNT];
 
     public static void loadMaps() {
-        Thread thread = new Thread(() -> {
-            try {
-                maps[0] = loadMap("assets/maps/001.map");
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.exit(1);
-            }
-        });
-        thread.start();
 
+        try {
+            maps[0] = loadMap("assets/maps/001.map");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
     }
 
     private static Map loadMap(String filePath) throws IOException{
+        System.out.println("Loading " + filePath + " ...");
         Map map;
         FileInputStream fileInputStream = new FileInputStream(new File(filePath));
 
