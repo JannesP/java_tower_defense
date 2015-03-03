@@ -6,6 +6,7 @@ import game.framework.resources.Fonts;
 import game.framework.resources.Textures;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 /**
@@ -16,6 +17,7 @@ public class DropDownMenu extends UIElement {
 
     public String[] entries;
     private int selectedIndex = 0;
+    private int mouseOverIndex = -1;
     private boolean extended = false;
     private int originalWidth, originalHeight;
     private static final int BORDER_SIZE = 2;
@@ -44,6 +46,17 @@ public class DropDownMenu extends UIElement {
         this.height = originalHeight;
     }
 
+    private void shrink() {
+        resetBounds();
+        this.extended = false;
+    }
+
+    private void extend() {
+        super.width = this.originalWidth;
+        super.height = this.originalHeight + (entries.length * (super.height - DropDownMenu.BORDER_SIZE * 2));
+        this.extended = true;
+    }
+
     private void drawExtendedBorder(Graphics2D g) {
         g.setColor(UIElement.COLOR_ACTIVE);
         g.drawLine(x, y, x + originalWidth - 1, y); //top outer
@@ -66,14 +79,31 @@ public class DropDownMenu extends UIElement {
                 this.selectedIndex = relativeMouseY / itemHeight;
                 super.actionReceiver.performAction(this, super.getAction());
             }
-            resetBounds();
-            this.extended = false;
+            super.hasFocus = false;
+            shrink();
         } else {
-            super.width = this.originalWidth;
-            super.height = this.originalHeight + (entries.length * (super.height - DropDownMenu.BORDER_SIZE * 2));
-            this.extended = true;
+            extend();
         }
 
+    }
+
+    @Override
+    protected void mouseLeft() {
+        this.mouseOverIndex = -1;
+    }
+
+    @Override
+    protected void handleMouseEvent(MouseEvent event) {
+        if (event.getID() == MouseEvent.MOUSE_MOVED && super.isMouseOver) {
+            if (this.extended) {
+                int baseHeight = this.originalHeight;
+                int itemHeight = this.originalHeight - DropDownMenu.BORDER_SIZE * 2;
+                int relativeMouseY = event.getY() - super.y - baseHeight;
+                if (relativeMouseY > 0) {
+                    this.mouseOverIndex = relativeMouseY / itemHeight;
+                }
+            }
+        }
     }
 
     @Override
@@ -85,7 +115,11 @@ public class DropDownMenu extends UIElement {
             for (int i = 0; i < entries.length; i++) {
                 String entry = entries[i];
                 int posY = super.y + Util.PADDING + (i + 1) * entryHeight;
-                g.setColor(UIElement.COLOR_FONT);
+                if (this.mouseOverIndex == i) {
+                    g.setColor(Color.WHITE);
+                } else {
+                    g.setColor(UIElement.COLOR_FONT);
+                }
                 g.drawString(entry, posX, posY + Util.calculateCenterPosition(entryHeight, Util.getFontHeight(g)) + Util.getFontHeight(g));
                 g.setColor(UIElement.COLOR_NORMAL);
                 g.drawLine(super.x, posY, super.x + this.originalWidth, posY - DropDownMenu.BORDER_SIZE);
@@ -105,18 +139,58 @@ public class DropDownMenu extends UIElement {
         g.setColor(UIElement.COLOR_FONT);
         if (this.extended) {
             drawExtendedBorder(g);
+            g.setColor(Color.WHITE);
             g.setColor(new Color(g.getColor().getRed(), g.getColor().getGreen(), g.getColor().getBlue(), 123));
         } else {
             g.setColor(UIElement.COLOR_NORMAL);
             g.drawRect(super.x, super.y, super.width, super.height);
             g.drawRect(super.x + 1, super.y + 1, super.width - 2, super.height - 2);
+            g.setColor(Color.WHITE);
         }
 
         g.drawString(this.entries[this.selectedIndex], this.x + DropDownMenu.BORDER_SIZE + Util.PADDING, super.y + Util.calculateCenterPosition(this.originalHeight, Util.getFontHeight(g)) + Util.getFontHeight(g));
     }
 
     @Override
-    public void realign(int width, int height, Graphics2D g) {
-
+    public void update(long timeDiff) {
+        if (!super.hasFocus() && this.extended) {
+            shrink();
+        } else if (super.hasFocus() && !this.extended){
+            extend();
+        }
     }
+
+    @Override
+    protected void handleKeyEvent(KeyEvent event) {
+        if (event.getID() == KeyEvent.KEY_PRESSED) {
+            switch (event.getKeyCode()) {
+                case KeyEvent.VK_DOWN:
+                    if (this.extended) {
+                        this.mouseOverIndex = (this.mouseOverIndex + 1) % this.entries.length;
+                    }
+                    break;
+                case KeyEvent.VK_UP:
+                    if (this.extended) {
+                        this.mouseOverIndex = (this.mouseOverIndex - 1 + this.entries.length) % this.entries.length;
+                    }
+                    break;
+                case KeyEvent.VK_ENTER:
+                    if (this.extended) {
+                        if (this.mouseOverIndex != -1) this.selectedIndex = this.mouseOverIndex;
+                        super.hasFocus = false;
+                        shrink();
+                    }
+                    break;
+                case KeyEvent.VK_ESCAPE:
+                    if (this.extended) {
+                        super.hasFocus = false;
+                        shrink();
+                    }
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void realign(int width, int height, Graphics2D g) {}
 }
