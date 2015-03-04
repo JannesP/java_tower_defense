@@ -7,8 +7,15 @@ import java.awt.*;
  */
 public class UI {
     public static void draw(Graphics2D graphics2D) {
-        graphics2D.setColor(Color.MAGENTA);
-        graphics2D.drawString("Modus: " + Window.selectedMode.toString(), 15, 15);
-        graphics2D.drawString("Auswahl: " + Window.selectedTileType.toString(), 15, 35);
+        graphics2D.setFont(graphics2D.getFont().deriveFont(25f).deriveFont(Font.BOLD));
+        graphics2D.setColor(Color.ORANGE);
+        graphics2D.drawString("Modus: " + Window.selectedMode.toString(), 15, 25);
+        String selection;
+        if (Window.selectedMode == Window.EditMode.MAP) {
+            selection = Window.selectedTileType.toString();
+        } else {
+            selection = String.valueOf(Window.pathOverlay.getSelectedPath() + 1);
+        }
+        graphics2D.drawString("Auswahl: " + selection, 15, 55);
     }
 }
