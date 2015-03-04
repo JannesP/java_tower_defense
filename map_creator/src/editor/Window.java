@@ -85,6 +85,12 @@ public class Window extends JFrame implements KeyListener, MouseListener, MouseM
             case KeyEvent.VK_M:
                 Window.selectedMode = selectedMode == EditMode.MAP ? EditMode.PATH : EditMode.MAP;
                 break;
+            case KeyEvent.VK_N:
+                if (Window.selectedMode == EditMode.PATH) Window.pathOverlay.nextPath();
+                break;
+            case KeyEvent.VK_K:
+                if (Window.selectedMode == EditMode.PATH) Window.pathOverlay.clearPaths();
+                break;
         }
     }
 
@@ -93,7 +99,7 @@ public class Window extends JFrame implements KeyListener, MouseListener, MouseM
         if (Window.selectedMode == EditMode.MAP) {
             changeTile(e);
         } else {
-            if (e.getButton() == MouseEvent.BUTTON2) {
+            if (e.getButton() == MouseEvent.BUTTON3) {
                 pathOverlay.removePoint(Map.resolvePixelToMatrix(e.getX(), e.getY()));
             } else {
                 pathOverlay.addPoint(Map.resolvePixelToMatrix(e.getX(), e.getY()));

@@ -15,6 +15,14 @@ public class Map {
 
     public Map() {
         matrix = new byte[Map.WIDTH][Map.HEIGHT];
+        for (int i = 0; i < matrix.length; i++) {
+            matrix[i][0] = TileType.NOT_BUILDABLE.byteValue;
+        }
+        for (int i = 0; i < matrix.length; i++) {
+            matrix[i][matrix[0].length - 1] = TileType.NOT_BUILDABLE.byteValue;
+            matrix[i][matrix[0].length - 2] = TileType.NOT_BUILDABLE.byteValue;
+            matrix[i][matrix[0].length - 3] = TileType.NOT_BUILDABLE.byteValue;
+        }
     }
 
     public Map(byte[][] matrix) {
