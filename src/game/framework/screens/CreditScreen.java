@@ -1,13 +1,10 @@
 package game.framework.screens;
 
-import game.framework.BackgroundMusicPlayer;
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
 import game.framework.resources.Textures;
 import game.ui.container.UIElementContainer;
-import game.ui.element.Label;
-import game.ui.element.Slider;
 import game.ui.element.UIElement;
 import game.ui.element.button.TextButton;
 
@@ -16,7 +13,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class OptionScreen extends BaseScreen implements IUIActionReceiver {
+
+
+public class CreditScreen extends BaseScreen implements IUIActionReceiver {
 
     private class ButtonAction {
 
@@ -25,15 +24,22 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
     @Override
     public void performAction(UIElement sender, int buttonAction) {
         switch (buttonAction) {
-            case UIElement.SLIDER_VOLUME:
-                BackgroundMusicPlayer.setVolume(((Slider) sender).getValue());
-                break;
-            case UIElement.BUTTON_CREDITS:
-                super.requestScreen(new CreditScreen("creditScreen", this.width, this.height, super.graphics2D));
+            /*case UIElement.BUTTON_START:
+                super.requestScreen(new GameScreen("gameScreen", this.width, this.height, super.graphics2D));
                 super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
                 break;
+            case UIElement.BUTTON_MULTIPLAYER:
+                System.out.println(buttonAction);
+                break;
+            case UIElement.BUTTON_EDITOR:
+                System.out.println(buttonAction);
+                break;
+            case UIElement.BUTTON_OPTIONS:
+                super.requestScreen(new OptionScreen("optionScreen", this.width, this.height, super.graphics2D));
+                super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
+                break;*/
             case UIElement.BUTTON_BACK:
-                super.requestScreen(new MainTitleScreen("mainScreen", this.width, this.height, super.graphics2D));
+                super.requestScreen(new OptionScreen("optionScreen", this.width, this.height, super.graphics2D));
                 super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
                 break;
             default:
@@ -43,17 +49,15 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
 
     private UIElementContainer uiElementContainer;
 
-    public OptionScreen(String name, int width, int height, Graphics2D g) {
+    public CreditScreen(String name, int width, int height, Graphics2D g) {
         super(name, width, height, g);
-        g.setFont(Fonts.defaultFont);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
-        int SliderCenterX = Util.calculateCenterPosition(this.width, 300);
         ArrayList<UIElement> elements = new ArrayList<>();
-        elements.add(new Slider(SliderCenterX, 20, 300, 50, UIElement.SLIDER_VOLUME, this, 0, 1, 0.5));
-        elements.add(new Label((SliderCenterX - 100), 50, 0, "Volume"));
-        elements.add(new MenuButton(menuButtonCenterX, 220, "Credits", g, UIElement.BUTTON_CREDITS, this));
-        elements.add(new MenuButton(menuButtonCenterX, 280, "Back", g, UIElement.BUTTON_BACK, this));
-        //TODO implement scale drop down
+        /*elements.add(new MenuButton(menuButtonCenterX, 20, "Play", g, UIElement.BUTTON_START, this));
+        elements.add(new MenuButton(menuButtonCenterX, 80, "Multiplayer", g, UIElement.BUTTON_MULTIPLAYER, this));
+        elements.add(new MenuButton(menuButtonCenterX, 160, "Options", g, UIElement.BUTTON_OPTIONS, this));
+        elements.add(new MenuButton(menuButtonCenterX, 220, "Editor", g, UIElement.BUTTON_EDITOR, this));*/
+        elements.add(new MenuButton(menuButtonCenterX, 310, "Back", g, UIElement.BUTTON_BACK, this));
         uiElementContainer = new UIElementContainer(elements);
     }
 
@@ -65,6 +69,20 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
     @Override
     public void draw(Graphics2D g) {
         uiElementContainer.draw(g);
+        ArrayList<String> credits = new ArrayList<>();
+        credits.add("Sound:");
+        credits.add("Fynn König");
+        credits.add("Creative Artists:");
+        credits.add("Tjorven P. Hoppe, Niclas Kirstein, Lars Pfeiffer");
+        credits.add("Programming:");
+        credits.add("Jannes Peters, Adrian Kurth");
+        g.setFont(Fonts.fpsFont);
+        g.setColor(Color.BLACK);
+        for(int i = 0; i < credits.size(); i++){
+            String list = credits.get(i);
+            int x = Util.calculateCenterPosition(this.width, g.getFontMetrics().stringWidth(list));
+            g.drawString(list,x,(i * 50 + 30));
+        }
     }
 
     @Override
@@ -107,4 +125,5 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
             super(x, y, WIDTH, HEIGHT, Textures.button_main_menu, actionReceiver, text, g, action);
         }
     }
+
 }
