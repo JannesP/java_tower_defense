@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 /**
  * Created by Jannes Peters on 2/20/2015.
  */
-public class Enemy implements IPaintableUpdatableObject {
+public abstract class Enemy implements IPaintableUpdatableObject {
     protected BufferedImage texture;
     protected int health;
     protected double moveSpeed; //TODO test move speeds
