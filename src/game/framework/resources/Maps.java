@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 
 /**
+ * Class that loads and holds all maps.
  * Created by Jannes Peters on 2/21/2015.
  */
 public class Maps {

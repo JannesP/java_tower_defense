@@ -9,7 +9,8 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
- * The basic tile class
+ * The basic tile class.
+ * Created by Jannes Peters on XX/YY/2014 ... date was deleted!
  */
 public class Tile implements IPaintableUpdatableObject{
 
@@ -17,10 +18,12 @@ public class Tile implements IPaintableUpdatableObject{
     protected Tower tower;
     protected int x, y;
     protected boolean isRoad, isBuildable, isEntrance;
+    protected Point center;
 
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
+        this.center = new Point((int)(x + TileMap.tileSize / 2d), (int)(y + TileMap.tileSize / 2d));
     }
 
     public Tile(int x, int y, boolean isRoad) {
@@ -66,7 +69,12 @@ public class Tile implements IPaintableUpdatableObject{
     public void realign(int x, int y) {
         this.x = x;
         this.y = y;
+        this.center = new Point((int)(x + TileMap.tileSize / 2d), (int)(y + TileMap.tileSize / 2d));
         if (this.tower != null) tower.realign(x, y);
+    }
+
+    public Point getCenter() {
+        return center;
     }
 
     public boolean isRoad() {

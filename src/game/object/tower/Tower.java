@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
+ * Default tower template.
  * Created by Jannes Peters on 2/20/2015.
  */
 public abstract class Tower {

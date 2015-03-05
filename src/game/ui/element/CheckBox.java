@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
 
 /**
+ * A Checkbox for the UI.
  * Created by Jannes Peters on 2/28/2015.
  */
 public class CheckBox extends UIElement {

@@ -107,7 +107,7 @@ public class TextBox extends UIElement {
             this.isCursorVisible = true;
             return;
         }
-        this.timeSinceLastCursorBlinkChange += timeScale;
+        this.timeSinceLastCursorBlinkChange += timeDiff;
         if (this.timeSinceLastCursorBlinkChange >= TextBox.CURSOR_BLINK_INTERVAL) {
             this.isCursorVisible = !this.isCursorVisible;
             this.timeSinceLastCursorBlinkChange = 0;

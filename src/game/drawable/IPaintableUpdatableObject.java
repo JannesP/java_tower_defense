@@ -2,12 +2,15 @@ package game.drawable;
 
 import java.awt.*;
 
+/**
+ * Basic interface that describes a simple drawable object.
+ */
 public interface IPaintableUpdatableObject {
 
     /**
      * Called once every frame.
      * @param timeScale - Time difference till the last frame to scale game speed in nanoseconds.
-     * @param timeDiff
+     * @param timeDiff - time difference since the last frame in nanoseconds.
      */
 	public void update(double timeScale, long timeDiff);
 

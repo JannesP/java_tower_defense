@@ -5,6 +5,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Class that loads and holds all textures.
+ */
 public class Textures {
 
     //Icons

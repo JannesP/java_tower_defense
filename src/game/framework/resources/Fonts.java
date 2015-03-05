@@ -4,6 +4,9 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Class that loads and holds all fonts.
+ */
 public class Fonts {
     public static Font defaultFont = new Font("", Font.PLAIN, 26);
     public static Font statusBarFont = new Font("", Font.PLAIN, 16);

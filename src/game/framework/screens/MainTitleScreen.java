@@ -12,18 +12,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+/**
+ * Title screen which shows the main menu.
+ */
 public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
-
-    private class ButtonAction {
-
-    }
 
     @Override
     public void performAction(UIElement sender, int buttonAction) {
         switch (buttonAction) {
             case UIElement.BUTTON_START:
                 super.requestScreen(new GameScreen("gameScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
+                super.state = ScreenManager.ScreenState.SHUTDOWN;
                 break;
             case UIElement.BUTTON_MULTIPLAYER:
                 System.out.println(buttonAction);

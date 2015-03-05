@@ -3,6 +3,7 @@ package game.framework;
 import java.awt.*;
 
 /**
+ * A class that holds the read map data.
  * Created by Jannes Peters on 2/19/2015.
  */
 public class Map {

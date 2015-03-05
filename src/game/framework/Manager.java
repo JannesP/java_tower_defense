@@ -18,9 +18,8 @@ import java.awt.*;
  */
 public class Manager {
     public static double targetFps = 60;
-
-    public static double normalFrameNanoDiff = Util.NANO_SECOND_SECOND / targetFps;
-
+    public static long normalFrameNanoDiff = (long)(Util.NANO_SECOND_SECOND / targetFps);
+    public static long nextSleep = (long) (Util.NANO_SECOND_SECOND / 60);
 
 
 	private Window win;
@@ -40,8 +39,9 @@ public class Manager {
         updateThread = new Thread(() -> {
             while (true) {
                 update();
+                if (Manager.nextSleep == 0) continue;
                 try {
-                    Thread.sleep(16, 666667);
+                    Thread.sleep(Manager.nextSleep / 1000000, (int) (Manager.nextSleep % 1000000));
                 } catch (InterruptedException e) {
                     break;
                 }
@@ -78,20 +78,27 @@ public class Manager {
 
 	/**
 	 * Method called to update the whole game and repaint everything. 
-	 * Should be called 60 times in one second!
+	 * Should be called at least 60 times in one second!
 	 */
 	private void update() {
 		if (lastNanos == 0) {
-			lastNanos = System.nanoTime();
+			lastNanos = System.nanoTime() - (long)(Util.NANO_SECOND_SECOND / targetFps);
 		}
-        normalFrameNanoDiff = Util.NANO_SECOND_SECOND / targetFps;
-        long timeDiff = System.nanoTime() - lastNanos;
-		double timeScale = timeDiff / normalFrameNanoDiff;
-		
+        normalFrameNanoDiff = (long)(Util.NANO_SECOND_SECOND / targetFps);
+        final long timeDiff = System.nanoTime() - lastNanos;
+		final double timeScale = (double)timeDiff / (double)normalFrameNanoDiff;
+
+        lastNanos = System.nanoTime();
+
 		screenManager.update(timeScale, timeDiff);
 		win.getSurface().paint(screenManager);
-		
-		lastNanos = System.nanoTime();
+
+        long updateNanos = System.nanoTime() - lastNanos;
+
+        Manager.nextSleep = normalFrameNanoDiff - updateNanos;
+        if (Manager.nextSleep < 1) {
+            Manager.nextSleep = 0;
+        }
 	}
 	
 	public static void main(String[] args) {

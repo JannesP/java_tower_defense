@@ -4,6 +4,9 @@ import game.framework.screens.ScreenManager;
 
 import java.awt.event.*;
 
+/**
+ * Input listener which receives all key and mouse events for further distribution.
+ */
 public class Input implements KeyListener, WindowListener, MouseListener, MouseMotionListener, MouseWheelListener{
 
     private ScreenManager screenManager;

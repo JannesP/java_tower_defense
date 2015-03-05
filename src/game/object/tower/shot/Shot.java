@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
+ * Basic shot class.
  * Created by Jannes Peters on 2/20/2015.
  */
 //TODO implement class!

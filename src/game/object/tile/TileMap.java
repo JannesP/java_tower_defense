@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
+ * TileMap which contains all information map related, towers, castle, etc.
  * Created by Jannes Peters on 2/21/2015.
  */
 public class TileMap implements IPaintableUpdatableObject{
@@ -134,5 +135,14 @@ public class TileMap implements IPaintableUpdatableObject{
             }
         }
         throw new Exception("The loaded map is incomplete, castle missing!");
+    }
+
+    public Tile getTile(Point point) {
+        return getTile((int)point.getX(), (int)point.getY());
+    }
+
+    public Point getCenterOfTile(Point point) {
+        Tile tile = getTile(point);
+        return tile.getCenter();
     }
 }

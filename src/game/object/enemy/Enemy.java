@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
+ * A basic, working enemy.
  * Created by Jannes Peters on 2/20/2015.
  */
 public abstract class Enemy implements IPaintableUpdatableObject {
