@@ -17,6 +17,11 @@ import java.awt.*;
  *
  */
 public class Manager {
+    public static double targetFps = 60;
+
+    public static double normalFrameNanoDiff = Util.NANO_SECOND_SECOND / targetFps;
+
+
 
 	private Window win;
 	private ScreenManager screenManager;
@@ -79,9 +84,11 @@ public class Manager {
 		if (lastNanos == 0) {
 			lastNanos = System.nanoTime();
 		}
-		long timeDiff = System.nanoTime() - lastNanos;
+        normalFrameNanoDiff = Util.NANO_SECOND_SECOND / targetFps;
+        long timeDiff = System.nanoTime() - lastNanos;
+		double timeScale = timeDiff / normalFrameNanoDiff;
 		
-		screenManager.update(timeDiff);
+		screenManager.update(timeScale, timeDiff);
 		win.getSurface().paint(screenManager);
 		
 		lastNanos = System.nanoTime();

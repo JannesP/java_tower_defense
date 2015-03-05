@@ -17,6 +17,7 @@ public class PathOverlay {
 
     public PathOverlay(ArrayList<ArrayList<Point>> paths) {
         this.paths = paths;
+        if (paths.isEmpty()) paths.add(new ArrayList<>());
     }
 
     public void draw (Graphics2D g) {

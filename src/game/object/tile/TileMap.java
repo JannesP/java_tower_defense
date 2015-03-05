@@ -1,5 +1,6 @@
 package game.object.tile;
 
+import game.drawable.IPaintableUpdatableObject;
 import game.framework.Map;
 import game.framework.Window;
 import game.framework.resources.Maps;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by Jannes Peters on 2/21/2015.
  */
-public class TileMap {
+public class TileMap implements IPaintableUpdatableObject{
 
     public static final int DEFAULT_TILE_SIZE = 30;
     public static double tileSize = 30;
@@ -98,13 +99,16 @@ public class TileMap {
         }
     }
 
-    public void update(long timeDiff, ArrayList<Enemy> enemies) {
+    public void update(double timeScale, long timeDiff, ArrayList<Enemy> enemies) {
         for (int x = 0; x < Map.WIDTH; x++) {
             for (int y = 0; y < Map.HEIGHT; y++) {
-                tileMap[x][y].update(timeDiff, enemies);
+                tileMap[x][y].update(timeScale, timeDiff, enemies);
             }
         }
     }
+
+    @Override
+    public void update(double timeScale, long timeDiff) {}
 
     public void draw(Graphics2D g) {
         g.drawImage(this.background, 0, 0, (int)(Map.WIDTH * TileMap.tileSize), (int)(Map.HEIGHT * TileMap.tileSize), null);
@@ -114,6 +118,11 @@ public class TileMap {
                 tileMap[x][y].draw(g);
             }
         }
+    }
+
+    @Override
+    public void realign(int width, int height, Graphics2D g) {
+
     }
 
     public Point getCastleCoordinates() throws Exception {

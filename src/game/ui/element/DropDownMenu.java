@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 /**
+ * Basic DropDown menu from which you can select data from.
  * Created by Jannes Peters on 03.03.2015.
  */
 public class DropDownMenu extends UIElement {
@@ -39,6 +40,14 @@ public class DropDownMenu extends UIElement {
         this.originalHeight = super.height;
         this.originalWidth = super.width;
         this.font = Fonts.getDefaultFont().deriveFont((float)(height - Util.PADDING * 2));
+    }
+
+    public int getSelectedIndex() {
+        return this.selectedIndex;
+    }
+
+    public String getSelectedElement() {
+        return this.entries[this.selectedIndex];
     }
 
     private void resetBounds() {
@@ -152,7 +161,7 @@ public class DropDownMenu extends UIElement {
     }
 
     @Override
-    public void update(long timeDiff) {
+    public void update(double timeScale, long timeDiff) {
         if (!super.hasFocus() && this.extended) {
             shrink();
         } else if (super.hasFocus() && !this.extended){

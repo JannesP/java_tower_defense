@@ -40,8 +40,8 @@ public class StatusBar implements IPaintableUpdatableObject {
     }
 
     @Override
-    public void update(long timeDiff) {
-        uiElementContainer.update(timeDiff);
+    public void update(double timeScale, long timeDiff) {
+        uiElementContainer.update(timeScale, timeDiff);
     }
 
     @Override

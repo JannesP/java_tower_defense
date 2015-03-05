@@ -101,13 +101,13 @@ public class TextBox extends UIElement {
     }
 
     @Override
-    public void update(long timeDiff) {
+    public void update(double timeScale, long timeDiff) {
         if (!this.hasFocus) {
             this.timeSinceLastCursorBlinkChange = 0;
             this.isCursorVisible = true;
             return;
         }
-        this.timeSinceLastCursorBlinkChange += timeDiff;
+        this.timeSinceLastCursorBlinkChange += timeScale;
         if (this.timeSinceLastCursorBlinkChange >= TextBox.CURSOR_BLINK_INTERVAL) {
             this.isCursorVisible = !this.isCursorVisible;
             this.timeSinceLastCursorBlinkChange = 0;

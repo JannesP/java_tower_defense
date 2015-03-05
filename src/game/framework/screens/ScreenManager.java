@@ -53,7 +53,7 @@ public class ScreenManager {
 		this.win = win;
 	}
 	
-	public void update(long timeDiff){
+	public void update(double timeScale, long timeDiff){
         // ADD REQUESTED SCREENS
         for (BaseScreen foundScreen : screens) {
             if (foundScreen.getRequestedScreens() != null) {
@@ -106,7 +106,7 @@ public class ScreenManager {
 
         // UPDATE ALL SCREENS
         for (BaseScreen foundScreen : screens) {
-            foundScreen.update(timeDiff);
+            foundScreen.update(timeScale, timeDiff);
         }
 
         //Handle game closing

@@ -1,5 +1,7 @@
 package game.framework;
 
+import java.awt.*;
+
 /**
  * Created by Jannes Peters on 2/19/2015.
  */
@@ -9,10 +11,12 @@ public class Map {
     public static final int HEIGHT = 20;
 
     private byte[][] matrix;
+    private Point[][] paths;
 
-    public Map(byte[][] matrix) {
-        if (matrix == null || matrix[0] == null || matrix.length != Map.WIDTH || matrix[0].length != Map.HEIGHT) throw new IllegalArgumentException("matrix didn't fit to Map class!");
+    public Map(byte[][] matrix, Point[][] paths) {
+        if (matrix == null || matrix[0] == null || matrix.length != Map.WIDTH || matrix[0].length != Map.HEIGHT || paths == null || paths.length == 0) throw new IllegalArgumentException();
         this.matrix = matrix;
+        this.paths = paths;
     }
 
     public byte[][] getMatrix() {

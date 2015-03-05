@@ -85,9 +85,9 @@ public class UIElementContainer implements IPaintableUpdatableObject{
         }
 
         @Override
-        public void update(long timeDiff) {
+        public void update(double timeScale, long timeDiff) {
             for (UIElement element : elements) {
-                element.update(timeDiff);
+                element.update(timeScale, timeDiff);
             }
         }
 

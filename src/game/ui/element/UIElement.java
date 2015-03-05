@@ -121,7 +121,7 @@ public abstract class UIElement implements IPaintableUpdatableObject{
     }
 
     @Override
-    public void update(long timeDiff) {}
+    public void update(double timeScale, long timeDiff) {}
 
     /**
      * Get REKT ... ääähh

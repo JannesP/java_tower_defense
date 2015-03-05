@@ -1,5 +1,6 @@
 package game.object.tile;
 
+import game.drawable.IPaintableUpdatableObject;
 import game.object.enemy.Enemy;
 import game.object.tower.Castle;
 import game.object.tower.Tower;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 /**
  * The basic tile class
  */
-public class Tile {
+public class Tile implements IPaintableUpdatableObject{
 
     public static final int TEXTURE_SIZE = 60;
     protected Tower tower;
@@ -23,7 +24,7 @@ public class Tile {
     }
 
     public Tile(int x, int y, boolean isRoad) {
-        this(x, y, isRoad, (isRoad ? false : true));
+        this(x, y, isRoad, !isRoad);
     }
 
     public Tile(int x, int y, boolean isRoad, boolean isBuildable) {
@@ -44,17 +45,23 @@ public class Tile {
         this.tower.realign(this.x, this.y);
     }
 
-	public void update(long timeDiff, ArrayList<Enemy> enemies) {
+	public void update(double timeScale, long timeDiff, ArrayList<Enemy> enemies) {
 		if (this.tower != null) {
-            this.tower.update(timeDiff, enemies);
+            this.tower.update(timeScale, timeDiff, enemies);
         }
 	}
+
+    @Override
+    public void update(double timeScale, long timeDiff) {}
 
     public void draw(Graphics2D g) {
         if (this.tower != null) {
             this.tower.draw(g);
         }
     }
+
+    @Override
+    public void realign(int width, int height, Graphics2D g) {}
 
     public void realign(int x, int y) {
         this.x = x;

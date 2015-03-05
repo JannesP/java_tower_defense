@@ -45,8 +45,8 @@ public class UIScreen extends BaseScreen implements IUIActionReceiver {
     }
 
     @Override
-    public void update(long timeDiff) {
-        statusBar.update(timeDiff);
+    public void update(double timeScale, long timeDiff) {
+        statusBar.update(timeScale, timeDiff);
     }
 
     @Override

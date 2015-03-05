@@ -61,10 +61,10 @@ public abstract class Tower {
 
     /**
      * Called once a frame before draw(). Make all calculations here!
-     * @param timeDiff - time difference in nanos
+     * @param timeScale - time difference in nanos
      * @param enemies - all enemies currently on the map
      */
-    public void update(long timeDiff, ArrayList<Enemy> enemies) {
+    public void update(double timeScale, long timeDiff, ArrayList<Enemy> enemies) {
         timeSinceLastShot += timeDiff;
         if ( (Util.NANO_SECOND_SECOND / this.timeSinceLastShot) <= fireRatePerLevel[this.level]) {
             fire();

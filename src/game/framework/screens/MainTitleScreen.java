@@ -57,8 +57,8 @@ public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
 	}
 
 	@Override
-	public void update(long timeDiff) {
-        uiElementContainer.update(timeDiff);
+	public void update(double timeScale, long timeDiff) {
+        uiElementContainer.update(timeScale, timeDiff);
 	}
 
 	@Override

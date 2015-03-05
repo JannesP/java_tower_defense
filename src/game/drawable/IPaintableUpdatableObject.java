@@ -6,9 +6,10 @@ public interface IPaintableUpdatableObject {
 
     /**
      * Called once every frame.
-     * @param timeDiff - Time difference till the last frame to scale game speed in nanoseconds.
+     * @param timeScale - Time difference till the last frame to scale game speed in nanoseconds.
+     * @param timeDiff
      */
-	public void update(long timeDiff);
+	public void update(double timeScale, long timeDiff);
 
     /**
      * Called once a frame to draw the screen.

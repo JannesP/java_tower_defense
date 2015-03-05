@@ -1,6 +1,9 @@
 package game.framework;
 
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * Class for random junk helper functions.
@@ -31,5 +34,24 @@ public final class Util {
 
     public static int getFontHeight(Graphics2D graphics2D) {
         return graphics2D.getFontMetrics().getAscent() - calculateFontOverhead(graphics2D);
+    }
+
+    /**
+     * Converts the first given and the three following bytes of the given <code>FileInputStream</code> into an integer.
+     * @param fis - the <code>FileInputStream</code> to read the data from
+     * @param firstValue - the first byte of data read from the integer to read
+     * @return an integer
+     */
+    public static int readIntFromFileInputStream(FileInputStream fis, byte firstValue) {
+        ByteBuffer buffer = ByteBuffer.allocate(Integer.SIZE/Byte.SIZE);
+        buffer.put(buffer.capacity() - 1, firstValue);
+        for (int i = 1; i < 4; i++) {   //read 4 bytes into ByteBuffer (4 byte = 1 int)
+            try {
+                buffer.put(i, (byte) fis.read());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return buffer.getInt();
     }
 }

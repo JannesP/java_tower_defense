@@ -1,5 +1,6 @@
 package game.framework.screens;
 
+import game.framework.Manager;
 import game.framework.Util;
 import game.framework.resources.Fonts;
 
@@ -18,18 +19,17 @@ public class FpsScreen extends BaseScreen {
         super.zOrder = ScreenManager.ZOrder.OVER_UI;
 	}
 
-	long timeDiff;
+	private double timeScale;
 	@Override
-	public void update(long timeDiff) {
-		this.timeDiff = timeDiff;
+	public void update(double timeScale, long timeDiff) {
+		this.timeScale = timeScale;
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
         g.setFont(Fonts.fpsFont);
         g.setColor(Color.LIGHT_GRAY);
-		g.drawString(String.valueOf((long)Math.floor(1d / ((double)timeDiff / 1000000000d))), x, y);
-
+		g.drawString(String.valueOf(this.timeScale * Manager.targetFps), x, y);
 	}
 
 	@Override

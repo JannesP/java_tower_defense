@@ -42,8 +42,8 @@ public class GameScreen extends BaseScreen {
     }
 
     @Override
-    public void update(long timeDiff) {
-        tileMap.update(timeDiff, enemies);
+    public void update(double timeScale, long timeDiff) {
+        tileMap.update(timeScale, timeDiff, enemies);
     }
 
     @Override
