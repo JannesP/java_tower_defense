@@ -1,11 +1,14 @@
 package game.framework.resources;
 
+import game.framework.screens.SplashLoadScreen;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class Textures {
+    public static final int ELEMENTS = 6;
 
     //Icons
     public static BufferedImage iconSpeaker;
@@ -56,6 +59,7 @@ public class Textures {
 
     private static BufferedImage loadImage(String path) throws IOException {
         System.out.println("Loading " + path + " ...");
+        SplashLoadScreen.elementLoaded();
         return ImageIO.read(new File(path));
     }
 

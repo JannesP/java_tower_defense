@@ -1,6 +1,7 @@
 package game.framework.resources;
 
 import game.framework.Map;
+import game.framework.screens.SplashLoadScreen;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +11,7 @@ import java.io.IOException;
  * Created by Jannes Peters on 2/21/2015.
  */
 public class Maps {
+    public static final int ELEMENTS = 1;
 
     public static final byte ROW_SEPARATOR = Byte.MAX_VALUE;
 
@@ -49,6 +51,7 @@ public class Maps {
         }
 
         map = new Map(matrix);
+        SplashLoadScreen.elementLoaded();
         return map;
     }
 
