@@ -32,4 +32,7 @@ public final class Util {
     public static int getFontHeight(Graphics2D graphics2D) {
         return graphics2D.getFontMetrics().getAscent() - calculateFontOverhead(graphics2D);
     }
+    public static int getStringWidth(String text, Graphics2D g){
+        return (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
+    }
 }

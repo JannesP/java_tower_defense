@@ -19,17 +19,11 @@ public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
     }
 
     @Override
-    public void performAction(UIElement sender, int buttonAction) {
-        switch (buttonAction) {
+    public void performAction(UIElement sender, int actionId) {
+        switch (actionId) {
             case UIElement.BUTTON_START:
                 super.requestScreen(new GameScreen("gameScreen", this.width, this.height, super.graphics2D));
                 super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
-                break;
-            case UIElement.BUTTON_MULTIPLAYER:
-                System.out.println(buttonAction);
-                break;
-            case UIElement.BUTTON_EDITOR:
-                System.out.println(buttonAction);
                 break;
             case UIElement.BUTTON_OPTIONS:
                 super.requestScreen(new OptionScreen("optionScreen", this.width, this.height, super.graphics2D));
@@ -39,7 +33,7 @@ public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
                 super.closeGame();
                 break;
             default:
-                System.out.println("BUTTON FAILURE! Action: '" + buttonAction + "' not defined in " + this.getClass().toString());
+                System.out.println("Event " + actionId + ", sent by " + sender.getClass().toString() + " to " + this.getClass().toString() + " is not implemented!");
         }
     }
 

@@ -2,9 +2,9 @@ package game.framework.screens;
 
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
-import game.framework.resources.Fonts;
 import game.framework.resources.Textures;
 import game.ui.container.UIElementContainer;
+import game.ui.element.Label;
 import game.ui.element.UIElement;
 import game.ui.element.button.TextButton;
 
@@ -53,10 +53,18 @@ public class CreditScreen extends BaseScreen implements IUIActionReceiver {
         super(name, width, height, g);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
         ArrayList<UIElement> elements = new ArrayList<>();
-        /*elements.add(new MenuButton(menuButtonCenterX, 20, "Play", g, UIElement.BUTTON_START, this));
-        elements.add(new MenuButton(menuButtonCenterX, 80, "Multiplayer", g, UIElement.BUTTON_MULTIPLAYER, this));
-        elements.add(new MenuButton(menuButtonCenterX, 160, "Options", g, UIElement.BUTTON_OPTIONS, this));
-        elements.add(new MenuButton(menuButtonCenterX, 220, "Editor", g, UIElement.BUTTON_EDITOR, this));*/
+        String[] labelTexts = new String []{
+                "Sound:",
+                "Fynn König, Julian Böteführ",
+                "Creative Artists:",
+                "Tjorven Hoppe, Niclas Kirstein, Lars Pfeiffer",
+                "Producer:",
+                "Jannes Peters, Adrian Kurth"
+        };
+        for(int i = 0 ; i < labelTexts.length; i++){
+            int labelCenterX = Util.calculateCenterPosition(this.width,Util.getStringWidth(labelTexts[i],g) );
+            elements.add(new Label(labelCenterX,(i * (Util.getFontHeight(g) + 20) + Util.getFontHeight(g) + 20),0,labelTexts[i]));
+        }
         elements.add(new MenuButton(menuButtonCenterX, 310, "Back", g, UIElement.BUTTON_BACK, this));
         uiElementContainer = new UIElementContainer(elements);
     }
@@ -69,20 +77,6 @@ public class CreditScreen extends BaseScreen implements IUIActionReceiver {
     @Override
     public void draw(Graphics2D g) {
         uiElementContainer.draw(g);
-        ArrayList<String> credits = new ArrayList<>();
-        credits.add("Sound:");
-        credits.add("Fynn König");
-        credits.add("Creative Artists:");
-        credits.add("Tjorven P. Hoppe, Niclas Kirstein, Lars Pfeiffer");
-        credits.add("Programming:");
-        credits.add("Jannes Peters, Adrian Kurth");
-        g.setFont(Fonts.fpsFont);
-        g.setColor(Color.BLACK);
-        for(int i = 0; i < credits.size(); i++){
-            String list = credits.get(i);
-            int x = Util.calculateCenterPosition(this.width, g.getFontMetrics().stringWidth(list));
-            g.drawString(list,x,(i * 50 + 30));
-        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
 import game.framework.resources.Textures;
 import game.ui.container.UIElementContainer;
+import game.ui.element.DropDownMenu;
 import game.ui.element.Label;
 import game.ui.element.Slider;
 import game.ui.element.UIElement;
@@ -48,12 +49,13 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
         g.setFont(Fonts.defaultFont);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
         int SliderCenterX = Util.calculateCenterPosition(this.width, 300);
+        String[] scales = new String[] {"990x600", "660x400"}; //scaling 33x20
         ArrayList<UIElement> elements = new ArrayList<>();
         elements.add(new Slider(SliderCenterX, 20, 300, 50, UIElement.SLIDER_VOLUME, this, 0, 1, 0.5));
         elements.add(new Label((SliderCenterX - 100), 50, 0, "Volume"));
         elements.add(new MenuButton(menuButtonCenterX, 220, "Credits", g, UIElement.BUTTON_CREDITS, this));
         elements.add(new MenuButton(menuButtonCenterX, 280, "Back", g, UIElement.BUTTON_BACK, this));
-        //TODO implement scale drop down
+        elements.add(new DropDownMenu(SliderCenterX,340,300,50,UIElement.DROPDOWN_SELECTED ,this , scales));
         uiElementContainer = new UIElementContainer(elements);
     }
 
