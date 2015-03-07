@@ -3,6 +3,7 @@ package game.object.tile;
 import game.drawable.IPaintableUpdatableObject;
 import game.framework.Map;
 import game.framework.Window;
+import game.framework.math.Vector2d;
 import game.framework.resources.Maps;
 import game.framework.resources.Textures;
 import game.object.enemy.Enemy;
@@ -10,7 +11,6 @@ import game.object.tower.Castle;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 /**
  * TileMap which contains all information map related, towers, castle, etc.
@@ -73,7 +73,7 @@ public class TileMap implements IPaintableUpdatableObject{
      * @return - the <code>Tile</code> at the position
      */
     public Tile getTile(int x, int y) {
-        if (doCoordinatesFit(x, y)) {
+        if (!doCoordinatesFit(x, y)) {
             throw new IllegalArgumentException("x or y is not in the bounds!");
         }
         return tileMap[x][y];
@@ -100,7 +100,7 @@ public class TileMap implements IPaintableUpdatableObject{
         }
     }
 
-    public void update(double timeScale, long timeDiff, ArrayList<Enemy> enemies) {
+    public void update(double timeScale, long timeDiff, Enemy[] enemies) {
         for (int x = 0; x < Map.WIDTH; x++) {
             for (int y = 0; y < Map.HEIGHT; y++) {
                 tileMap[x][y].update(timeScale, timeDiff, enemies);
@@ -141,7 +141,11 @@ public class TileMap implements IPaintableUpdatableObject{
         return getTile((int)point.getX(), (int)point.getY());
     }
 
-    public Point getCenterOfTile(Point point) {
+    public Tile getTile(Vector2d locVector) {
+        return getTile((int)locVector.getX(), (int)locVector.getY());
+    }
+
+    public Vector2d getTileCenter(Point point) {
         Tile tile = getTile(point);
         return tile.getCenter();
     }

@@ -1,12 +1,12 @@
 package game.object.tile;
 
 import game.drawable.IPaintableUpdatableObject;
+import game.framework.math.Vector2d;
 import game.object.enemy.Enemy;
 import game.object.tower.Castle;
 import game.object.tower.Tower;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * The basic tile class.
@@ -18,12 +18,12 @@ public class Tile implements IPaintableUpdatableObject{
     protected Tower tower;
     protected int x, y;
     protected boolean isRoad, isBuildable, isEntrance;
-    protected Point center;
+    protected Vector2d center;
 
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
-        this.center = new Point((int)(x + TileMap.tileSize / 2d), (int)(y + TileMap.tileSize / 2d));
+        this.center = new Vector2d(x + TileMap.tileSize / 2d, y + TileMap.tileSize / 2d);
     }
 
     public Tile(int x, int y, boolean isRoad) {
@@ -48,7 +48,7 @@ public class Tile implements IPaintableUpdatableObject{
         this.tower.realign(this.x, this.y);
     }
 
-	public void update(double timeScale, long timeDiff, ArrayList<Enemy> enemies) {
+	public void update(double timeScale, long timeDiff, Enemy[] enemies) {
 		if (this.tower != null) {
             this.tower.update(timeScale, timeDiff, enemies);
         }
@@ -69,11 +69,11 @@ public class Tile implements IPaintableUpdatableObject{
     public void realign(int x, int y) {
         this.x = x;
         this.y = y;
-        this.center = new Point((int)(x + TileMap.tileSize / 2d), (int)(y + TileMap.tileSize / 2d));
+        this.center = new Vector2d(x + TileMap.tileSize / 2d, y + TileMap.tileSize / 2d);
         if (this.tower != null) tower.realign(x, y);
     }
 
-    public Point getCenter() {
+    public Vector2d getCenter() {
         return center;
     }
 

@@ -1,6 +1,6 @@
 package game.framework.screens;
 
-import game.object.enemy.Enemy;
+import game.object.enemy.EnemyMap;
 import game.object.tile.TileMap;
 
 import java.awt.*;
@@ -14,14 +14,13 @@ import java.util.ArrayList;
  */
 public class GameScreen extends BaseScreen {
     private TileMap tileMap;
-    private ArrayList<Enemy> enemies;
+    private EnemyMap enemyMap;
 
     public GameScreen(String name, int width, int height, Graphics2D g) {
         super(name, width, height, g);
         super.requestScreen(new UIScreen("uiScreen", width, height, g));
         tileMap = new TileMap(0);
-        tileMap.realign();
-        enemies = new ArrayList<>();
+        enemyMap = new EnemyMap(0, tileMap);
         super.zOrder = ScreenManager.ZOrder.BACKGROUND;
     }
 
@@ -39,16 +38,19 @@ public class GameScreen extends BaseScreen {
     public void realign(int width, int height, Graphics2D g) {
         super.realign(width, height, g);
         if (tileMap != null) tileMap.realign();
+        if (enemyMap != null) enemyMap.realign(width, height, g);
     }
 
     @Override
     public void update(double timeScale, long timeDiff) {
-        tileMap.update(timeScale, timeDiff, enemies);
+        tileMap.update(timeScale, timeDiff, enemyMap.getEnemies());
+        enemyMap.update(timeScale, timeDiff);
     }
 
     @Override
     public void draw(Graphics2D g) {
         tileMap.draw(g);
+        enemyMap.draw(g);
     }
 
     @Override

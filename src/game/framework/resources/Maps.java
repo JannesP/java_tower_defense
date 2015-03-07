@@ -37,6 +37,7 @@ public class Maps {
         Map map;
         FileInputStream fileInputStream = new FileInputStream(new File(filePath));
 
+        //Load all tiles
         byte[][] matrix = new byte[Map.WIDTH][Map.HEIGHT];
         int nextValue = fileInputStream.read();
         int currentX = 0;
@@ -52,9 +53,10 @@ public class Maps {
             nextValue = fileInputStream.read();
         }
 
+        //Load all paths
         ArrayList<ArrayList<Point>> paths = new ArrayList<>();
         int currPath = -1;
-        while (nextValue != -1) {   //create paths
+        while (nextValue != -1) {
             if (nextValue == PATH_SEPARATOR) {
                 currPath++;
                 paths.add(new ArrayList<>());
@@ -71,9 +73,16 @@ public class Maps {
 
         Point[][] pathArray;
         if (paths.size() != 0) {
-            pathArray = new Point[paths.size()][paths.get(0).size()];
-            for (int i = 0; i < paths.size(); i++) {
-                paths.get(i).toArray(pathArray[i]);
+            pathArray = new Point[paths.size()][paths.get(0).size() + 1];
+            for (int pathId = 0; pathId < paths.size(); pathId++) {
+                for (int pointId = -1; pointId < paths.get(0).size(); pointId++) {
+                    if (pointId == -1) {
+                        Point start = new Point((int)paths.get(pathId).get(0).getX() - 1, (int)paths.get(pathId).get(0).getY());
+                        pathArray[pathId][0] = start;
+                        continue;
+                    }
+                    pathArray[pathId][pointId + 1] = paths.get(pathId).get(pointId);
+                }
             }
         } else {
             throw new Exception("The map " + filePath + " is missing the way points!");

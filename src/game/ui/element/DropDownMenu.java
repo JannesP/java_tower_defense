@@ -202,4 +202,8 @@ public class DropDownMenu extends UIElement {
 
     @Override
     public void realign(int width, int height, Graphics2D g) {}
+
+    public void setSelectedIndex(int selectedIndex) {
+        this.selectedIndex = selectedIndex;
+    }
 }

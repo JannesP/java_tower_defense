@@ -14,12 +14,13 @@ import java.awt.*;
 /**
  * Manager that creates the game.tower.tile.window and update thread
  * @author Jannes Peters
- *
  */
 public class Manager {
+    public static final long REFERENCE_NANO_DIFF = (long)(Util.NANO_SECOND_SECOND / 60);
+
     public static double targetFps = 60;
     public static long normalFrameNanoDiff = (long)(Util.NANO_SECOND_SECOND / targetFps);
-    public static long nextSleep = (long) (Util.NANO_SECOND_SECOND / 60);
+    public static long nextSleep = (long) (Util.NANO_SECOND_SECOND / targetFps);
 
 
 	private Window win;
@@ -86,7 +87,7 @@ public class Manager {
 		}
         normalFrameNanoDiff = (long)(Util.NANO_SECOND_SECOND / targetFps);
         final long timeDiff = System.nanoTime() - lastNanos;
-		final double timeScale = (double)timeDiff / (double)normalFrameNanoDiff;
+		final double timeScale = (double)timeDiff / (double)REFERENCE_NANO_DIFF;
 
         lastNanos = System.nanoTime();
 
