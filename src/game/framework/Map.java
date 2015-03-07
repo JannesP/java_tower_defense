@@ -1,5 +1,7 @@
 package game.framework;
 
+import game.framework.math.Vector2d;
+
 import java.awt.*;
 
 /**
@@ -12,16 +14,27 @@ public class Map {
     public static final int HEIGHT = 20;
 
     private byte[][] matrix;
-    private Point[][] paths;
+    private Vector2d[][] paths;
 
     public Map(byte[][] matrix, Point[][] paths) {
         if (matrix == null || matrix[0] == null || matrix.length != Map.WIDTH || matrix[0].length != Map.HEIGHT || paths == null || paths.length == 0) throw new IllegalArgumentException();
         this.matrix = matrix;
-        this.paths = paths;
+
+        this.paths = new Vector2d[paths.length][paths[0].length];
+        for (int pathId = 0; pathId < paths.length; pathId++) {
+            Point[] path = paths[pathId];
+            for (int pointId = 0; pointId < path.length; pointId++) {
+                this.paths[pathId][pointId] = new Vector2d(path[pointId]);
+            }
+        }
     }
 
     public byte[][] getMatrix() {
         return matrix;
+    }
+
+    public Vector2d[][] getPaths() {
+        return paths;
     }
 
     public enum TileType {

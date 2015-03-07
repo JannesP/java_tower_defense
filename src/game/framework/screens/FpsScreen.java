@@ -17,6 +17,7 @@ public class FpsScreen extends BaseScreen {
     private int currIndex = 0;
     private float[] lastFps = new float[20];
     private int calcFps = 60;
+    private double lastTargetFps = Manager.targetFps;
 
 	public FpsScreen(String name, int width, int height, Graphics2D g) {
 		super(name, width, height, g);
@@ -27,7 +28,7 @@ public class FpsScreen extends BaseScreen {
 	public void update(double timeScale, long timeDiff) {
         if (super.state == ScreenManager.ScreenState.ACTIVE) {
             currIndex = (currIndex + 1) % lastFps.length;
-            lastFps[currIndex] = (float) (Manager.targetFps / timeScale);
+            lastFps[currIndex] = (float) (Util.NANO_SECOND_SECOND / timeDiff);
             calcFps = calculateAverage(lastFps);
         }
 	}
@@ -43,6 +44,7 @@ public class FpsScreen extends BaseScreen {
 	@Override
 	public void draw(Graphics2D g) {
         g.setFont(Fonts.fpsFont);
+        x = this.width - Util.PADDING - g.getFontMetrics().stringWidth(String.valueOf(calcFps));
         g.setColor(Color.LIGHT_GRAY);
 		g.drawString(String.valueOf(calcFps), x, y);
 	}
