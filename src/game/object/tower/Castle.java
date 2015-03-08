@@ -13,7 +13,8 @@ public class Castle extends Tower {
     private static boolean castleCreated = false;
     private boolean isFirstCastle = false;
 
-    public Castle() {
+    public Castle(int ownerId) {
+        super(ownerId);
         if (!Castle.castleCreated) {
             castleCreated = true;
             isFirstCastle = true;

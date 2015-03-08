@@ -8,7 +8,8 @@ import game.framework.resources.Textures;
  */
 public class LightTower extends Tower {
 
-    public LightTower() {
+    public LightTower(int playerId) {
+        super(playerId);
         super.texture = Textures.arrowTowerTexture;
         super.costPerLevel = new int[]{50, 50, 75, 100, 150};
         super.fireRatePerLevel = new double[]{0.6, 0.7, 0.8, 0.9, 1};

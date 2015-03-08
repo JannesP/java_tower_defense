@@ -1,6 +1,5 @@
 package game.ui.container;
 
-import game.drawable.IPaintableUpdatableObject;
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
  * Status bar is part of the UIScreen
  * Created by Jannes Peters on 2/25/2015.
  */
-public class StatusBar implements IPaintableUpdatableObject {
+public class StatusBar implements UIContainer {
 
     private Rectangle border;
 
@@ -61,14 +60,17 @@ public class StatusBar implements IPaintableUpdatableObject {
         border = new Rectangle(0, 0, width, calcHeight);
     }
 
+    @Override
     public void handleKeyInput(ArrayList<KeyEvent> events) {
         uiElementContainer.handleKeyInput(events);
     }
 
+    @Override
     public void handleMouseInput(ArrayList<MouseEvent> events) {
         uiElementContainer.handleMouseInput(events);
     }
 
+    @Override
     public int getHeight() {
         return (int) border.getHeight();
     }

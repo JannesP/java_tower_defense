@@ -7,6 +7,7 @@ import game.framework.math.Vector2d;
 import game.framework.resources.Maps;
 import game.framework.resources.Textures;
 import game.object.enemy.Enemy;
+import game.object.player.Player;
 import game.object.tower.Castle;
 
 import java.awt.*;
@@ -26,11 +27,11 @@ public class TileMap implements IPaintableUpdatableObject{
     private BufferedImage background;
     private Tile[][] tileMap;
 
-    public TileMap(int level) {
-        this(Maps.maps[level], Textures.backgrounds[level]);
+    public TileMap(int level, Player player) {
+        this(Maps.maps[level], Textures.backgrounds[level], player);
     }
 
-    private static Tile[][] createTileMap(Map map) {
+    private static Tile[][] createTileMap(Map map, Player player) {
         Tile[][] tileMap = new Tile[map.getMatrix().length][map.getMatrix()[0].length];
         for (int x = 0; x < Map.WIDTH; x++) {
             for (int y = 0; y < Map.HEIGHT; y++) {
@@ -49,7 +50,7 @@ public class TileMap implements IPaintableUpdatableObject{
                         break;
                     case CASTLE:
                         tileMap[x][y] = new Tile((int)(x * tileSize), (int)(y * tileSize), false, true);
-                        tileMap[x][y].setTileObject(new Castle());
+                        tileMap[x][y].setTileObject(new Castle(player.getId()));
                         break;
                 }
             }
@@ -57,11 +58,11 @@ public class TileMap implements IPaintableUpdatableObject{
         return tileMap;
     }
 
-    public TileMap(Map map, BufferedImage background) {
-        this(TileMap.createTileMap(map), background);
+    public TileMap(Map map, BufferedImage background, Player player) {
+        this(TileMap.createTileMap(map, player), background, player);
     }
 
-    public TileMap(Tile[][] tileMap, BufferedImage background) {
+    public TileMap(Tile[][] tileMap, BufferedImage background, Player player) {
         this.background = background;
         this.tileMap = tileMap;
     }

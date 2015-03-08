@@ -1,5 +1,6 @@
 package game.framework.input;
 
+import game.framework.Manager;
 import game.framework.screens.ScreenManager;
 
 import java.awt.event.*;
@@ -18,9 +19,6 @@ public class Input implements KeyListener, WindowListener, MouseListener, MouseM
 	public Input(ScreenManager screenManager) {
         this.screenManager = screenManager;
 	}
-	
-	@Override
-	public void keyTyped(KeyEvent e) { }
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -33,28 +31,30 @@ public class Input implements KeyListener, WindowListener, MouseListener, MouseM
 		screenManager.gotEvent(e);
 		e.consume();
 	}
-	
-	@Override
-	public void windowActivated(WindowEvent e) { }
 
-	@Override
-	public void windowDeactivated(WindowEvent e) { }
-
-	@Override
-	public void windowOpened(WindowEvent e) { }
+    @Override
+    public void keyTyped(KeyEvent e) { }
 
 	@Override
 	public void windowClosing(WindowEvent e) {
         System.out.println("Window Closing Event!");
-        screenManager.closeRequested();
+        if (Manager.hasGameCrashed()) {
+            Manager.closeRequested();
+        } else {
+            screenManager.closeRequested();
+        }
     }
 
+    @Override
+    public void windowOpened(WindowEvent e) { }
+    @Override
+    public void windowActivated(WindowEvent e) { }
+    @Override
+    public void windowDeactivated(WindowEvent e) { }
 	@Override
 	public void windowClosed(WindowEvent e) { }
-
 	@Override
 	public void windowIconified(WindowEvent e) { }
-
 	@Override
 	public void windowDeiconified(WindowEvent e) { }
 
@@ -74,12 +74,6 @@ public class Input implements KeyListener, WindowListener, MouseListener, MouseM
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) { }
-
-	@Override
-	public void mouseExited(MouseEvent e) { }
-
-	@Override
 	public void mouseDragged(MouseEvent e) { 
 		screenManager.gotEvent(e);
 	}
@@ -95,5 +89,8 @@ public class Input implements KeyListener, WindowListener, MouseListener, MouseM
 		e.consume();
 	}
 
-	
+    @Override
+    public void mouseEntered(MouseEvent e) { }
+    @Override
+    public void mouseExited(MouseEvent e) { }
 }

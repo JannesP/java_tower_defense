@@ -44,6 +44,15 @@ public abstract class Tower {
     protected int rangePerLevel[];
 
     /**
+     * The id of the owner.
+     */
+    protected int owner;
+
+    protected Tower(int owner) {
+        this.owner = owner;
+    }
+
+    /**
      * Called with already calculated x and y! Just take and save them.
      */
     public void realign(int x, int y) {

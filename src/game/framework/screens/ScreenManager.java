@@ -14,7 +14,6 @@ import java.util.Collections;
  */
 public class ScreenManager {
 
-    //public final static Object THREADLOCK_REQUESTED_SCREENS = new Object();
 	public final static int PADDING = 10;
 
     public void closeRequested() {

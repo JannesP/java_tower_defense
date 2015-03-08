@@ -1,6 +1,7 @@
 package game.framework.screens;
 
 import game.object.enemy.EnemyMap;
+import game.object.player.Player;
 import game.object.tile.TileMap;
 
 import java.awt.*;
@@ -15,11 +16,13 @@ import java.util.ArrayList;
 public class GameScreen extends BaseScreen {
     private TileMap tileMap;
     private EnemyMap enemyMap;
+    private Player player;
 
     public GameScreen(String name, int width, int height, Graphics2D g) {
         super(name, width, height, g);
         super.requestScreen(new UIScreen("uiScreen", width, height, g));
-        tileMap = new TileMap(0);
+        this.player = new Player("SPlayerName", 0, 100);
+        tileMap = new TileMap(0, player);
         enemyMap = new EnemyMap(0, tileMap);
         super.zOrder = ScreenManager.ZOrder.BACKGROUND;
     }

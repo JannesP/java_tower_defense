@@ -67,6 +67,10 @@ public class Manager {
         this.initGame();
 	}
 
+    public static boolean hasGameCrashed() {
+        return (updateThread == null || updateThread.isAlive());
+    }
+
     private void initGame() {
         if ((win.getWidth() == (TileMap.WIDTH * TileMap.DEFAULT_TILE_SIZE + win.getFrameWidth()) * Settings.resolutionScale)) {
             screenManager.addScreen(new SplashLoadScreen("splashScreen", (int) win.getSurface().getBounds().getWidth(), (int) win.getSurface().getBounds().getHeight(), (Graphics2D)win.getSurface().getGraphics()));
