@@ -1,19 +1,22 @@
 package game.framework.screens;
 
 import game.drawable.IPaintableUpdatableObject;
-import game.framework.screens.ScreenManager.SCREENSTATE;
+import game.framework.screens.ScreenManager.ScreenState;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+/**
+ * Basic Screen.
+ */
 public abstract class BaseScreen implements IPaintableUpdatableObject {
 
     /**
      * Indicates the current status of the screen.
      */
-    public SCREENSTATE state = SCREENSTATE.ACTIVE;
+    public ScreenState state = ScreenState.ACTIVE;
 
     private BaseScreen[] requestedScreens = null;
 	protected String name = "";
@@ -64,7 +67,7 @@ public abstract class BaseScreen implements IPaintableUpdatableObject {
      * Set state to ACTIVE or HIDDEN to cancel shutdown.
      */
 	public void unLoad(){
-		state = SCREENSTATE.SHUTDOWN;
+		state = ScreenState.SHUTDOWN;
 	}
 
     /**

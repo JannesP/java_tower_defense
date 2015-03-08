@@ -160,7 +160,7 @@ public class Slider extends UIElement {
     }
 
     @Override
-    public void update(long timeDiff) {}
+    public void update(double timeScale, long timeDiff) {}
     @Override
     public void realign(int width, int height, Graphics2D g) {}
 

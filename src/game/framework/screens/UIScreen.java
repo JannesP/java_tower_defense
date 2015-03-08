@@ -1,11 +1,13 @@
 package game.framework.screens;
 
 import game.framework.BackgroundMusicPlayer;
+import game.framework.Manager;
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
 import game.object.tile.TileMap;
 import game.ui.container.StatusBar;
+import game.ui.element.DropDownMenu;
 import game.ui.element.Slider;
 import game.ui.element.UIElement;
 import game.ui.element.button.MultiImageButton;
@@ -45,8 +47,8 @@ public class UIScreen extends BaseScreen implements IUIActionReceiver {
     }
 
     @Override
-    public void update(long timeDiff) {
-        statusBar.update(timeDiff);
+    public void update(double timeScale, long timeDiff) {
+        statusBar.update(timeScale, timeDiff);
     }
 
     @Override
@@ -90,6 +92,10 @@ public class UIScreen extends BaseScreen implements IUIActionReceiver {
                 break;
             case UIElement.SLIDER_VOLUME:
                 BackgroundMusicPlayer.setVolume(((Slider)sender).getValue());
+                break;
+            case UIElement.DROPDOWN_SELECTED:
+                String selectedItem = ((DropDownMenu)sender).getSelectedElement();
+                Manager.targetFps = Integer.parseInt(selectedItem.replace(" FPS", ""));
                 break;
             default:
                 System.out.println("Event " + actionId + ", sent by " + sender.getClass().toString() + " to " + this.getClass().toString() + " is not implemented!");

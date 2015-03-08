@@ -22,10 +22,11 @@ public class Surface extends JPanel{
         if (this.map == null || this.getBounds().getHeight() == 0 || this.getBounds().getWidth() == 0) return;
 
         BufferedImage img = this.map.createGridBitmap();
-
+        Graphics2D graphics2D = img.createGraphics();
+        UI.draw(graphics2D);
+        Window.pathOverlay.draw(graphics2D);
         g.drawImage(img, 0, 0, null);
-        UI.draw((Graphics2D)g);
-        Window.pathOverlay.draw((Graphics2D)g);
+
 	}
 
     public void paint(Map map) {

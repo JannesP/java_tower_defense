@@ -29,7 +29,7 @@ public class SplashLoadScreen extends BaseScreen{
     }
 
 	@Override
-	public void update(long timeDiff) {
+	public void update(double timeScale, long timeDiff) {
         if (SplashLoadScreen.getSetPercentLoaded(-1) == 100) {
             System.out.println("Finished loading. Requesting MainTitleScreen!");
             super.requestScreen(new MainTitleScreen("titleScreen", width, height, super.graphics2D));

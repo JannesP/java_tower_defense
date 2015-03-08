@@ -12,18 +12,17 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+/**
+ * Title screen which shows the main menu.
+ */
 public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
-
-    private class ButtonAction {
-
-    }
 
     @Override
     public void performAction(UIElement sender, int actionId) {
         switch (actionId) {
             case UIElement.BUTTON_START:
                 super.requestScreen(new GameScreen("gameScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
+                super.state = ScreenManager.ScreenState.SHUTDOWN;
                 break;
             case UIElement.BUTTON_OPTIONS:
                 super.requestScreen(new OptionScreen("optionScreen", this.width, this.height, super.graphics2D));
@@ -52,8 +51,8 @@ public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
 	}
 
 	@Override
-	public void update(long timeDiff) {
-        uiElementContainer.update(timeDiff);
+	public void update(double timeScale, long timeDiff) {
+        uiElementContainer.update(timeScale, timeDiff);
 	}
 
 	@Override

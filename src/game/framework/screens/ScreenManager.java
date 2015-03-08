@@ -9,6 +9,9 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Manager class for all screens.
+ */
 public class ScreenManager {
 
     //public final static Object THREADLOCK_REQUESTED_SCREENS = new Object();
@@ -18,7 +21,7 @@ public class ScreenManager {
         closeRequested = true;
     }
 
-    public enum SCREENSTATE {
+    public enum ScreenState {
 		ACTIVE,
 		SHUTDOWN,
 		HIDDEN
@@ -53,7 +56,7 @@ public class ScreenManager {
 		this.win = win;
 	}
 	
-	public void update(long timeDiff){
+	public void update(double timeScale, long timeDiff){
         // ADD REQUESTED SCREENS
         for (BaseScreen foundScreen : screens) {
             if (foundScreen.getRequestedScreens() != null) {
@@ -64,7 +67,7 @@ public class ScreenManager {
 
 		// REMOVE DEAD SCREENS
 		for (BaseScreen foundScreen : screens){
-			if (foundScreen.state == SCREENSTATE.SHUTDOWN){
+			if (foundScreen.state == ScreenState.SHUTDOWN){
 				screens.remove(foundScreen);
 			} else {
 				foundScreen.focused = false;
@@ -106,7 +109,7 @@ public class ScreenManager {
 
         // UPDATE ALL SCREENS
         for (BaseScreen foundScreen : screens) {
-            foundScreen.update(timeDiff);
+            foundScreen.update(timeScale, timeDiff);
         }
 
         //Handle game closing
@@ -129,7 +132,7 @@ public class ScreenManager {
             setAlignments(dimensions, g);   //recalculate drawing positions for UI
         }
 		for (BaseScreen foundScreen : screens){ //draw all screens
-			if (foundScreen.state == SCREENSTATE.ACTIVE){   //if screen should be drawn
+			if (foundScreen.state == ScreenState.ACTIVE){   //if screen should be drawn
 				foundScreen.draw(g);    //draw screen
 			}
 		}
