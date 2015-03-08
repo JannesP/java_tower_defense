@@ -145,8 +145,9 @@ public class Slider extends UIElement {
         g.drawRect(super.x + (int) (this.value / (maxValue - minValue) * ((double) super.width - SELECTOR_WIDTH)), super.y, 5, super.height);
         g.drawRect(super.x + (int) (this.value / (maxValue - minValue) * ((double) super.width - SELECTOR_WIDTH)) + 1, super.y + 1, 5 - 2, super.height - 2);
 
+        //draw value ... probably useless and has to be realised with a corresponding label
         g.setColor(Color.LIGHT_GRAY);
-        g.drawString((int)Math.floor(this.value * 100) + "%", super.x + super.width + Util.PADDING, super.height + Util.PADDING + Util.getFontHeight(g));
+        g.drawString((int)Math.floor(this.value * 100) + "%", super.x + super.width + Util.PADDING, super.getCenterFontY(g));
     }
 
     public Color getBorderColor() {

@@ -40,7 +40,7 @@ public class TextButton extends Button {
     @Override
     public void realign(int width, int height, Graphics2D g) {
         stringX = x + Util.calculateCenterPosition(super.width, g.getFontMetrics().stringWidth(this.text));
-        stringY = y + Util.calculateCenterPosition(super.height, g.getFontMetrics().getHeight()) + g.getFontMetrics().getAscent();
+        stringY = super.getCenterFontY(g);
     }
 
     private void setText(String text, Graphics2D g) {
