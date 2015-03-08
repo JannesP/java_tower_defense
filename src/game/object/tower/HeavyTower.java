@@ -7,7 +7,8 @@ import game.framework.resources.Textures;
  * Created by Addy on 23.02.2015.
  */
 public class HeavyTower extends Tower{
-    public HeavyTower(){
+    public HeavyTower(int ownerId){
+        super(ownerId);
         super.texture = Textures.heavyTowerTexture;
         super.costPerLevel = new int[]{125, 75, 125, 150, 200};
         super.fireRatePerLevel = new double[]{0.3, 0.4, 0.5, 0.6, 0,8}; //TODO Balancing

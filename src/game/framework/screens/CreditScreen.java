@@ -17,30 +17,12 @@ import java.util.ArrayList;
 
 public class CreditScreen extends BaseScreen implements IUIActionReceiver {
 
-    private class ButtonAction {
-
-    }
-
     @Override
     public void performAction(UIElement sender, int buttonAction) {
         switch (buttonAction) {
-            /*case UIElement.BUTTON_START:
-                super.requestScreen(new GameScreen("gameScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
-                break;
-            case UIElement.BUTTON_MULTIPLAYER:
-                System.out.println(buttonAction);
-                break;
-            case UIElement.BUTTON_EDITOR:
-                System.out.println(buttonAction);
-                break;
-            case UIElement.BUTTON_OPTIONS:
-                super.requestScreen(new OptionScreen("optionScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
-                break;*/
             case UIElement.BUTTON_BACK:
                 super.requestScreen(new OptionScreen("optionScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
+                super.state = ScreenManager.ScreenState.SHUTDOWN;
                 break;
             default:
                 System.out.println("BUTTON FAILURE! Action: '" + buttonAction + "' not defined in " + this.getClass().toString());
@@ -70,8 +52,8 @@ public class CreditScreen extends BaseScreen implements IUIActionReceiver {
     }
 
     @Override
-    public void update(long timeDiff) {
-        uiElementContainer.update(timeDiff);
+    public void update(double timeScale, long timeDiff) {
+        uiElementContainer.update(timeScale, timeDiff);
     }
 
     @Override

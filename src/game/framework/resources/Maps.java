@@ -91,7 +91,6 @@ public class Maps {
         }
 
         map = new Map(matrix, pathArray);
-        map = new Map(matrix);
         SplashLoadScreen.elementLoaded();
         return map;
     }

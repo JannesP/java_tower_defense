@@ -19,10 +19,6 @@ import java.util.ArrayList;
 
 public class OptionScreen extends BaseScreen implements IUIActionReceiver {
 
-    private class ButtonAction {
-
-    }
-
     @Override
     public void performAction(UIElement sender, int buttonAction) {
         switch (buttonAction) {
@@ -31,11 +27,11 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
                 break;
             case UIElement.BUTTON_CREDITS:
                 super.requestScreen(new CreditScreen("creditScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
+                super.state = ScreenManager.ScreenState.SHUTDOWN;
                 break;
             case UIElement.BUTTON_BACK:
                 super.requestScreen(new MainTitleScreen("mainScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
+                super.state = ScreenManager.ScreenState.SHUTDOWN;
                 break;
             default:
                 System.out.println("BUTTON FAILURE! Action: '" + buttonAction + "' not defined in " + this.getClass().toString());
@@ -61,8 +57,8 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
     }
 
     @Override
-    public void update(long timeDiff) {
-        uiElementContainer.update(timeDiff);
+    public void update(double timeScale, long timeDiff) {
+        uiElementContainer.update(timeScale, timeDiff);
     }
 
     @Override

@@ -26,7 +26,7 @@ public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
                 break;
             case UIElement.BUTTON_OPTIONS:
                 super.requestScreen(new OptionScreen("optionScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.SCREENSTATE.SHUTDOWN;
+                super.state = ScreenManager.ScreenState.SHUTDOWN;
                 break;
             case UIElement.BUTTON_EXIT:
                 super.closeGame();

@@ -11,7 +11,7 @@ import java.io.IOException;
  * Class that loads and holds all textures.
  */
 public class Textures {
-    public static final int ELEMENTS = 6;
+    public static final int ELEMENTS = 5;
 
     //Icons
     public static BufferedImage iconSpeaker;
@@ -45,21 +45,12 @@ public class Textures {
 
             //Buttons
             button_main_menu = loadImage("assets/img/buttons/menu.png");
-                //Towers
-                castleTexture = loadImage("assets/img/tower/castle.png");
-                lightTowerTexture = loadImage("assets/img/tower/light_tower.png");
-                heavyTowerTexture = loadImage("assets/img/tower/heavy_tower.png");
 
             //Towers
             castleTexture = loadImage("assets/img/tower/castle.png");
-            arrowTowerTexture = loadImage("assets/img/tower/arrow_tower.png");
-                //Enemies
-                runnerTexture = loadImage("assets/img/enemy/runner.png");
-                heavyTexture = loadImage("assets/img/enemy/heavy.png");
 
             //Enemies
             runnerTexture = loadImage("assets/img/enemy/runner.png");
-            //giantTexture = loadImage("assets/img/enemy/giant.png");
 
             //Backgrounds
             backgrounds[0] = loadImage("assets/maps/001.png");
