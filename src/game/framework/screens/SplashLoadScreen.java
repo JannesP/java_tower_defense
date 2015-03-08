@@ -18,15 +18,10 @@ public class SplashLoadScreen extends BaseScreen{
 		super(name, width, height, g);
         Thread thread = new Thread(() -> {
             long startLoading = System.currentTimeMillis();
-            SplashLoadScreen.getSetPercentLoaded(0);
             Textures.loadImages();
-            SplashLoadScreen.getSetPercentLoaded(25);
             Maps.loadMaps();
-            SplashLoadScreen.getSetPercentLoaded(50);
             Fonts.loadFonts();
-            SplashLoadScreen.getSetPercentLoaded(75);
             Sounds.loadSounds();
-            SplashLoadScreen.getSetPercentLoaded(100);
             System.out.println("Loading took: " + (System.currentTimeMillis() - startLoading) + "ms");
         });
         thread.setName("loadingThread");
@@ -59,7 +54,7 @@ public class SplashLoadScreen extends BaseScreen{
 
 	@Override
 	public void handleMouseInput(ArrayList<MouseEvent> events) { }
-
+    private static double elementsLoaded = 0;
     /**
      * Synchronized function, don't call on UI Thread!
      * @param percentLoaded - if -1 nothing will be changed
@@ -70,5 +65,8 @@ public class SplashLoadScreen extends BaseScreen{
             SplashLoadScreen.percentLoaded = percentLoaded;
         }
         return SplashLoadScreen.percentLoaded;
+    }
+    public static void elementLoaded(){
+        getSetPercentLoaded((int) (++elementsLoaded / (double) (Fonts.ELEMENTS + Maps.ELEMENTS + Sounds.ELEMENTS + Textures.ELEMENTS)* 100d));
     }
 }

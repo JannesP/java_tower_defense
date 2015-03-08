@@ -42,7 +42,10 @@ public abstract class Tower {
      * in unscaled pixels
      */
     protected int rangePerLevel[];
-
+    /**
+     *  Critical hit rate in percent
+     */
+    protected float critRate;
     /**
      * The id of the owner.
      */
@@ -55,6 +58,7 @@ public abstract class Tower {
     /**
      * Called with already calculated x and y! Just take and save them.
      */
+    protected int sellValue[];
     public void realign(int x, int y) {
         this.x = x;
         this.y = y;

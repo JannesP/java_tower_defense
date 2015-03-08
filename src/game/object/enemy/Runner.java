@@ -1,0 +1,15 @@
+package game.object.enemy;
+
+import game.framework.resources.Textures;
+
+/**
+ * Created by Addy on 23.02.2015.
+ */
+public class Runner extends Enemy {
+    public Runner() {
+        super.texture = Textures.runnerTexture;
+        super.health = 5; //TODO Balancing
+        super.moveSpeed = 50; //TODO Try speed values
+        super.goldToEarn = 1;
+    }
+}

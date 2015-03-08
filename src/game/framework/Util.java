@@ -83,4 +83,7 @@ public final class Util {
             return Double.doubleToLongBits(d);
         }
     }
+    public static int getStringWidth(String text, Graphics2D g){
+        return (int) g.getFontMetrics().getStringBounds(text, g).getWidth();
+    }
 }
