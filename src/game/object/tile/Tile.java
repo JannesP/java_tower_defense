@@ -1,29 +1,33 @@
 package game.object.tile;
 
+import game.drawable.IPaintableUpdatableObject;
+import game.framework.math.Vector2d;
 import game.object.enemy.Enemy;
 import game.object.tower.Castle;
 import game.object.tower.Tower;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
- * The basic tile class
+ * The basic tile class.
+ * Created by Jannes Peters on XX/YY/2014 ... date was deleted!
  */
-public class Tile {
+public class Tile implements IPaintableUpdatableObject{
 
     public static final int TEXTURE_SIZE = 60;
     protected Tower tower;
     protected int x, y;
     protected boolean isRoad, isBuildable, isEntrance;
+    protected Vector2d center;
 
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
+        this.center = new Vector2d(x + TileMap.tileSize / 2d, y + TileMap.tileSize / 2d);
     }
 
     public Tile(int x, int y, boolean isRoad) {
-        this(x, y, isRoad, (isRoad ? false : true));
+        this(x, y, isRoad, !isRoad);
     }
 
     public Tile(int x, int y, boolean isRoad, boolean isBuildable) {
@@ -44,11 +48,14 @@ public class Tile {
         this.tower.realign(this.x, this.y);
     }
 
-	public void update(long timeDiff, ArrayList<Enemy> enemies) {
+	public void update(double timeScale, long timeDiff, Enemy[] enemies) {
 		if (this.tower != null) {
-            this.tower.update(timeDiff, enemies);
+            this.tower.update(timeScale, timeDiff, enemies);
         }
 	}
+
+    @Override
+    public void update(double timeScale, long timeDiff) {}
 
     public void draw(Graphics2D g) {
         if (this.tower != null) {
@@ -56,10 +63,18 @@ public class Tile {
         }
     }
 
+    @Override
+    public void realign(int width, int height, Graphics2D g) {}
+
     public void realign(int x, int y) {
         this.x = x;
         this.y = y;
+        this.center = new Vector2d(x + TileMap.tileSize / 2d, y + TileMap.tileSize / 2d);
         if (this.tower != null) tower.realign(x, y);
+    }
+
+    public Vector2d getCenter() {
+        return center;
     }
 
     public boolean isRoad() {

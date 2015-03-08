@@ -3,6 +3,7 @@ package game.object.tower;
 import game.framework.resources.Textures;
 
 /**
+ *
  * Created by Addy on 23.02.2015.
  */
 public class LightTower extends Tower {

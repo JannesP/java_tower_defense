@@ -20,12 +20,16 @@ public abstract class UIElement implements IPaintableUpdatableObject{
     public static final int BUTTON_EDITOR = 3;
     public static final int BUTTON_EXIT = 4;
     public static final int BUTTON_MUTE = 5;
+    public static final int BUTTON_BACK = 6;
+    public static final int BUTTON_CREDITS = 7;
 
     public static final int SLIDER_VOLUME = 100;
 
     public static final int TEXTBOX_INPUT = 200;
 
     public static final int CHECKBOX_EXAMPLE = 300;
+
+    public static final int DROPDOWN_SELECTED = 400;
 
     protected static final Color COLOR_NORMAL = Color.decode("#ea9742");
     protected static final Color COLOR_HOVER = Color.decode("#ea7542");
@@ -70,7 +74,7 @@ public abstract class UIElement implements IPaintableUpdatableObject{
     protected void handleMouseEvent(MouseEvent event) {}
     protected void mouseEntered() {}
     protected void mouseLeft() {}
-    protected void clicked() {}
+    protected void clicked(MouseEvent event) {}
 
     public void handleMouseInput(ArrayList<MouseEvent> events) {
         for (MouseEvent e : events) {
@@ -86,7 +90,7 @@ public abstract class UIElement implements IPaintableUpdatableObject{
             if (e.getID() == MouseEvent.MOUSE_RELEASED && this.isMouseDown) {
                 if (this.isMouseOver) {
                     this.hasFocus = true;
-                    clicked();
+                    clicked(e);
                 }
             }
 
@@ -119,7 +123,7 @@ public abstract class UIElement implements IPaintableUpdatableObject{
     }
 
     @Override
-    public void update(long timeDiff) {}
+    public void update(double timeScale, long timeDiff) {}
 
     /**
      * Get REKT ... ääähh
@@ -177,4 +181,10 @@ public abstract class UIElement implements IPaintableUpdatableObject{
         @Override
         public void performAction(UIElement sender, int buttonAction) {}
     }
+
+    /**
+     * Should be called after every <code>UIElement</code> has drawn its body
+     * @param g - the corresponding Graphics element to draw on
+     */
+    public void drawOverlay(Graphics2D g) {}
 }

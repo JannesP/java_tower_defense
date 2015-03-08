@@ -9,11 +9,15 @@ import java.awt.event.*;
  */
 public class Window extends JFrame implements KeyListener, MouseListener, MouseMotionListener {
 
-    private boolean mousePressed = false;
-    private Map.TileType selectedTileType = Map.TileType.NOTHING;
+    public static EditMode selectedMode = EditMode.MAP;
+    public static Map.TileType selectedTileType = Map.TileType.NOTHING;
+    public static PathOverlay pathOverlay = new PathOverlay();
     private Map map;
     private Surface surface;
 
+    public enum EditMode {
+        MAP, PATH
+    }
 
     public Window() {
         setTitle("Tower Defence editor.Map Creator!");
@@ -48,24 +52,24 @@ public class Window extends JFrame implements KeyListener, MouseListener, MouseM
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_1:
-                this.selectedTileType = Map.TileType.NOTHING;
-                System.out.println("Selecting: " + this.selectedTileType);
+                Window.selectedTileType = Map.TileType.NOTHING;
+                System.out.println("Selecting: " + Window.selectedTileType);
                 break;
             case KeyEvent.VK_2:
-                this.selectedTileType = Map.TileType.ROAD;
-                System.out.println("Selecting: " + this.selectedTileType);
+                Window.selectedTileType = Map.TileType.ROAD;
+                System.out.println("Selecting: " + Window.selectedTileType);
                 break;
             case KeyEvent.VK_3:
-                this.selectedTileType = Map.TileType.NOT_BUILDABLE;
-                System.out.println("Selecting: " + this.selectedTileType);
+                Window.selectedTileType = Map.TileType.NOT_BUILDABLE;
+                System.out.println("Selecting: " + Window.selectedTileType);
                 break;
             case KeyEvent.VK_E:
-                this.selectedTileType = Map.TileType.ENTRANCE;
-                System.out.println("Selecting: " + this.selectedTileType);
+                Window.selectedTileType = Map.TileType.ENTRANCE;
+                System.out.println("Selecting: " + Window.selectedTileType);
                 break;
             case KeyEvent.VK_C:
-                this.selectedTileType = Map.TileType.CASTLE;
-                System.out.println("Selecting: " + this.selectedTileType);
+                Window.selectedTileType = Map.TileType.CASTLE;
+                System.out.println("Selecting: " + Window.selectedTileType);
                 break;
             case KeyEvent.VK_L:
                 try {
@@ -78,12 +82,38 @@ public class Window extends JFrame implements KeyListener, MouseListener, MouseM
             case KeyEvent.VK_S:
                 MapIO.saveMap(this, map);
                 break;
+            case KeyEvent.VK_M:
+                Window.selectedMode = selectedMode == EditMode.MAP ? EditMode.PATH : EditMode.MAP;
+                break;
+            case KeyEvent.VK_N:
+                if (Window.selectedMode == EditMode.PATH) Window.pathOverlay.nextPath();
+                break;
+            case KeyEvent.VK_K:
+                if (Window.selectedMode == EditMode.PATH) Window.pathOverlay.clearPaths();
+                break;
+            case KeyEvent.VK_ADD:
+            case KeyEvent.VK_PLUS:
+                Window.pathOverlay.selectPath(Window.pathOverlay.getSelectedPath() + 1);
+                break;
+            case KeyEvent.VK_MINUS:
+            case KeyEvent.VK_SUBTRACT:
+                Window.pathOverlay.selectPath(Window.pathOverlay.getSelectedPath() - 1);
+                break;
         }
+        surface.repaint();
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        changeTile(e);
+        if (Window.selectedMode == EditMode.MAP) {
+            changeTile(e);
+        } else {
+            if (e.getButton() == MouseEvent.BUTTON3) {
+                pathOverlay.removePoint(Map.resolvePixelToMatrix(e.getX(), e.getY()));
+            } else {
+                pathOverlay.addPoint(Map.resolvePixelToMatrix(e.getX(), e.getY()));
+            }
+        }
     }
 
     @Override

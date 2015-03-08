@@ -4,7 +4,12 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
 
 /**
  * Created by Jannes Peters on 2/19/2015.
@@ -12,15 +17,17 @@ import java.io.*;
 public class MapIO {
 
     public static final byte ROW_SEPARATOR = Byte.MAX_VALUE;
+    public static final byte PATH_SEPARATOR = Byte.MAX_VALUE - 1;
+    public static final byte FILE_SEPARATOR = Byte.MAX_VALUE - 2;
 
     public static void saveMap(Component parent, Map map) {
         final JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File("D:/"));
         int returnVal = fc.showSaveDialog(parent);
         fc.setMultiSelectionEnabled(false);
 
         if (returnVal != JFileChooser.APPROVE_OPTION) return;
 
-        String fileName = fc.getSelectedFile().getName();
         File imageFile = new File(fc.getSelectedFile().getAbsolutePath() + ".png");
         File matrixFile = new File(fc.getSelectedFile().getAbsolutePath() + ".map");
 
@@ -42,15 +49,24 @@ public class MapIO {
             FileOutputStream fileOutputStream = new FileOutputStream(matrixFile);
             byte[][] matrix = map.getMatrix();
 
-            for (int x = 0; x < matrix.length; x++) {
-                fileOutputStream.write(matrix[x]);
+            for (byte[] aMatrix : matrix) {
+                fileOutputStream.write(aMatrix);
                 fileOutputStream.write(ROW_SEPARATOR);
             }
+
+            ArrayList<ArrayList<Point>> paths = Window.pathOverlay.getPaths();
+
+            for (int i = 0; i < paths.size(); i++) {
+                fileOutputStream.write(PATH_SEPARATOR);
+                for (int x = 0; x < paths.get(i).size(); x++) {
+                    fileOutputStream.write(ByteBuffer.allocate(Integer.SIZE/Byte.SIZE).putInt((int) (paths.get(i).get(x).getX())).array());
+                    fileOutputStream.write(ByteBuffer.allocate(Integer.SIZE/Byte.SIZE).putInt((int) (paths.get(i).get(x).getY())).array());
+                }
+            }
+
             fileOutputStream.flush();
             fileOutputStream.close();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,6 +74,7 @@ public class MapIO {
 
     public static Map loadMap(Component parent) throws Exception {
         final JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File("D:/"));
         fc.setMultiSelectionEnabled(false);
         int returnVal = fc.showOpenDialog(parent);
 
@@ -74,7 +91,7 @@ public class MapIO {
         int nextValue = fileInputStream.read();
         int currentX = 0;
         int currentY = 0;
-        while (nextValue != -1) {
+        while (nextValue != PATH_SEPARATOR && nextValue != -1) {    //create matrix
             if (nextValue == ROW_SEPARATOR) {
                 currentX++;
                 currentY = 0;
@@ -85,8 +102,38 @@ public class MapIO {
             nextValue = fileInputStream.read();
         }
 
+        ArrayList<ArrayList<Point>> paths = new ArrayList<>();
+        int currPath = -1;
+        while (nextValue != -1) {   //create paths
+            if (nextValue == PATH_SEPARATOR) {
+                currPath++;
+                paths.add(new ArrayList<>());
+                nextValue = fileInputStream.read();
+            }
+            int x, y;
+            x = readIntFromFileInputStream(fileInputStream, (byte) nextValue);
+            y = readIntFromFileInputStream(fileInputStream, (byte)fileInputStream.read());
+            paths.get(currPath).add(new Point(x, y));
+
+            nextValue = fileInputStream.read();
+        }
+        fileInputStream.close();
+        Window.pathOverlay = new PathOverlay(paths);
         map = new Map(matrix);
         return map;
+    }
+
+    public static int readIntFromFileInputStream(FileInputStream fis, byte firstValue) {
+        ByteBuffer buffer = ByteBuffer.allocate(Integer.SIZE/Byte.SIZE);
+        buffer.put(buffer.capacity() - 1, firstValue);
+        for (int i = 1; i < 4; i++) {   //read 4 bytes into ByteBuffer (4 byte = 1 int)
+            try {
+                buffer.put(i, (byte) fis.read());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return buffer.getInt();
     }
 
 }

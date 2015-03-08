@@ -101,7 +101,7 @@ public class TextBox extends UIElement {
     }
 
     @Override
-    public void update(long timeDiff) {
+    public void update(double timeScale, long timeDiff) {
         if (!this.hasFocus) {
             this.timeSinceLastCursorBlinkChange = 0;
             this.isCursorVisible = true;
@@ -130,9 +130,9 @@ public class TextBox extends UIElement {
         g.setFont(this.font);
         if (text.equals("") && !super.hasFocus) {
             g.setColor(new Color(g.getColor().getRed(), g.getColor().getGreen(), g.getColor().getBlue(), 123));
-            g.drawString(this.hint, super.x + 2 + Util.PADDING, super.y + Util.PADDING + 2 + g.getFontMetrics().getHeight() / 2);
+            g.drawString(hint, super.x + 2 + Util.PADDING, super.y + Util.calculateCenterPosition(super.height, Util.getFontHeight(g)) + Util.getFontHeight(g));
         } else {
-            g.drawString(text, super.x + 2 + Util.PADDING, super.y + Util.calculateCenterPosition(super.height, g.getFontMetrics().getAscent()) + g.getFontMetrics().getAscent() - Util.calculateFontOverhead(g));
+            g.drawString(text, super.x + 2 + Util.PADDING, super.y + Util.calculateCenterPosition(super.height, Util.getFontHeight(g)) + Util.getFontHeight(g));
         }
 
         //draw cursor

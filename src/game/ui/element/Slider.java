@@ -146,7 +146,7 @@ public class Slider extends UIElement {
         g.drawRect(super.x + (int) (this.value / (maxValue - minValue) * ((double) super.width - SELECTOR_WIDTH)) + 1, super.y + 1, 5 - 2, super.height - 2);
 
         g.setColor(Color.LIGHT_GRAY);
-        g.drawString((int)Math.floor(this.value * 100) + "%", super.x + super.width + Util.PADDING, super.height + Util.PADDING);
+        g.drawString((int)Math.floor(this.value * 100) + "%", super.x + super.width + Util.PADDING, super.height + Util.PADDING + Util.getFontHeight(g));
     }
 
     public Color getBorderColor() {
@@ -160,7 +160,7 @@ public class Slider extends UIElement {
     }
 
     @Override
-    public void update(long timeDiff) {}
+    public void update(double timeScale, long timeDiff) {}
     @Override
     public void realign(int width, int height, Graphics2D g) {}
 

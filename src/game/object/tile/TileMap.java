@@ -1,7 +1,9 @@
 package game.object.tile;
 
+import game.drawable.IPaintableUpdatableObject;
 import game.framework.Map;
 import game.framework.Window;
+import game.framework.math.Vector2d;
 import game.framework.resources.Maps;
 import game.framework.resources.Textures;
 import game.object.enemy.Enemy;
@@ -9,12 +11,12 @@ import game.object.tower.Castle;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 /**
+ * TileMap which contains all information map related, towers, castle, etc.
  * Created by Jannes Peters on 2/21/2015.
  */
-public class TileMap {
+public class TileMap implements IPaintableUpdatableObject{
 
     public static final int DEFAULT_TILE_SIZE = 30;
     public static double tileSize = 30;
@@ -71,7 +73,7 @@ public class TileMap {
      * @return - the <code>Tile</code> at the position
      */
     public Tile getTile(int x, int y) {
-        if (doCoordinatesFit(x, y)) {
+        if (!doCoordinatesFit(x, y)) {
             throw new IllegalArgumentException("x or y is not in the bounds!");
         }
         return tileMap[x][y];
@@ -98,13 +100,16 @@ public class TileMap {
         }
     }
 
-    public void update(long timeDiff, ArrayList<Enemy> enemies) {
+    public void update(double timeScale, long timeDiff, Enemy[] enemies) {
         for (int x = 0; x < Map.WIDTH; x++) {
             for (int y = 0; y < Map.HEIGHT; y++) {
-                tileMap[x][y].update(timeDiff, enemies);
+                tileMap[x][y].update(timeScale, timeDiff, enemies);
             }
         }
     }
+
+    @Override
+    public void update(double timeScale, long timeDiff) {}
 
     public void draw(Graphics2D g) {
         g.drawImage(this.background, 0, 0, (int)(Map.WIDTH * TileMap.tileSize), (int)(Map.HEIGHT * TileMap.tileSize), null);
@@ -114,5 +119,34 @@ public class TileMap {
                 tileMap[x][y].draw(g);
             }
         }
+    }
+
+    @Override
+    public void realign(int width, int height, Graphics2D g) {
+
+    }
+
+    public Point getCastleCoordinates() throws Exception {
+        for (int x = 0; x < Map.WIDTH; x++) {
+            for (int y = 0; y < Map.HEIGHT; y++) {
+                if (tileMap[x][y].tower instanceof Castle) {
+                    return new Point(x, y);
+                }
+            }
+        }
+        throw new Exception("The loaded map is incomplete, castle missing!");
+    }
+
+    public Tile getTile(Point point) {
+        return getTile((int)point.getX(), (int)point.getY());
+    }
+
+    public Tile getTile(Vector2d locVector) {
+        return getTile((int)locVector.getX(), (int)locVector.getY());
+    }
+
+    public Vector2d getTileCenter(Point point) {
+        Tile tile = getTile(point);
+        return tile.getCenter();
     }
 }

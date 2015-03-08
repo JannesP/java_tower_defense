@@ -1,13 +1,18 @@
 package game.framework.resources;
 
+import game.framework.screens.SplashLoadScreen;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.nio.file.Paths;
 
+/**
+ * Class that loads and holds all sounds.
+ */
 public class Sounds {
     //TODO implement proper backgorund music play
+    public static final int ELEMENTS = 7;
     public static MediaPlayer[] backgroundMusic = new MediaPlayer[2];
 
     //shots
@@ -36,11 +41,13 @@ public class Sounds {
 
     public static MediaPlayer loadMusic(String path) {
         System.out.println("Loading " + path + " ...");
+        SplashLoadScreen.elementLoaded();
         return new MediaPlayer(new Media(Paths.get(path).toUri().toString()));
     }
 
     public static AudioClip loadSound(String path) {
         System.out.println("Loading " + path + " ...");
+        SplashLoadScreen.elementLoaded();
         return new AudioClip(Paths.get(path).toUri().toString());
     }
 

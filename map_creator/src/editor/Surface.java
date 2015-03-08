@@ -22,8 +22,11 @@ public class Surface extends JPanel{
         if (this.map == null || this.getBounds().getHeight() == 0 || this.getBounds().getWidth() == 0) return;
 
         BufferedImage img = this.map.createGridBitmap();
-
+        Graphics2D graphics2D = img.createGraphics();
+        UI.draw(graphics2D);
+        Window.pathOverlay.draw(graphics2D);
         g.drawImage(img, 0, 0, null);
+
 	}
 
     public void paint(Map map) {
@@ -42,6 +45,7 @@ public class Surface extends JPanel{
         g.setPaint(new Color(255, 200, 0, 120));
         Point coordinates = Map.resolvePixelToMatrix(mouseX, mouseY);
         g.fillRect((int)coordinates.getX() * Map.TILE_SIZE, (int)coordinates.getY() * Map.TILE_SIZE, Map.TILE_SIZE, Map.TILE_SIZE);
+
 	}
 	
 }
