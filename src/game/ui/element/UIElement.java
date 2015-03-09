@@ -24,6 +24,9 @@ public abstract class UIElement implements IPaintableUpdatableObject{
     public static final int BUTTON_BACK = 6;
     public static final int BUTTON_CREDITS = 7;
     public static final int BUTTON_TEST = 8;
+    public static final int BUTTON_SAVE = 9;
+    public static final int BUTTON_LOAD = 10;
+    public static final int BUTTON_RESUME = 11;
 
     public static final int SLIDER_VOLUME = 100;
 

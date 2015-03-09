@@ -29,7 +29,15 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void handleKeyInput(ArrayList<KeyEvent> events) {
-
+        for (KeyEvent event : events) {
+            if (event.getID() == KeyEvent.KEY_PRESSED) {
+                switch (event.getKeyCode()) {
+                    case KeyEvent.VK_ESCAPE:
+                        super.requestScreen(new IngameOptionScreen("testScreen", this.width, this.height, super.graphics2D));
+                        break;
+                }
+            }
+        }
     }
 
     @Override

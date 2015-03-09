@@ -25,6 +25,15 @@ public class IngameOptionScreen extends BaseScreen implements IUIActionReceiver 
             case UIElement.SLIDER_VOLUME:
                 BackgroundMusicPlayer.setVolume(((Slider) sender).getValue());
                 break;
+            case UIElement.BUTTON_RESUME:
+                super.state = ScreenManager.ScreenState.SHUTDOWN;
+                break;
+            case UIElement.BUTTON_LOAD:
+
+                break;
+            case UIElement.BUTTON_SAVE:
+
+                break;
             case UIElement.BUTTON_BACK:
                 super.requestScreen(new MainTitleScreen("mainScreen", this.width, this.height, super.graphics2D));
                 super.state = ScreenManager.ScreenState.SHUTDOWN;
@@ -41,13 +50,16 @@ public class IngameOptionScreen extends BaseScreen implements IUIActionReceiver 
         g.setFont(Fonts.defaultFont);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
         int SliderCenterX = Util.calculateCenterPosition(this.width, 300);
-        int SliderY = 150;
+        int SliderY = 210;
         String[] scales = new String[] {"990x600", "660x400"}; //scaling 33x20
         ArrayList<UIElement> elements = new ArrayList<>();
         elements.add(new Slider(SliderCenterX, SliderY, 300, 50, UIElement.SLIDER_VOLUME, this, 0, 1, 0.5));
         elements.add(new Label((SliderCenterX - 100), (SliderY + 30), 0, "Volume"));
-        elements.add(new MenuButton(menuButtonCenterX, 30, "Resume", g, UIElement.BUTTON_BACK, this));
-        elements.add(new DropDownMenu(SliderCenterX,140,300,50,UIElement.DROPDOWN_SELECTED ,this , scales));
+        elements.add(new MenuButton(menuButtonCenterX, 90, "Save", g, UIElement.BUTTON_SAVE, this));
+        elements.add(new MenuButton(menuButtonCenterX, 150, "Load", g, UIElement.BUTTON_LOAD, this));
+        elements.add(new MenuButton(menuButtonCenterX, 30, "Resume", g, UIElement.BUTTON_RESUME, this));
+        elements.add(new DropDownMenu(SliderCenterX,300,300,50,UIElement.DROPDOWN_SELECTED ,this , scales));
+        elements.add(new MenuButton(menuButtonCenterX, 360, "Main Menu", g, UIElement.BUTTON_BACK, this));
         uiElementContainer = new UIElementContainer(elements);
     }
 
