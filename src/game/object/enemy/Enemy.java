@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
  * Created by Jannes Peters on 2/20/2015.
  */
 public abstract class Enemy implements IPaintableUpdatableObject {
-    protected static final double BASIC_SPEED = 0.8d;
+    protected static final double BASIC_SPEED = 3.0d;
 
     protected BufferedImage texture;
     protected int health;
