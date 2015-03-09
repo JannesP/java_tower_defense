@@ -17,7 +17,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class OptionScreen extends BaseScreen implements IUIActionReceiver {
+public class IngameOptionScreen extends BaseScreen implements IUIActionReceiver {
 
     @Override
     public void performAction(UIElement sender, int buttonAction) {
@@ -25,16 +25,8 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
             case UIElement.SLIDER_VOLUME:
                 BackgroundMusicPlayer.setVolume(((Slider) sender).getValue());
                 break;
-            case UIElement.BUTTON_CREDITS:
-                super.requestScreen(new CreditScreen("creditScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.ScreenState.SHUTDOWN;
-                break;
             case UIElement.BUTTON_BACK:
                 super.requestScreen(new MainTitleScreen("mainScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.ScreenState.SHUTDOWN;
-                break;
-            case UIElement.BUTTON_TEST:
-                super.requestScreen(new IngameOptionScreen("testScreen", this.width, this.height, super.graphics2D));
                 super.state = ScreenManager.ScreenState.SHUTDOWN;
                 break;
             default:
@@ -44,19 +36,17 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
 
     private UIElementContainer uiElementContainer;
 
-    public OptionScreen(String name, int width, int height, Graphics2D g) {
+    public IngameOptionScreen(String name, int width, int height, Graphics2D g) {
         super(name, width, height, g);
         g.setFont(Fonts.defaultFont);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
         int SliderCenterX = Util.calculateCenterPosition(this.width, 300);
-        int SliderY = 50;
+        int SliderY = 150;
         String[] scales = new String[] {"990x600", "660x400"}; //scaling 33x20
         ArrayList<UIElement> elements = new ArrayList<>();
         elements.add(new Slider(SliderCenterX, SliderY, 300, 50, UIElement.SLIDER_VOLUME, this, 0, 1, 0.5));
         elements.add(new Label((SliderCenterX - 100), (SliderY + 30), 0, "Volume"));
-        elements.add(new MenuButton(menuButtonCenterX, 220, "Credits", g, UIElement.BUTTON_CREDITS, this));
-        elements.add(new MenuButton(menuButtonCenterX, 280, "Back", g, UIElement.BUTTON_BACK, this));
-        elements.add(new MenuButton(menuButtonCenterX, 400, "TestScreen", g, UIElement.BUTTON_TEST, this));
+        elements.add(new MenuButton(menuButtonCenterX, 30, "Resume", g, UIElement.BUTTON_BACK, this));
         elements.add(new DropDownMenu(SliderCenterX,140,300,50,UIElement.DROPDOWN_SELECTED ,this , scales));
         uiElementContainer = new UIElementContainer(elements);
     }
