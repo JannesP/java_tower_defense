@@ -52,7 +52,7 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
         elements.add(new Label((SliderCenterX - 100), (SliderY + 30), 0, "Volume"));
         elements.add(new MenuButton(menuButtonCenterX, 220, "Credits", g, UIElement.BUTTON_CREDITS, this));
         elements.add(new MenuButton(menuButtonCenterX, 280, "Back", g, UIElement.BUTTON_BACK, this));
-        elements.add(new DropDownMenu(SliderCenterX,340,300,50,UIElement.DROPDOWN_SELECTED ,this , scales));
+        elements.add(new DropDownMenu(SliderCenterX,140,300,50,UIElement.DROPDOWN_SELECTED ,this , scales));
         uiElementContainer = new UIElementContainer(elements);
     }
 

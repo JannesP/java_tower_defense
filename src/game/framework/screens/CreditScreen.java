@@ -36,7 +36,7 @@ public class CreditScreen extends BaseScreen implements IUIActionReceiver {
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
         ArrayList<UIElement> elements = new ArrayList<>();
         String[] labelTexts = new String []{
-                "Sound:",
+                "Sound Artists:",
                 "Fynn König, Julian Böteführ",
                 "Creative Artists:",
                 "Tjorven Hoppe, Niclas Kirstein, Lars Pfeiffer",
@@ -55,6 +55,7 @@ public class CreditScreen extends BaseScreen implements IUIActionReceiver {
     public void update(double timeScale, long timeDiff) {
         uiElementContainer.update(timeScale, timeDiff);
     }
+
 
     @Override
     public void draw(Graphics2D g) {
