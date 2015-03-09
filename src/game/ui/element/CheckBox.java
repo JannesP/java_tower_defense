@@ -95,7 +95,7 @@ public class CheckBox extends UIElement {
         //draw description
         g.setColor(UIElement.COLOR_FONT);
         g.setFont(Fonts.getDefaultFont());
-        g.drawString(this.description, super.x + super.height + Util.PADDING, super.y + super.height);
+        g.drawString(this.description, super.x + super.height + Util.PADDING, super.getCenterFontY(g));
     }
 
     @Override

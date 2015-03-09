@@ -1,6 +1,7 @@
 package game.ui.element;
 
 import game.drawable.IPaintableUpdatableObject;
+import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 
 import java.awt.*;
@@ -187,4 +188,8 @@ public abstract class UIElement implements IPaintableUpdatableObject{
      * @param g - the corresponding Graphics element to draw on
      */
     public void drawOverlay(Graphics2D g) {}
+
+    protected int getCenterFontY(Graphics2D g) {
+        return this.y + Util.calculateCenterPosition(this.height, Util.getFontHeight(g)) + Util.getFontHeight(g);
+    }
 }
