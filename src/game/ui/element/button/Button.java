@@ -34,9 +34,9 @@ public abstract class Button extends UIElement {
 
     @Override
 	public void draw(Graphics2D g) {
-        if (!super.isMouseOver) spriteY = 0;
-        if (super.hasFocus || super.isMouseOver) spriteY = backgroundImage.getHeight() / 3;
-        if (super.isMouseOver && super.isMouseDown) spriteY = backgroundImage.getHeight() / 3 * 2;
+        if (!super.isMouseOver) spriteY = 0;    //default: 0
+        if (super.hasFocus || super.isMouseOver) spriteY = backgroundImage.getHeight() / 3; //default: backgroundImage.getHeight() / 3
+        if (super.isMouseOver && super.isMouseDown) spriteY = backgroundImage.getHeight() / 3 * 2; //default: backgroundImage.getHeight() / 3 * 2
 
 		g.drawImage(backgroundImage, x, y, width + x, height + y, 0, spriteY, backgroundImage.getWidth(), backgroundImage.getHeight() / 3 + spriteY, null);
 	}
