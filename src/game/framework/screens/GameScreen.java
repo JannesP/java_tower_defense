@@ -18,7 +18,7 @@ public class GameScreen extends BaseScreen {
     private EnemyMap enemyMap;
     private Player player;
     private UIScreen uiScreen;
-    public static boolean gamePaused = true;
+    public boolean gamePaused = true;
 
     public GameScreen(String name, int width, int height, Graphics2D g) {
         super(name, width, height, g);

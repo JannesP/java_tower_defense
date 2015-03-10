@@ -28,7 +28,8 @@ public class IngameOptionScreen extends ChildScreen implements IUIActionReceiver
                 break;
             case UIElement.BUTTON_RESUME:
                 super.unload();
-                GameScreen.gamePaused = true;
+                if (super.getParent() instanceof GameScreen)
+                    ((GameScreen)super.getParent()).gamePaused = true;
                 break;
             case UIElement.BUTTON_LOAD:
 

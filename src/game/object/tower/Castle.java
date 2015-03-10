@@ -10,14 +10,15 @@ import java.awt.*;
  * Created by Jannes Peters on 2/21/2015.
  */
 public class Castle extends Tower {
-    private static boolean castleCreated = false;
+    private static int castlesCreated = 0;
     private boolean isFirstCastle = false;
 
     public Castle(int ownerId) {
         super(ownerId);
-        if (!Castle.castleCreated) {
-            castleCreated = true;
+        if (Castle.castlesCreated++ == 0) {
             isFirstCastle = true;
+        } else if (Castle.castlesCreated == 4) {
+            Castle.castlesCreated = 0;
         }
         super.texture = Textures.castleTexture;
         super.costPerLevel = new int[]{0, 100, 250, 500, 1000};
