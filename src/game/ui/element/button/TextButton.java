@@ -14,14 +14,14 @@ import java.awt.image.BufferedImage;
 public class TextButton extends Button {
     protected String text;
     protected int stringX = 0, stringY = 0;
-
+    protected Color textColor = Color.BLACK;
     /**
      * Creates a new button with text on it.
      * @param x - x position
      * @param y - y position
      * @param width - width of the whole button
      * @param height - height of the whole button
-     * @param backgroundImage - background sprite (normal, hover and active in one image on top of each other)
+     * @param backgroundImage - background sprite (normal, hover and gamePaused in one image on top of each other)
      * @param text - text to draw on the button
      * @param g - current graphics for calculating text bounds
      */
@@ -30,10 +30,15 @@ public class TextButton extends Button {
         this.setText(text, g);
     }
 
+    public void setTextColor(Color textColor) {
+        this.textColor = textColor;
+    }
+
     @Override
     public void draw(Graphics2D g) {
         super.draw(g);
         g.setFont(Fonts.getDefaultFont());
+        g.setColor(textColor);
         g.drawString(text, stringX, stringY);
     }
 

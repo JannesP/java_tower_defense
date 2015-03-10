@@ -23,7 +23,7 @@ public class ImageButton extends Button {
      * @param y - y position
      * @param width - width of the whole button
      * @param height - height of the whole button
-     * @param backgroundImage - background sprite (normal, hover and active in one image on top of each other)
+     * @param backgroundImage - background sprite (normal, hover and gamePaused in one image on top of each other)
      * @param image - image to draw on the button
      * @param g - current graphics for calculating text bounds
      */

@@ -67,7 +67,8 @@ public class ScreenManager {
 		// REMOVE DEAD SCREENS
 		for (BaseScreen foundScreen : screens){
 			if (foundScreen.state == ScreenState.SHUTDOWN){
-				screens.remove(foundScreen);
+                screens.remove(foundScreen);
+                break;
 			} else {
 				foundScreen.focused = false;
 			}

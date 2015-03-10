@@ -66,7 +66,7 @@ public abstract class BaseScreen implements IPaintableUpdatableObject {
      * Called when the screen should unload. Can be used to save settings, dispose graphics or something like that.
      * Set state to ACTIVE or HIDDEN to cancel shutdown.
      */
-	public void unLoad(){
+	public void unload(){
 		state = ScreenState.SHUTDOWN;
 	}
 

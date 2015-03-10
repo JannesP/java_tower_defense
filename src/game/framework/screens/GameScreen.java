@@ -17,6 +17,7 @@ public class GameScreen extends BaseScreen {
     private TileMap tileMap;
     private EnemyMap enemyMap;
     private Player player;
+    public static boolean gamePaused = true;
 
     public GameScreen(String name, int width, int height, Graphics2D g) {
         super(name, width, height, g);
@@ -34,6 +35,7 @@ public class GameScreen extends BaseScreen {
                 switch (event.getKeyCode()) {
                     case KeyEvent.VK_ESCAPE:
                         super.requestScreen(new IngameOptionScreen("testScreen", this.width, this.height, super.graphics2D));
+                        gamePaused = false;
                         break;
                 }
             }
@@ -54,8 +56,10 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void update(double timeScale, long timeDiff) {
-        tileMap.update(timeScale, timeDiff, enemyMap.getEnemies());
-        enemyMap.update(timeScale, timeDiff);
+        if(gamePaused) {
+            tileMap.update(timeScale, timeDiff, enemyMap.getEnemies());
+            enemyMap.update(timeScale, timeDiff);
+        }
     }
 
     @Override
