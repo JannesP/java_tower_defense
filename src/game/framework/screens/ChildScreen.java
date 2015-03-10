@@ -13,5 +13,7 @@ public abstract class ChildScreen extends BaseScreen {
         this.parent = parent;
     }
 
-
+    protected BaseScreen getParent() {
+        return parent;
+    }
 }

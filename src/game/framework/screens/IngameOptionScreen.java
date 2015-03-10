@@ -17,7 +17,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class IngameOptionScreen extends BaseScreen implements IUIActionReceiver {
+public class IngameOptionScreen extends ChildScreen implements IUIActionReceiver {
     private static final Color COLOR_BACKGROUND = new Color(0f,0f,0f, 0.85f);
 
     @Override
@@ -37,7 +37,9 @@ public class IngameOptionScreen extends BaseScreen implements IUIActionReceiver 
 
                 break;
             case UIElement.BUTTON_BACK:
-                super.requestScreen(new QuestionScreen("questionScreen", this.width, this.height, super.graphics2D));
+                super.requestScreen(new MainTitleScreen("mainScreen", this.width, this.height, super.graphics2D));
+                super.getParent().unload();
+                super.unload();
                 break;
             default:
                 System.out.println("BUTTON FAILURE! Action: '" + buttonAction + "' not defined in " + this.getClass().toString());
@@ -46,8 +48,8 @@ public class IngameOptionScreen extends BaseScreen implements IUIActionReceiver 
 
     private UIElementContainer uiElementContainer;
 
-    public IngameOptionScreen(String name, int width, int height, Graphics2D g) {
-        super(name, width, height, g);
+    public IngameOptionScreen(String name, int width, int height, Graphics2D g, BaseScreen parent) {
+        super(name, width, height, g, parent);
         g.setFont(Fonts.defaultFont);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
         int SliderCenterX = Util.calculateCenterPosition(this.width, 300);

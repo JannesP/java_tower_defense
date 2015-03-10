@@ -17,15 +17,23 @@ public class GameScreen extends BaseScreen {
     private TileMap tileMap;
     private EnemyMap enemyMap;
     private Player player;
+    private UIScreen uiScreen;
     public static boolean gamePaused = true;
 
     public GameScreen(String name, int width, int height, Graphics2D g) {
         super(name, width, height, g);
-        super.requestScreen(new UIScreen("uiScreen", width, height, g));
+        uiScreen = new UIScreen("uiScreen", width, height, g);
+        super.requestScreen(uiScreen);
         this.player = new Player("SPlayerName", 0, 100);
         tileMap = new TileMap(0, player);
         enemyMap = new EnemyMap(0, tileMap);
         super.zOrder = ScreenManager.ZOrder.BACKGROUND;
+    }
+
+    @Override
+    public void unload() {
+        uiScreen.unload();
+        super.unload();
     }
 
     @Override
@@ -34,7 +42,7 @@ public class GameScreen extends BaseScreen {
             if (event.getID() == KeyEvent.KEY_PRESSED) {
                 switch (event.getKeyCode()) {
                     case KeyEvent.VK_ESCAPE:
-                        super.requestScreen(new IngameOptionScreen("testScreen", this.width, this.height, super.graphics2D));
+                        super.requestScreen(new IngameOptionScreen("testScreen", this.width, this.height, super.graphics2D, this));
                         gamePaused = false;
                         break;
                 }
