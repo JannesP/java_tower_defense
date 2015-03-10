@@ -27,15 +27,9 @@ public class IngameOptionScreen extends ChildScreen implements IUIActionReceiver
                 BackgroundMusicPlayer.setVolume(((Slider) sender).getValue());
                 break;
             case UIElement.BUTTON_RESUME:
-                super.unload();
                 if (super.getParent() instanceof GameScreen)
-                    ((GameScreen)super.getParent()).gamePaused = true;
-                break;
-            case UIElement.BUTTON_LOAD:
-
-                break;
-            case UIElement.BUTTON_SAVE:
-
+                    ((GameScreen)super.getParent()).gamePaused = false;
+                super.unload();
                 break;
             case UIElement.BUTTON_BACK:
                 super.requestScreen(new MainTitleScreen("mainScreen", this.width, this.height, super.graphics2D));
@@ -75,8 +69,10 @@ public class IngameOptionScreen extends ChildScreen implements IUIActionReceiver
 
     @Override
     public void draw(Graphics2D g) {
+        //draw black background
         g.setColor(COLOR_BACKGROUND);
         g.fillRect(0, 0, super.width, super.height);
+        //draw UI elements
         uiElementContainer.draw(g);
     }
 

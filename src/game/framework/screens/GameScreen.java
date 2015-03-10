@@ -18,7 +18,7 @@ public class GameScreen extends BaseScreen {
     private EnemyMap enemyMap;
     private Player player;
     private UIScreen uiScreen;
-    public boolean gamePaused = true;
+    public boolean gamePaused = false;
 
     public GameScreen(String name, int width, int height, Graphics2D g) {
         super(name, width, height, g);
@@ -39,11 +39,11 @@ public class GameScreen extends BaseScreen {
     @Override
     public void handleKeyInput(ArrayList<KeyEvent> events) {
         for (KeyEvent event : events) {
-            if (event.getID() == KeyEvent.KEY_PRESSED) {
+            if (event.getID() == KeyEvent.KEY_PRESSED && !gamePaused) {
                 switch (event.getKeyCode()) {
                     case KeyEvent.VK_ESCAPE:
-                        super.requestScreen(new IngameOptionScreen("testScreen", this.width, this.height, super.graphics2D, this));
-                        gamePaused = false;
+                        super.requestScreen(new IngameOptionScreen("inGameOptionsScreen", this.width, this.height, super.graphics2D, this));
+                        gamePaused = true;
                         break;
                 }
             }
@@ -64,7 +64,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void update(double timeScale, long timeDiff) {
-        if(gamePaused) {
+        if(!gamePaused) {
             tileMap.update(timeScale, timeDiff, enemyMap.getEnemies());
             enemyMap.update(timeScale, timeDiff);
         }
