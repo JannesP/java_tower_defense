@@ -17,7 +17,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class IngameOptionScreen extends ChildScreen implements IUIActionReceiver {
+public class InGameOptionScreen extends ChildScreen implements IUIActionReceiver {
     private static final Color COLOR_BACKGROUND = new Color(0f,0f,0f, 0.85f);
 
     @Override
@@ -43,7 +43,7 @@ public class IngameOptionScreen extends ChildScreen implements IUIActionReceiver
 
     private UIElementContainer uiElementContainer;
 
-    public IngameOptionScreen(String name, int width, int height, Graphics2D g, BaseScreen parent) {
+    public InGameOptionScreen(String name, int width, int height, Graphics2D g, BaseScreen parent) {
         super(name, width, height, g, parent);
         g.setFont(Fonts.defaultFont);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);

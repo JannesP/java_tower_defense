@@ -42,7 +42,7 @@ public class GameScreen extends BaseScreen {
             if (event.getID() == KeyEvent.KEY_PRESSED && !gamePaused) {
                 switch (event.getKeyCode()) {
                     case KeyEvent.VK_ESCAPE:
-                        super.requestScreen(new IngameOptionScreen("inGameOptionsScreen", this.width, this.height, super.graphics2D, this));
+                        super.requestScreen(new InGameOptionScreen("inGameOptionsScreen", this.width, this.height, super.graphics2D, this));
                         gamePaused = true;
                         break;
                 }

@@ -34,7 +34,7 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
                 super.state = ScreenManager.ScreenState.SHUTDOWN;
             break;
             case UIElement.BUTTON_TEST:
-                super.requestScreen(new IngameOptionScreen("testScreen", this.width, this.height, super.graphics2D, this));
+                super.requestScreen(new InGameOptionScreen("testScreen", this.width, this.height, super.graphics2D, this));
                 super.state = ScreenManager.ScreenState.SHUTDOWN;
                 break;
             default:
