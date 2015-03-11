@@ -130,7 +130,6 @@ public class TextBox extends UIElement {
         g.setFont(this.font);
         if (text.equals("") && !super.hasFocus) {
             g.setColor(new Color(g.getColor().getRed(), g.getColor().getGreen(), g.getColor().getBlue(), 123));
-            g.drawRect(super.x + 2 + Util.PADDING, super.getCenterFontY(g) - Util.getFontHeight(g), 30, Util.getFontHeight(g));
             g.drawString(hint, super.x + 2 + Util.PADDING, super.getCenterFontY(g));
         } else {
             g.drawString(text, super.x + 2 + Util.PADDING, super.getCenterFontY(g));

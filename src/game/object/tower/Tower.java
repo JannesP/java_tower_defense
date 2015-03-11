@@ -1,6 +1,8 @@
 package game.object.tower;
 
+import game.drawable.ITextured;
 import game.framework.Util;
+import game.framework.resources.Textures;
 import game.object.enemy.Enemy;
 import game.object.tile.Tile;
 import game.object.tile.TileMap;
@@ -12,16 +14,20 @@ import java.awt.image.BufferedImage;
  * Default tower template.
  * Created by Jannes Peters on 2/20/2015.
  */
-public abstract class Tower {
+public abstract class Tower implements ITextured {
+    public static final int TOWER_CASTLE = -1;
+    public static final int TOWER_LIGHT = 1;
+    public static final int TOWER_HEAVY = 2;
+
     /**
      * 0 based (in UI 1 level higher)
      */
     protected int level = 0;
-    protected static final int MAX_LEVEL = 5;
+    public static final int MAX_LEVEL = 4;
     /**
      * reference to textures in <class>game.framework.resources.Textures</class>
      */
-    protected BufferedImage texture;
+    public static BufferedImage texture;
     /**
      * Calculated x, y to draw!
      */
@@ -32,20 +38,20 @@ public abstract class Tower {
     protected long timeSinceLastShot = 0;
 
     //stats
-    protected int costPerLevel[];
+    public static int costPerLevel[];
     /**
      * In shots per second eg. 0.5 = 1 shot every 2 seconds
      */
-    protected double fireRatePerLevel[];
-    protected int damagePerLevel[];
+    public static double fireRatePerLevel[];
+    public static int damagePerLevel[];
     /**
-     * in unscaled pixels
+     * as a factor
      */
-    protected int rangePerLevel[];
+    public static int rangePerLevel[];
     /**
      *  Critical hit rate in percent
      */
-    protected float critRate;
+    public static float[] critRate;
     /**
      * The id of the owner.
      */
@@ -82,6 +88,26 @@ public abstract class Tower {
         if ( (Util.NANO_SECOND_SECOND / this.timeSinceLastShot) <= fireRatePerLevel[this.level]) {
             fire();
         }
+    }
+
+    /**
+     * Should return a unique id for the class.
+     */
+    public abstract int getId();
+
+    public static BufferedImage getTexture(int towerId) {
+        switch (towerId) {
+            case Tower.TOWER_CASTLE:
+                return Textures.castleTexture;
+            case Tower.TOWER_LIGHT:
+                return Textures.lightTowerTexture;
+            case Tower.TOWER_HEAVY:
+                return Textures.heavyTowerTexture;
+            default:
+                System.out.println("Texture for id: " + towerId + " is missing!");
+                System.exit(-1);
+        }
+        return Textures.placeholder;
     }
 
     protected abstract void fire();

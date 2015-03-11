@@ -1,5 +1,7 @@
 package game.object.player;
 
+import game.object.tower.Tower;
+
 /**
  * Created by Jannes Peters on 3/8/2015.
  */
@@ -15,5 +17,9 @@ public class Player {
 
     public int getId() {
         return id;
+    }
+
+    public int[] getPossibleTowers() {
+        return new int[] {Tower.TOWER_LIGHT, Tower.TOWER_HEAVY};
     }
 }

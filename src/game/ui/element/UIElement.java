@@ -3,6 +3,7 @@ package game.ui.element;
 import game.drawable.IPaintableUpdatableObject;
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
+import game.object.tower.Tower;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -35,6 +36,10 @@ public abstract class UIElement implements IPaintableUpdatableObject{
     public static final int CHECKBOX_EXAMPLE = 300;
 
     public static final int DROPDOWN_SELECTED = 400;
+
+    public static final int BUTTON_TOWER = 500;
+    public static final int BUTTON_TOWER_LIGHT = BUTTON_TOWER + Tower.TOWER_LIGHT;
+    public static final int BUTTON_TOWER_HEAVY = BUTTON_TOWER + Tower.TOWER_HEAVY;
 
     protected static final Color COLOR_NORMAL = Color.decode("#ea9742");
     protected static final Color COLOR_HOVER = Color.decode("#ea7542");
@@ -83,31 +88,34 @@ public abstract class UIElement implements IPaintableUpdatableObject{
 
     public void handleMouseInput(ArrayList<MouseEvent> events) {
         for (MouseEvent e : events) {
-            boolean newMouseOver = this.isEventInBounds(e);
-            if (this.isMouseOver != newMouseOver) {
-                this.isMouseOver = newMouseOver;
-                if (this.isMouseOver)  mouseEntered(); else mouseLeft();
-            }
-            if (this.isMouseOver) {
-                if (e.getID() == MouseEvent.MOUSE_PRESSED) this.isMouseDown = true;
-            }
-
-            if (e.getID() == MouseEvent.MOUSE_RELEASED && this.isMouseDown) {
+            if (!e.isConsumed()) {
+                boolean newMouseOver = this.isEventInBounds(e);
+                if (this.isMouseOver != newMouseOver) {
+                    this.isMouseOver = newMouseOver;
+                    if (this.isMouseOver) mouseEntered();
+                    else mouseLeft();
+                }
                 if (this.isMouseOver) {
-                    this.hasFocus = true;
-                    clicked(e);
+                    if (e.getID() == MouseEvent.MOUSE_PRESSED) this.isMouseDown = true;
                 }
-            }
 
-            if (e.getID() == MouseEvent.MOUSE_RELEASED) {
-                if (!this.isMouseOver && !this.isMouseDown) {
-                    this.hasFocus = false;
+                if (e.getID() == MouseEvent.MOUSE_RELEASED && this.isMouseDown) {
+                    if (this.isMouseOver) {
+                        this.hasFocus = true;
+                        clicked(e);
+                    }
                 }
+
+                if (e.getID() == MouseEvent.MOUSE_RELEASED) {
+                    if (!this.isMouseOver && !this.isMouseDown) {
+                        this.hasFocus = false;
+                    }
+                }
+
+                if (e.getID() == MouseEvent.MOUSE_RELEASED) this.isMouseDown = false;
+
+                handleMouseEvent(e);
             }
-
-            if (e.getID() == MouseEvent.MOUSE_RELEASED) this.isMouseDown = false;
-
-            handleMouseEvent(e);
         }
     }
 

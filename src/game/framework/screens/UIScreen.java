@@ -2,10 +2,10 @@ package game.framework.screens;
 
 import game.framework.BackgroundMusicPlayer;
 import game.framework.Manager;
-import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
-import game.framework.resources.Fonts;
+import game.object.player.Player;
 import game.object.tile.TileMap;
+import game.ui.container.InGameBuildMenu;
 import game.ui.container.StatusBar;
 import game.ui.element.DropDownMenu;
 import game.ui.element.Slider;
@@ -21,16 +21,19 @@ import java.util.ArrayList;
  * Screen which displays the UI over the game.
  * Created by Jannes Peters on 23.02.2015.
  */
-public class UIScreen extends BaseScreen implements IUIActionReceiver {
+public class UIScreen extends ChildScreen implements IUIActionReceiver {
 
     private Rectangle bottomDrawBorder;
 
-    private StatusBar statusBar;
+    private final StatusBar statusBar;
+    private final InGameBuildMenu buildMenu;
 
-    public UIScreen(String name, int width, int height, Graphics2D g) {
-        super(name, width, height, g);
+    public UIScreen(String name, int width, int height, Graphics2D g, GameScreen parent, Player player) {
+        super(name, width, height, g, parent);
 
-        statusBar = new StatusBar(width, height, g, this);
+        statusBar = new StatusBar(width, height, g, this, player);
+        Rectangle buildArea = getBottomDrawBorder(width, height);
+        buildMenu = new InGameBuildMenu(0, buildArea.y, buildArea.width, buildArea.height, player, this);
 
         bottomDrawBorder = getBottomDrawBorder(width, height);
         super.zOrder = ScreenManager.ZOrder.UI;
@@ -39,28 +42,25 @@ public class UIScreen extends BaseScreen implements IUIActionReceiver {
     @Override
     public void handleKeyInput(ArrayList<KeyEvent> events) {
         statusBar.handleKeyInput(events);
+        buildMenu.handleKeyInput(events);
     }
 
     @Override
     public void handleMouseInput(ArrayList<MouseEvent> events) {
         statusBar.handleMouseInput(events);
+        buildMenu.handleMouseInput(events);
     }
 
     @Override
     public void update(double timeScale, long timeDiff) {
         statusBar.update(timeScale, timeDiff);
+        buildMenu.update(timeScale, timeDiff);
     }
 
     @Override
     public void draw(Graphics2D g) {
-        g.setColor(Color.DARK_GRAY);
-        g.fillRect((int) bottomDrawBorder.getX(), (int) bottomDrawBorder.getY(), (int) bottomDrawBorder.getWidth(), (int) bottomDrawBorder.getHeight());
-
-        g.setColor(Color.LIGHT_GRAY);
-        g.setFont(Fonts.defaultFont);
-        g.drawString("bottomDrawBorder", (int) bottomDrawBorder.getX() + Util.PADDING, (int) bottomDrawBorder.getY() + Util.PADDING + g.getFontMetrics().getMaxAscent());
-
         statusBar.draw(g);
+        buildMenu.draw(g);
     }
 
     @Override
@@ -68,6 +68,7 @@ public class UIScreen extends BaseScreen implements IUIActionReceiver {
         super.realign(width, height, g);
         if (statusBar != null) {
             statusBar.realign(width, height, g);
+            buildMenu.realign(width, height, g);
         }
         bottomDrawBorder = getBottomDrawBorder(width, height);
     }

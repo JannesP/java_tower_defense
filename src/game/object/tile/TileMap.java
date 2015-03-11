@@ -17,7 +17,7 @@ import java.awt.image.BufferedImage;
  * TileMap which contains all information map related, towers, castle, etc.
  * Created by Jannes Peters on 2/21/2015.
  */
-public class TileMap implements IPaintableUpdatableObject{
+public class TileMap implements IPaintableUpdatableObject {
 
     public static final int DEFAULT_TILE_SIZE = 30;
     public static double tileSize = 30;

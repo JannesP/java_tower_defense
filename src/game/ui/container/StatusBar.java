@@ -4,6 +4,7 @@ import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
 import game.framework.resources.Textures;
+import game.object.player.Player;
 import game.ui.element.*;
 import game.ui.element.button.MultiImageButton;
 
@@ -19,10 +20,11 @@ import java.util.ArrayList;
 public class StatusBar implements UIContainer {
 
     private Rectangle border;
-
+    private final Player player;
     private UIElementContainer uiElementContainer;
 
-    public StatusBar(int width, int height, Graphics2D g, IUIActionReceiver actionReceiver) {
+    public StatusBar(int width, int height, Graphics2D g, IUIActionReceiver actionReceiver, Player player) {
+        this.player = player;
         g.setFont(Fonts.statusBarFont);
         int calcHeight = g.getFontMetrics().getHeight() + (Util.PADDING * 2);
         border = new Rectangle(0, 0, width, calcHeight);

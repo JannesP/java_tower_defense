@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  * A basic, working enemy.
  * Created by Jannes Peters on 2/20/2015.
  */
-public abstract class Enemy implements IPaintableUpdatableObject {
+public abstract class Enemy implements IPaintableUpdatableObject, Comparable {
     protected static final double BASIC_SPEED = 3.0d;
 
     protected BufferedImage texture;
@@ -23,6 +23,7 @@ public abstract class Enemy implements IPaintableUpdatableObject {
     protected int currentlyActiveWayPoint = 0;
     protected Vector2d directionVector, normalizedDirectionVector, lastPosition, movedVector;
     protected int x, y;
+    protected double movedDistance = 0d;
 
     /**
      * Basic constructor for an <code>Enemy</code>
@@ -54,13 +55,30 @@ public abstract class Enemy implements IPaintableUpdatableObject {
         }
     }
 
+    @Override
+    public int compareTo(Object o) {
+        if (!(o instanceof Enemy)) throw new IllegalArgumentException("The compare object is not an " + Enemy.class.toString());
+        return this.getMovedDistance() - ((Enemy)o).getMovedDistance();
+    }
+
     /**
-     *
-     * @return the rest of length
+     * Returns the complete moved length.
+     * Used to determine which enemy is the farthest away (which to shoot).
+     * @return the complete movement length
+     */
+    public int getMovedDistance() {
+        return (int) movedDistance;
+    }
+
+    /**
+     * Changes to the next WayPoint.
      */
     public void nextWayPoint() {
         currentlyActiveWayPoint++;
-        if (currentlyActiveWayPoint == wayPoints.length) currentlyActiveWayPoint = 1; //reset when at the end of the map
+        if (currentlyActiveWayPoint == wayPoints.length) {
+            currentlyActiveWayPoint = 1; //reset when at the end of the map
+            movedDistance = 0d;
+        }
         Vector2d start = wayPoints[currentlyActiveWayPoint - 1];
         Vector2d destination = wayPoints[currentlyActiveWayPoint];
         directionVector = new Vector2d(start, destination);
@@ -77,7 +95,7 @@ public abstract class Enemy implements IPaintableUpdatableObject {
             nextWayPoint();
             movedVector.add(normalizedDirectionVector.returnScaled(leftMovement));
         }
-
+        movedDistance += calcSpeed;
         movedVector.add(normalizedDirectionVector.returnScaled(calcSpeed));
     }
 

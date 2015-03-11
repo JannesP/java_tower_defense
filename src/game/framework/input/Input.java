@@ -39,6 +39,7 @@ public class Input implements KeyListener, WindowListener, MouseListener, MouseM
 	public void windowClosing(WindowEvent e) {
         System.out.println("Window Closing Event!");
         if (Manager.hasGameCrashed()) {
+            System.out.println("Force closing game because of exception.");
             Manager.closeRequested();
         } else {
             screenManager.closeRequested();

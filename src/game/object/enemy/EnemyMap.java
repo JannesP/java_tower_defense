@@ -7,6 +7,7 @@ import game.object.tile.TileMap;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A wrapper for storing multiple EnemyWaves
@@ -36,6 +37,10 @@ public class EnemyMap implements IPaintableUpdatableObject {
         return calculatedPositions;
     }
 
+    /**
+     *
+     * @return
+     */
     public Enemy[] getEnemies() {
         int size = 0;
         for (EnemyWave enemyWave : waves) {
@@ -49,7 +54,7 @@ public class EnemyMap implements IPaintableUpdatableObject {
                 enemies[i++] = enemy;
             }
         }
-
+        Arrays.sort(enemies);
         return enemies;
     }
 

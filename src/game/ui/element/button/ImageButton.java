@@ -2,6 +2,7 @@ package game.ui.element.button;
 
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
+import game.framework.resources.Textures;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -23,13 +24,11 @@ public class ImageButton extends Button {
      * @param y - y position
      * @param width - width of the whole button
      * @param height - height of the whole button
-     * @param backgroundImage - background sprite (normal, hover and gamePaused in one image on top of each other)
      * @param image - image to draw on the button
-     * @param g - current graphics for calculating text bounds
      */
-    public ImageButton(int x, int y, int width, int height, BufferedImage backgroundImage, IUIActionReceiver actionReceiver, BufferedImage image, Graphics2D g, int action){
-        super(x, y, width, height, action, actionReceiver, backgroundImage);
-        this.setImage(image, g);
+    public ImageButton(int x, int y, int width, int height, IUIActionReceiver actionReceiver, BufferedImage image, int action){
+        super(x, y, width, height, action, actionReceiver, Textures.button_main_menu);
+        this.setImage(image);
     }
 
 
@@ -41,13 +40,13 @@ public class ImageButton extends Button {
 
     @Override
     public void realign(int width, int height, Graphics2D g) {
-        imgDrawSize = image.getWidth() - PADDING * 2;
+        imgDrawSize = super.height - PADDING * 2;
         imageX = x + Util.calculateCenterPosition(super.width, imgDrawSize);
         imageY = y + Util.calculateCenterPosition(super.height, imgDrawSize);
     }
 
-    private void setImage(BufferedImage image, Graphics2D g) {
+    private void setImage(BufferedImage image) {
         this.image = image;
-        realign(width, height, g);
+        realign(width, height, null);
     }
 }

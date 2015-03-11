@@ -15,15 +15,16 @@ import java.awt.*;
  * Manager that creates the game.tower.tile.window and update thread
  * @author Jannes Peters
  */
-public class Manager {
+public class Manager implements Thread.UncaughtExceptionHandler{
     public static final long REFERENCE_NANO_DIFF = (long)(Util.NANO_SECOND_SECOND / 60);
 
     public static double targetFps = 60;
     public static long normalFrameNanoDiff = (long)(Util.NANO_SECOND_SECOND / targetFps);
     public static long nextSleep = (long) (Util.NANO_SECOND_SECOND / targetFps);
 
+    private static boolean gameCrashed = false;
 
-	private Window win;
+    private Window win;
 	private ScreenManager screenManager;
     private static Thread updateThread;
 	
@@ -49,6 +50,8 @@ public class Manager {
             }
 		});
         updateThread.setName("updateThread");
+        updateThread.setPriority(Thread.MAX_PRIORITY);
+        updateThread.setUncaughtExceptionHandler(this);
 
         screenManager = new ScreenManager(win);
         Input input = new Input(screenManager);
@@ -68,7 +71,7 @@ public class Manager {
 	}
 
     public static boolean hasGameCrashed() {
-        return (updateThread == null || updateThread.isAlive());
+        return (gameCrashed || updateThread == null || updateThread.isAlive());
     }
 
     private void initGame() {
@@ -115,5 +118,11 @@ public class Manager {
             updateThread.interrupt();
         }
         System.exit(0);
+    }
+
+    @Override
+    public void uncaughtException(Thread t, Throwable e) {
+        e.printStackTrace();
+        if (t.getName().equals("updateThread")) Manager.gameCrashed = true;
     }
 }

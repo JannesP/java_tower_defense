@@ -22,9 +22,9 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen(String name, int width, int height, Graphics2D g) {
         super(name, width, height, g);
-        uiScreen = new UIScreen("uiScreen", width, height, g);
-        super.requestScreen(uiScreen);
         this.player = new Player("SPlayerName", 0, 100);
+        uiScreen = new UIScreen("uiScreen", width, height, g, this, player);
+        super.requestScreen(uiScreen);
         tileMap = new TileMap(0, player);
         enemyMap = new EnemyMap(0, tileMap);
         super.zOrder = ScreenManager.ZOrder.BACKGROUND;
@@ -80,5 +80,9 @@ public class GameScreen extends BaseScreen {
     public void closeRequested() {
         System.out.println("Close init by: " + this.getClass().toString());
         super.closeGame();
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

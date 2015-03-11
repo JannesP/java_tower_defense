@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Container for handling all UI elements.
  * Created by Jannes Peters on 2/26/2015.
  */
-public class UIElementContainer implements IPaintableUpdatableObject{
+public class UIElementContainer implements IPaintableUpdatableObject {
         private ArrayList<UIElement> elements;
 
         public UIElementContainer(ArrayList<UIElement> elements) {

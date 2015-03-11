@@ -4,6 +4,7 @@ import game.framework.resources.Textures;
 import game.object.tile.TileMap;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Castle which is basically a tower which renders over 4 Tiles.
@@ -25,7 +26,7 @@ public class Castle extends Tower {
         super.fireRatePerLevel = new double[]{0, 0, 0, 0, 0};
         super.damagePerLevel = new int[]{0, 0, 0, 0, 0};
         super.rangePerLevel = new int[]{0, 0, 0, 0, 0};
-        super.critRate = 0.0f;
+        super.critRate = new float[] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
     }
 
     @Override
@@ -36,6 +37,16 @@ public class Castle extends Tower {
     }
 
     @Override
+    public int getId() {
+        return Tower.TOWER_CASTLE;
+    }
+
+    @Override
     protected void fire() {
+    }
+
+    @Override
+    public BufferedImage getTexture() {
+        return null;
     }
 }

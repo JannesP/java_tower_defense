@@ -80,6 +80,7 @@ public class DropDownMenu extends UIElement {
 
     @Override
     protected void clicked(MouseEvent event) {
+        event.consume();
         if (this.extended) {
             int baseHeight = this.originalHeight;
             int itemHeight = this.originalHeight - DropDownMenu.BORDER_SIZE * 2;
@@ -103,13 +104,16 @@ public class DropDownMenu extends UIElement {
 
     @Override
     protected void handleMouseEvent(MouseEvent event) {
-        if (event.getID() == MouseEvent.MOUSE_MOVED && super.isMouseOver) {
-            if (this.extended) {
-                int baseHeight = this.originalHeight;
-                int itemHeight = this.originalHeight - DropDownMenu.BORDER_SIZE * 2;
-                int relativeMouseY = event.getY() - super.y - baseHeight;
-                if (relativeMouseY > 0) {
-                    this.mouseOverIndex = relativeMouseY / itemHeight;
+        if (this.isMouseOver) {
+            event.consume();
+            if (event.getID() == MouseEvent.MOUSE_MOVED || event.getID() == MouseEvent.MOUSE_DRAGGED) {
+                if (this.extended) {
+                    int baseHeight = this.originalHeight;
+                    int itemHeight = this.originalHeight - DropDownMenu.BORDER_SIZE * 2;
+                    int relativeMouseY = event.getY() - super.y - baseHeight;
+                    if (relativeMouseY > 0) {
+                        this.mouseOverIndex = relativeMouseY / itemHeight;
+                    }
                 }
             }
         }
@@ -119,6 +123,14 @@ public class DropDownMenu extends UIElement {
     public void drawOverlay(Graphics2D g) {
         g.setFont(this.font);
         if (this.extended) {
+            //background
+            g.setColor(COLOR_BACKGROUND);
+            g.fillRect(super.x + 2, super.y + 2, super.width - 4, super.height - 4);
+
+            //selector
+            g.drawImage(Textures.button_main_menu, super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), this.y + DropDownMenu.BORDER_SIZE, this.originalHeight - 2 * DropDownMenu.BORDER_SIZE + (super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE)), this.y + DropDownMenu.BORDER_SIZE + (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), 0, 0, Textures.button_main_menu.getWidth(), Textures.button_main_menu.getHeight(), null);
+
+            //entries
             int entryHeight = this.originalHeight - DropDownMenu.BORDER_SIZE * 2;
             int posX = super.x + Util.PADDING + DropDownMenu.BORDER_SIZE;
             for (int i = 0; i < entries.length; i++) {
@@ -140,23 +152,24 @@ public class DropDownMenu extends UIElement {
     @Override
     public void draw(Graphics2D g) {
         g.setFont(this.font);
-        g.setColor(COLOR_BACKGROUND);
-        g.fillRect(super.x, super.y, super.width, super.height);
 
-        g.drawImage(Textures.button_main_menu, super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), this.y + DropDownMenu.BORDER_SIZE, this.originalHeight - 2 * DropDownMenu.BORDER_SIZE + (super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE)), this.y + DropDownMenu.BORDER_SIZE + (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), 0, 0, Textures.button_main_menu.getWidth(), Textures.button_main_menu.getHeight(), null);
-
-        g.setColor(UIElement.COLOR_FONT);
         if (this.extended) {
             drawExtendedBorder(g);
-            g.setColor(Color.WHITE);
             g.setColor(new Color(g.getColor().getRed(), g.getColor().getGreen(), g.getColor().getBlue(), 123));
         } else {
+            //background
+            g.setColor(COLOR_BACKGROUND);
+            g.fillRect(super.x, super.y, super.width, super.height);
+
+            //selector
+            g.drawImage(Textures.button_main_menu, super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), this.y + DropDownMenu.BORDER_SIZE, this.originalHeight - 2 * DropDownMenu.BORDER_SIZE + (super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE)), this.y + DropDownMenu.BORDER_SIZE + (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), 0, 0, Textures.button_main_menu.getWidth(), Textures.button_main_menu.getHeight(), null);
+
+            //border
             g.setColor(UIElement.COLOR_NORMAL);
             g.drawRect(super.x, super.y, super.width, super.height);
             g.drawRect(super.x + 1, super.y + 1, super.width - 2, super.height - 2);
-            g.setColor(Color.WHITE);
         }
-
+        g.setColor(Color.WHITE);
         g.drawString(this.entries[this.selectedIndex], this.x + DropDownMenu.BORDER_SIZE + Util.PADDING, super.y + Util.calculateCenterPosition(this.originalHeight, Util.getFontHeight(g)) + Util.getFontHeight(g));
     }
 
