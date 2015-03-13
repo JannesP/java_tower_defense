@@ -113,7 +113,7 @@ public class InGameOptionScreen extends ChildScreen implements IUIActionReceiver
         public static final int HEIGHT = 50;
 
         public MenuButton(int x, int y, String text, Graphics2D g, int action, IUIActionReceiver actionReceiver) {
-            super(x, y, WIDTH, HEIGHT, Textures.button_main_menu, actionReceiver, text, g, action);
+            super(x, y, WIDTH, HEIGHT, Textures.buttonBackground, actionReceiver, text, g, action);
         }
     }
 }

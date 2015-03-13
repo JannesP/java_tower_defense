@@ -1,5 +1,6 @@
 package game.framework.resources;
 
+import game.framework.Util;
 import game.framework.screens.SplashLoadScreen;
 
 import javax.imageio.ImageIO;
@@ -11,7 +12,7 @@ import java.io.IOException;
  * Class that loads and holds all textures.
  */
 public class Textures {
-    public static final int ELEMENTS = 8;
+    public static final int ELEMENTS = 9;
 
     public static BufferedImage placeholder;
 
@@ -20,7 +21,8 @@ public class Textures {
     public static BufferedImage dropDownArrow;
 
     //UI Elements
-	public static BufferedImage button_main_menu;
+	public static BufferedImage buttonBackground;
+    public static BufferedImage disabledButtonBackground;
 
     //Towers
     public static BufferedImage castleTexture;
@@ -48,7 +50,9 @@ public class Textures {
             iconSpeaker = loadImage("assets/img/icons/speaker.png");
 
             //Buttons
-            button_main_menu = loadImage("assets/img/buttons/menu.png");
+            buttonBackground = loadImage("assets/img/buttons/menu.png");
+            disabledButtonBackground = Util.createGreyScaledImage(buttonBackground, 0, 0, buttonBackground.getWidth(), buttonBackground.getHeight() / 3);
+            SplashLoadScreen.elementLoaded();
 
             //Towers
             castleTexture = loadImage("assets/img/tower/castle.png");

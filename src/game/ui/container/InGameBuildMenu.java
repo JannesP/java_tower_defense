@@ -36,6 +36,7 @@ public class InGameBuildMenu implements UIContainer {
             int towerId = availableTowers[i];
             BufferedImage cutLightTower  = Tower.getTexture(towerId).getSubimage(0, 0, Tower.getTexture(towerId).getHeight(), Tower.getTexture(towerId).getHeight());
             ImageButton button = new ImageButton(this.x + Util.PADDING + i * (this.height - Util.PADDING), this.y + Util.PADDING, this.height - 2 * Util.PADDING, this.height - 2 * Util.PADDING, actionReceiver, cutLightTower, UIElement.BUTTON_TOWER + towerId);
+            button.setDisabled(true);
             elements.add(button);
         }
 

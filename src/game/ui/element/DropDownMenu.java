@@ -128,7 +128,7 @@ public class DropDownMenu extends UIElement {
             g.fillRect(super.x + 2, super.y + 2, super.width - 4, super.height - 4);
 
             //selector
-            g.drawImage(Textures.button_main_menu, super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), this.y + DropDownMenu.BORDER_SIZE, this.originalHeight - 2 * DropDownMenu.BORDER_SIZE + (super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE)), this.y + DropDownMenu.BORDER_SIZE + (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), 0, 0, Textures.button_main_menu.getWidth(), Textures.button_main_menu.getHeight(), null);
+            g.drawImage(Textures.buttonBackground, super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), this.y + DropDownMenu.BORDER_SIZE, this.originalHeight - 2 * DropDownMenu.BORDER_SIZE + (super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE)), this.y + DropDownMenu.BORDER_SIZE + (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), 0, 0, Textures.buttonBackground.getWidth(), Textures.buttonBackground.getHeight(), null);
 
             //entries
             int entryHeight = this.originalHeight - DropDownMenu.BORDER_SIZE * 2;
@@ -162,7 +162,7 @@ public class DropDownMenu extends UIElement {
             g.fillRect(super.x, super.y, super.width, super.height);
 
             //selector
-            g.drawImage(Textures.button_main_menu, super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), this.y + DropDownMenu.BORDER_SIZE, this.originalHeight - 2 * DropDownMenu.BORDER_SIZE + (super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE)), this.y + DropDownMenu.BORDER_SIZE + (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), 0, 0, Textures.button_main_menu.getWidth(), Textures.button_main_menu.getHeight(), null);
+            g.drawImage(Textures.buttonBackground, super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), this.y + DropDownMenu.BORDER_SIZE, this.originalHeight - 2 * DropDownMenu.BORDER_SIZE + (super.x + super.width - DropDownMenu.BORDER_SIZE - (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE)), this.y + DropDownMenu.BORDER_SIZE + (this.originalHeight - 2 * DropDownMenu.BORDER_SIZE), 0, 0, Textures.buttonBackground.getWidth(), Textures.buttonBackground.getHeight(), null);
 
             //border
             g.setColor(UIElement.COLOR_NORMAL);

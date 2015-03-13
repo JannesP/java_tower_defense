@@ -30,7 +30,7 @@ public class StatusBar implements UIContainer {
         border = new Rectangle(0, 0, width, calcHeight);
 
         ArrayList<UIElement> elements = new ArrayList<>();
-        elements.add(new MultiImageButton(Util.PADDING, Util.PADDING, this.getHeight() - Util.PADDING * 2, this.getHeight() - Util.PADDING * 2, Textures.button_main_menu, actionReceiver, Textures.iconSpeaker, 2, g, UIElement.BUTTON_MUTE));
+        elements.add(new MultiImageButton(Util.PADDING, Util.PADDING, this.getHeight() - Util.PADDING * 2, this.getHeight() - Util.PADDING * 2, Textures.buttonBackground, actionReceiver, Textures.iconSpeaker, 2, g, UIElement.BUTTON_MUTE));
         ((MultiImageButton)elements.get(0)).setImageIndex(1);
         elements.add(new Slider(elements.get(0).getRightBorder() + Util.PADDING, Util.PADDING, 250, this.getHeight() - Util.PADDING * 2, UIElement.SLIDER_VOLUME, actionReceiver));
         elements.add(new TextBox(350 + Util.PADDING, Util.PADDING, 200, this.getHeight() - Util.PADDING * 2, UIElement.TEXTBOX_INPUT, actionReceiver, "Example TextBox", 50));

@@ -27,7 +27,7 @@ public class ImageButton extends Button {
      * @param image - image to draw on the button
      */
     public ImageButton(int x, int y, int width, int height, IUIActionReceiver actionReceiver, BufferedImage image, int action){
-        super(x, y, width, height, action, actionReceiver, Textures.button_main_menu);
+        super(x, y, width, height, action, actionReceiver, Textures.buttonBackground);
         this.setImage(image);
     }
 

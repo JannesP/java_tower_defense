@@ -25,7 +25,7 @@ public class UIElementContainer implements IPaintableUpdatableObject {
 
         public void handleMouseInput(ArrayList<MouseEvent> events) {
             for (UIElement element : elements) {
-                element.handleMouseInput(events);
+                if (!element.isDisabled()) element.handleMouseInput(events);
             }
         }
 
@@ -50,7 +50,7 @@ public class UIElementContainer implements IPaintableUpdatableObject {
                 }
             }
             for (UIElement element : elements) {
-                element.handleKeyInput(events);
+                if (!element.isDisabled()) element.handleKeyInput(events);
             }
         }
 

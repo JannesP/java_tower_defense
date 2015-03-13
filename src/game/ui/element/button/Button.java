@@ -1,6 +1,7 @@
 package game.ui.element.button;
 
 import game.framework.input.IUIActionReceiver;
+import game.framework.resources.Textures;
 import game.ui.element.UIElement;
 
 import java.awt.*;
@@ -13,12 +14,13 @@ import java.awt.image.BufferedImage;
  * Created by Jannes Peters on 2/25/2015.
  */
 public abstract class Button extends UIElement {
-    protected BufferedImage backgroundImage;
+    protected BufferedImage backgroundImage, disabledBackgroundImage;
     protected int spriteY;
 
     protected Button(int x, int y, int width, int height, int action, IUIActionReceiver actionReceiver, BufferedImage backgroundImage) {
         super(x, y, width, height, action, actionReceiver);
         this.backgroundImage = backgroundImage;
+        this.disabledBackgroundImage = Textures.disabledButtonBackground;
     }
 
     @Override
@@ -34,10 +36,16 @@ public abstract class Button extends UIElement {
 
     @Override
 	public void draw(Graphics2D g) {
-        if (!super.isMouseOver) spriteY = 0;    //default: 0
-        if (super.hasFocus || super.isMouseOver) spriteY = backgroundImage.getHeight() / 3; //default: backgroundImage.getHeight() / 3
-        if (super.isMouseOver && super.isMouseDown) spriteY = backgroundImage.getHeight() / 3 * 2; //default: backgroundImage.getHeight() / 3 * 2
+        if (super.isDisabled()) {
+            g.drawImage(disabledBackgroundImage, x, y, width, height, null);
+        } else {
+            if (!super.isMouseOver) spriteY = 0;    //default: 0
+            if (super.hasFocus || super.isMouseOver)
+                spriteY = backgroundImage.getHeight() / 3; //default: backgroundImage.getHeight() / 3
+            if (super.isMouseOver && super.isMouseDown)
+                spriteY = backgroundImage.getHeight() / 3 * 2; //default: backgroundImage.getHeight() / 3 * 2
 
-		g.drawImage(backgroundImage, x, y, width + x, height + y, 0, spriteY, backgroundImage.getWidth(), backgroundImage.getHeight() / 3 + spriteY, null);
+            g.drawImage(backgroundImage, x, y, width + x, height + y, 0, spriteY, backgroundImage.getWidth(), backgroundImage.getHeight() / 3 + spriteY, null);
+        }
 	}
 }

@@ -41,6 +41,8 @@ public abstract class UIElement implements IPaintableUpdatableObject{
     public static final int BUTTON_TOWER_LIGHT = BUTTON_TOWER + Tower.TOWER_LIGHT;
     public static final int BUTTON_TOWER_HEAVY = BUTTON_TOWER + Tower.TOWER_HEAVY;
 
+    private static final IUIActionReceiver NULL_RECEIVER = new EmptyActionReceiver();
+
     protected static final Color COLOR_NORMAL = Color.decode("#ea9742");
     protected static final Color COLOR_HOVER = Color.decode("#ea7542");
     protected static final Color COLOR_ACTIVE = Color.decode("#ea5342");
@@ -54,7 +56,7 @@ public abstract class UIElement implements IPaintableUpdatableObject{
     protected boolean isMouseOver = false;
     protected boolean isMouseDown = false;
 
-    private static final IUIActionReceiver NULL_RECEIVER = new EmptyActionReceiver();
+    private boolean isDisabled = false;
 
     /**
      * Initiates the element with the given parameters.
@@ -79,6 +81,14 @@ public abstract class UIElement implements IPaintableUpdatableObject{
     }
 
     protected void handleKeyEvent(KeyEvent event) {}
+
+    public boolean isDisabled() {
+        return isDisabled;
+    }
+
+    public void setDisabled(boolean isDisabled) {
+        this.isDisabled = isDisabled;
+    }
 
     //Event listeners
     protected void handleMouseEvent(MouseEvent event) {}
