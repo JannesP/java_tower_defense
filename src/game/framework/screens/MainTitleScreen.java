@@ -44,8 +44,10 @@ public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
         ArrayList<UIElement> elements = new ArrayList<>();
         elements.add(new MenuButton(menuButtonCenterX, 20, "Play", g, UIElement.BUTTON_START, this));
         elements.add(new MenuButton(menuButtonCenterX, 80, "Multiplayer", g, UIElement.BUTTON_MULTIPLAYER, this));
+        elements.get(elements.size() - 1).setDisabled(true);
         elements.add(new MenuButton(menuButtonCenterX, 160, "Options", g, UIElement.BUTTON_OPTIONS, this));
         elements.add(new MenuButton(menuButtonCenterX, 220, "Editor", g, UIElement.BUTTON_EDITOR, this));
+        elements.get(elements.size() - 1).setDisabled(true);
         elements.add(new MenuButton(menuButtonCenterX, 280, "Exit", g, UIElement.BUTTON_EXIT, this));
         uiElementContainer = new UIElementContainer(elements);
 	}

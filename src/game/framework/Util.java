@@ -56,7 +56,7 @@ public final class Util {
         return buffer.getInt();
     }
 
-    //80-150ms
+    //50-80ms
     /**
      * Completely self written image converter. Faster then any corresponding build in java function.
      * Be careful, no check is done if the src values are in the bounds!
@@ -68,6 +68,38 @@ public final class Util {
      * @return a high quality grey copy of the image with alpha retained
      * @throws ArrayIndexOutOfBoundsException thrown when the src values are not in the bounds of the original.
      */
+    public static BufferedImage createGreyScaledImage(BufferedImage original, int srcX1, int srcY1, int srcX2, int srcY2) {
+        long startTime = System.currentTimeMillis();
+        BufferedImage image = new BufferedImage(srcX2 - srcX1, srcY2 - srcY1, BufferedImage.TYPE_INT_ARGB);
+
+        for (int x = 0; x < image.getWidth(); x++) {
+            for (int y = 0; y < image.getHeight(); y++) {
+                image.setRGB(x, y, getGreyColor(original.getRGB(srcX1 + x, srcY1 + y)));
+            }
+        }
+
+        System.out.println("Grey out image took " + (System.currentTimeMillis() - startTime) + "ms!");
+        return image;
+    }
+
+    /**
+     * Completely self written color converter.
+     * @param rgba the rgba color which should be converted to a grey.
+     * @return the calculated grey
+     */
+    public static int getGreyColor(int rgba) {
+        //split color into its parts
+        int a = (rgba >> 24) & 0xFF;
+        int r = (rgba >> 16) & 0xFF;
+        int g = (rgba >> 8) & 0xFF;
+        int b = rgba & 0xFF;
+
+        int calcGrey = (int)(0.21 * r + 0.6 * g + 0.19 * b);
+        return (a << 24) | (calcGrey << 16) | (calcGrey << 8) | calcGrey;
+    }
+
+    //80-150ms
+    /*
     public static BufferedImage createGreyScaledImage(BufferedImage original, int srcX1, int srcY1, int srcX2, int srcY2) {
         long startTime = System.currentTimeMillis();
         BufferedImage image = new BufferedImage(srcX2 - srcX1, srcY2 - srcY1, BufferedImage.TYPE_BYTE_GRAY);
@@ -82,13 +114,14 @@ public final class Util {
                 int alpha = original.getRGB(x, y) & 0xFF000000; //remove all colors stored in the original (make it new Color(0, 0, 0, a)
                 int color = image.getRGB(x, y) & 0x00FFFFFF;    //remove the alpha channel of the copied grey image (make it new Color(r, g, b, 0)
                 color |= alpha; //combine the values (alpha from alpha and rgb from color)
-                image.setRGB(x, y, color);
+                image2.setRGB(x, y, color);
             }
         }
 
         System.out.println("Grey out image took " + (System.currentTimeMillis() - startTime) + "ms!");
         return image2;
     }
+    */
 
     //300-500ms
     /*public static BufferedImage createGreyScaledImage(BufferedImage original, int srcX1, int srcY1, int srcX2, int srcY2) {
