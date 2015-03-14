@@ -1,6 +1,6 @@
 package game.framework.resources;
 
-import game.framework.screens.SplashLoadScreen;
+import game.framework.screens.menu.SplashLoadScreen;
 
 import java.awt.*;
 import java.io.File;

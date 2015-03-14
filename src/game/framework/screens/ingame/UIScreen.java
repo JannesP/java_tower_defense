@@ -1,8 +1,10 @@
-package game.framework.screens;
+package game.framework.screens.ingame;
 
 import game.framework.BackgroundMusicPlayer;
 import game.framework.Manager;
 import game.framework.input.IUIActionReceiver;
+import game.framework.screens.ChildScreen;
+import game.framework.screens.ScreenManager;
 import game.object.player.Player;
 import game.object.tile.TileMap;
 import game.ui.container.InGameBuildMenu;
@@ -32,10 +34,9 @@ public class UIScreen extends ChildScreen implements IUIActionReceiver {
         super(name, width, height, g, parent);
 
         statusBar = new StatusBar(width, height, g, this, player);
-        Rectangle buildArea = getBottomDrawBorder(width, height);
-        buildMenu = new InGameBuildMenu(0, buildArea.y, buildArea.width, buildArea.height, player, this);
+        Rectangle buildArea = getBuildMenuBounds(width, height);
+        buildMenu = new InGameBuildMenu(buildArea.x, buildArea.y, buildArea.width, buildArea.height, player, this);
 
-        bottomDrawBorder = getBottomDrawBorder(width, height);
         super.zOrder = ScreenManager.ZOrder.UI;
     }
 
@@ -70,10 +71,9 @@ public class UIScreen extends ChildScreen implements IUIActionReceiver {
             statusBar.realign(width, height, g);
             buildMenu.realign(width, height, g);
         }
-        bottomDrawBorder = getBottomDrawBorder(width, height);
     }
 
-    private Rectangle getBottomDrawBorder(int width, int height) {
+    private static Rectangle getBuildMenuBounds(int width, int height) {
         int drawHeight = (int) (TileMap.tileSize * 3);
         int y = height - (int) (TileMap.tileSize * 3);
         return new Rectangle(0, y, width, drawHeight);

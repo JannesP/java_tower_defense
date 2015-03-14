@@ -1,8 +1,10 @@
-package game.framework.screens;
+package game.framework.screens.overlays;
 
 import game.framework.Manager;
 import game.framework.Util;
 import game.framework.resources.Fonts;
+import game.framework.screens.BaseScreen;
+import game.framework.screens.ScreenManager;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

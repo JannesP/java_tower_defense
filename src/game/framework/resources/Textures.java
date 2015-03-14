@@ -1,7 +1,7 @@
 package game.framework.resources;
 
 import game.framework.Util;
-import game.framework.screens.SplashLoadScreen;
+import game.framework.screens.menu.SplashLoadScreen;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -12,7 +12,7 @@ import java.io.IOException;
  * Class that loads and holds all textures.
  */
 public class Textures {
-    public static final int ELEMENTS = 9;
+    public static final int ELEMENTS = 12;
 
     public static BufferedImage placeholder;
 
@@ -28,6 +28,10 @@ public class Textures {
     public static BufferedImage castleTexture;
     public static BufferedImage lightTowerTexture;
     public static BufferedImage heavyTowerTexture;
+
+    public static BufferedImage greyCastleTexture;
+    public static BufferedImage greyLightTowerTexture;
+    public static BufferedImage greyHeavyTowerTexture;
 
     //Backgrounds
     public static BufferedImage[] backgrounds = new BufferedImage[Maps.LEVEL_COUNT];
@@ -51,13 +55,16 @@ public class Textures {
 
             //Buttons
             buttonBackground = loadImage("assets/img/buttons/menu.png");
-            disabledButtonBackground = Util.createGreyScaledImage(buttonBackground, 0, 0, buttonBackground.getWidth(), buttonBackground.getHeight() / 3);
-            SplashLoadScreen.elementLoaded();
+            disabledButtonBackground = createGreyCopy(buttonBackground, 0, 0, buttonBackground.getWidth(), buttonBackground.getHeight() / 3);
 
             //Towers
             castleTexture = loadImage("assets/img/tower/castle.png");
             lightTowerTexture = loadImage("assets/img/tower/light_tower.png");
             heavyTowerTexture = loadImage("assets/img/tower/heavy_tower.png");
+
+            greyCastleTexture = createGreyCopy(castleTexture, 0, 0, castleTexture.getHeight(), castleTexture.getHeight());
+            greyLightTowerTexture = createGreyCopy(lightTowerTexture, 0, 0, lightTowerTexture.getHeight(), lightTowerTexture.getHeight());
+            greyHeavyTowerTexture = createGreyCopy(heavyTowerTexture, 0, 0, heavyTowerTexture.getHeight(), heavyTowerTexture.getHeight());
 
             //Enemies
             runnerTexture = loadImage("assets/img/enemy/runner.png");
@@ -75,6 +82,12 @@ public class Textures {
         System.out.println("Loading " + path + " ...");
         SplashLoadScreen.elementLoaded();
         return ImageIO.read(new File(path));
+    }
+
+    private static BufferedImage createGreyCopy(BufferedImage texture, int srcX, int srcY, int srcX2, int srcY2) {
+        BufferedImage greyCopy = Util.createGreyScaledImage(texture, srcX, srcY, srcX2, srcY2);
+        SplashLoadScreen.elementLoaded();
+        return greyCopy;
     }
 
 

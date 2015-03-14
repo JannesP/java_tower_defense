@@ -2,9 +2,9 @@ package game.framework;
 
 import game.framework.input.Input;
 import game.framework.resources.Settings;
-import game.framework.screens.FpsScreen;
 import game.framework.screens.ScreenManager;
-import game.framework.screens.SplashLoadScreen;
+import game.framework.screens.menu.SplashLoadScreen;
+import game.framework.screens.overlays.FpsScreen;
 import game.object.tile.TileMap;
 import javafx.embed.swing.JFXPanel;
 

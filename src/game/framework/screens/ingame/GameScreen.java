@@ -1,5 +1,7 @@
-package game.framework.screens;
+package game.framework.screens.ingame;
 
+import game.framework.screens.BaseScreen;
+import game.framework.screens.ScreenManager;
 import game.object.enemy.EnemyMap;
 import game.object.player.Player;
 import game.object.tile.TileMap;

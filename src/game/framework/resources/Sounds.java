@@ -1,6 +1,6 @@
 package game.framework.resources;
 
-import game.framework.screens.SplashLoadScreen;
+import game.framework.screens.menu.SplashLoadScreen;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;

@@ -1,16 +1,17 @@
-package game.framework.screens;
+package game.framework.screens.menu;
 
 import game.framework.resources.Fonts;
 import game.framework.resources.Maps;
 import game.framework.resources.Sounds;
 import game.framework.resources.Textures;
+import game.framework.screens.BaseScreen;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class SplashLoadScreen extends BaseScreen{
+public class SplashLoadScreen extends BaseScreen {
 
     private static volatile int percentLoaded = 0;
 	

@@ -2,7 +2,6 @@ package game.object.tower;
 
 import game.drawable.ITextured;
 import game.framework.Util;
-import game.framework.resources.Textures;
 import game.object.enemy.Enemy;
 import game.object.tile.Tile;
 import game.object.tile.TileMap;
@@ -94,21 +93,6 @@ public abstract class Tower implements ITextured {
      * Should return a unique id for the class.
      */
     public abstract int getId();
-
-    public static BufferedImage getTexture(int towerId) {
-        switch (towerId) {
-            case Tower.TOWER_CASTLE:
-                return Textures.castleTexture;
-            case Tower.TOWER_LIGHT:
-                return Textures.lightTowerTexture;
-            case Tower.TOWER_HEAVY:
-                return Textures.heavyTowerTexture;
-            default:
-                System.out.println("Texture for id: " + towerId + " is missing!");
-                System.exit(-1);
-        }
-        return Textures.placeholder;
-    }
 
     protected abstract void fire();
 }

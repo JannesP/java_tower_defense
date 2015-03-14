@@ -3,14 +3,13 @@ package game.ui.container;
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.object.player.Player;
-import game.object.tower.Tower;
 import game.ui.element.UIElement;
 import game.ui.element.button.ImageButton;
+import game.ui.element.button.TowerButton;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
@@ -34,8 +33,7 @@ public class InGameBuildMenu implements UIContainer {
         int[] availableTowers = player.getPossibleTowers();
         for (int i = 0; i < availableTowers.length; i++) {
             int towerId = availableTowers[i];
-            BufferedImage cutLightTower  = Tower.getTexture(towerId).getSubimage(0, 0, Tower.getTexture(towerId).getHeight(), Tower.getTexture(towerId).getHeight());
-            ImageButton button = new ImageButton(this.x + Util.PADDING + i * (this.height - Util.PADDING), this.y + Util.PADDING, this.height - 2 * Util.PADDING, this.height - 2 * Util.PADDING, actionReceiver, cutLightTower, UIElement.BUTTON_TOWER + towerId);
+            ImageButton button = new TowerButton(this.x + Util.PADDING + i * (this.height - Util.PADDING), this.y + Util.PADDING, this.height - 2 * Util.PADDING, this.height - 2 * Util.PADDING, actionReceiver, towerId);
             button.setDisabled(true);
             elements.add(button);
         }

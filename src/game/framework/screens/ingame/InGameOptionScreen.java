@@ -1,10 +1,14 @@
-package game.framework.screens;
+package game.framework.screens.ingame;
 
 import game.framework.BackgroundMusicPlayer;
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
 import game.framework.resources.Textures;
+import game.framework.screens.BaseScreen;
+import game.framework.screens.ChildScreen;
+import game.framework.screens.ScreenManager;
+import game.framework.screens.menu.MainTitleScreen;
 import game.ui.container.UIElementContainer;
 import game.ui.element.DropDownMenu;
 import game.ui.element.Label;
@@ -17,7 +21,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class OptionScreen extends BaseScreen implements IUIActionReceiver {
+public class InGameOptionScreen extends ChildScreen implements IUIActionReceiver {
+    private static final Color COLOR_BACKGROUND = new Color(0f,0f,0f, 0.85f);
 
     @Override
     public void performAction(UIElement sender, int buttonAction) {
@@ -25,17 +30,15 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
             case UIElement.SLIDER_VOLUME:
                 BackgroundMusicPlayer.setVolume(((Slider) sender).getValue());
                 break;
-            case UIElement.BUTTON_CREDITS:
-                super.requestScreen(new CreditScreen("creditScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.ScreenState.SHUTDOWN;
+            case UIElement.BUTTON_RESUME:
+                if (super.getParent() instanceof GameScreen)
+                    ((GameScreen)super.getParent()).gamePaused = false;
+                super.unload();
                 break;
             case UIElement.BUTTON_BACK:
                 super.requestScreen(new MainTitleScreen("mainScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.ScreenState.SHUTDOWN;
-            break;
-            case UIElement.BUTTON_TEST:
-                super.requestScreen(new InGameOptionScreen("testScreen", this.width, this.height, super.graphics2D, this));
-                super.state = ScreenManager.ScreenState.SHUTDOWN;
+                super.getParent().unload();
+                super.unload();
                 break;
             default:
                 System.out.println("BUTTON FAILURE! Action: '" + buttonAction + "' not defined in " + this.getClass().toString());
@@ -44,21 +47,23 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
 
     private UIElementContainer uiElementContainer;
 
-    public OptionScreen(String name, int width, int height, Graphics2D g) {
-        super(name, width, height, g);
+    public InGameOptionScreen(String name, int width, int height, Graphics2D g, BaseScreen parent) {
+        super(name, width, height, g, parent);
         g.setFont(Fonts.defaultFont);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
         int SliderCenterX = Util.calculateCenterPosition(this.width, 300);
-        int SliderY = 50;
+        int SliderY = 210;
         String[] scales = new String[] {"990x600", "660x400"}; //scaling 33x20
         ArrayList<UIElement> elements = new ArrayList<>();
         elements.add(new Slider(SliderCenterX, SliderY, 300, 50, UIElement.SLIDER_VOLUME, this, 0, 1, 0.5));
         elements.add(new Label((SliderCenterX - 100), (SliderY + 30), 0, "Volume"));
-        elements.add(new MenuButton(menuButtonCenterX, 220, "Credits", g, UIElement.BUTTON_CREDITS, this));
-        elements.add(new MenuButton(menuButtonCenterX, 280, "Back", g, UIElement.BUTTON_BACK, this));
-        elements.add(new MenuButton(menuButtonCenterX, 400, "TestScreen", g, UIElement.BUTTON_TEST, this));
-        elements.add(new DropDownMenu(SliderCenterX,140,300,50,UIElement.DROPDOWN_SELECTED ,this , scales));
+        elements.add(new MenuButton(menuButtonCenterX, 90, "Save", g, UIElement.BUTTON_SAVE, this));
+        elements.add(new MenuButton(menuButtonCenterX, 150, "Load", g, UIElement.BUTTON_LOAD, this));
+        elements.add(new MenuButton(menuButtonCenterX, 30, "Resume", g, UIElement.BUTTON_RESUME, this));
+        elements.add(new DropDownMenu(SliderCenterX,300,300,50,UIElement.DROPDOWN_SELECTED ,this , scales));
+        elements.add(new MenuButton(menuButtonCenterX, 360, "Main Menu", g, UIElement.BUTTON_BACK, this));
         uiElementContainer = new UIElementContainer(elements);
+        super.zOrder = ScreenManager.ZOrder.OVER_UI;
     }
 
     @Override
@@ -68,6 +73,10 @@ public class OptionScreen extends BaseScreen implements IUIActionReceiver {
 
     @Override
     public void draw(Graphics2D g) {
+        //draw black background
+        g.setColor(COLOR_BACKGROUND);
+        g.fillRect(0, 0, super.width, super.height);
+        //draw UI elements
         uiElementContainer.draw(g);
     }
 

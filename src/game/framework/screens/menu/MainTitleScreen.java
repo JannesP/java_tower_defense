@@ -1,8 +1,11 @@
-package game.framework.screens;
+package game.framework.screens.menu;
 
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Textures;
+import game.framework.screens.BaseScreen;
+import game.framework.screens.ScreenManager;
+import game.framework.screens.ingame.GameScreen;
 import game.ui.container.UIElementContainer;
 import game.ui.element.UIElement;
 import game.ui.element.button.TextButton;
