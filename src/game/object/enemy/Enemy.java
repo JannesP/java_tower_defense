@@ -101,17 +101,29 @@ public abstract class Enemy implements IPaintableUpdatableObject, Comparable {
 
     @Override
     public void draw(Graphics2D g) {
-        Vector2d lastLocation = wayPoints[currentlyActiveWayPoint - 1];
+        lastPosition = wayPoints[currentlyActiveWayPoint - 1];
 
-        int dx1 = (int)(lastLocation.getX() + movedVector.getX()) - (int)(TileMap.tileSize / 2d);
-        int dx2 = (int)(lastLocation.getX() + movedVector.getX()) + (int)(TileMap.tileSize / 2d);
+        int dx1 = (int)(lastPosition.getX() + movedVector.getX()) - (int)(TileMap.tileSize / 2d);
+        int dx2 = (int)(lastPosition.getX() + movedVector.getX()) + (int)(TileMap.tileSize / 2d);
 
-        int dy1 = (int)(lastLocation.getY() + movedVector.getY()) - (int)(TileMap.tileSize / 2d);
-        int dy2 = (int)(lastLocation.getY() + movedVector.getY()) + (int)(TileMap.tileSize / 2d);
+        int dy1 = (int)(lastPosition.getY() + movedVector.getY()) - (int)(TileMap.tileSize / 2d);
+        int dy2 = (int)(lastPosition.getY() + movedVector.getY()) + (int)(TileMap.tileSize / 2d);
 
         g.drawImage(this.texture, dx1, dy1, dx2, dy2, 0, 0, this.texture.getWidth(), this.texture.getHeight(), null);
     }
 
+    public Vector2d getLocation() {
+        return (Vector2d)(new Vector2d().add(lastPosition, movedVector));
+    }
+
     @Override
     public void realign(int width, int height, Graphics2D g) {}
+
+    public void hit(int damage) {
+        health -= damage;
+    }
+
+    public boolean isAlive() {
+        return (health > 0);
+    }
 }

@@ -50,7 +50,7 @@ public class TileMap implements IPaintableUpdatableObject {
                         break;
                     case CASTLE:
                         tileMap[x][y] = new Tile((int)(x * tileSize), (int)(y * tileSize), false, true);
-                        tileMap[x][y].setTileObject(new TowerCastle(player.getId()));
+                        tileMap[x][y].setTileObject(new TowerCastle(player.getId(), tileMap[x][y].getCenter()));
                         break;
                 }
             }
@@ -140,6 +140,10 @@ public class TileMap implements IPaintableUpdatableObject {
 
     public Tile getTile(Point point) {
         return getTile((int)point.getX(), (int)point.getY());
+    }
+
+    public Tile getTileAtPixel(Point point) {
+        return getTileAtPixel((int)point.getX(), (int)point.getY());
     }
 
     public Tile getTile(Vector2d locVector) {

@@ -25,10 +25,9 @@ import java.util.ArrayList;
  */
 public class ScreenUI extends ScreenChild implements IUIActionReceiver {
 
-    private Rectangle bottomDrawBorder;
-
     private final StatusBar statusBar;
     private final InGameBuildMenu buildMenu;
+    private ScreenBuilding screenBuilding = null;
 
     public ScreenUI(String name, int width, int height, Graphics2D g, ScreenGame parent, Player player) {
         super(name, width, height, g, parent);
@@ -97,6 +96,20 @@ public class ScreenUI extends ScreenChild implements IUIActionReceiver {
             case UIElement.DROPDOWN_SELECTED:
                 String selectedItem = ((DropDownMenu)sender).getSelectedElement();
                 Manager.targetFps = Integer.parseInt(selectedItem.replace(" FPS", ""));
+                break;
+            case UIElement.BUTTON_TOWER_LIGHT:
+            case UIElement.BUTTON_TOWER_HEAVY:
+                final int clickedTowerId = actionId - UIElement.BUTTON_TOWER;
+                if (!((ScreenGame)getParent()).isBuilding()) {
+                    this.screenBuilding = new ScreenBuilding("buildingScreen", super.width, super.height, graphics2D, (ScreenGame) getParent(), clickedTowerId);
+                    super.requestScreen(screenBuilding);
+                } else {
+                    if (clickedTowerId == screenBuilding.getTowerId()) {
+                        screenBuilding.unload();
+                    } else {
+                        screenBuilding.setTowerId(clickedTowerId);
+                    }
+                }
                 break;
             default:
                 System.out.println("Event " + actionId + ", sent by " + sender.getClass().toString() + " to " + this.getClass().toString() + " is not implemented!");

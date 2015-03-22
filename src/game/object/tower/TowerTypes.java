@@ -1,5 +1,6 @@
 package game.object.tower;
 
+import game.framework.math.Vector2d;
 import game.framework.resources.Textures;
 
 import java.awt.image.BufferedImage;
@@ -9,16 +10,16 @@ import java.awt.image.BufferedImage;
  */
 public class TowerTypes {
 
-    public static Tower getNewTowerById(int towerId, int ownerId) {
+    public static Tower getNewTowerById(int towerId, int ownerId, Vector2d center) {
         switch (towerId) {
             case Tower.TOWER_CASTLE:
-                return new TowerCastle(ownerId);
+                return new TowerCastle(ownerId, center);
             case Tower.TOWER_LIGHT:
-                return new TowerLight(ownerId);
+                return new TowerLight(ownerId, center);
             case Tower.TOWER_HEAVY:
-                return new TowerHeavy(ownerId);
+                return new TowerHeavy(ownerId, center);
             default:
-                System.out.println("Texture for id: " + towerId + " is missing!");
+                System.out.println("Tower with id: " + towerId + " is missing!");
                 System.exit(-1);
         }
         return null;
@@ -52,6 +53,21 @@ public class TowerTypes {
                 System.exit(-1);
         }
         return Textures.placeholder;
+    }
+
+    public static int getRange(int towerId, int level) {
+        switch (towerId) {
+            case Tower.TOWER_CASTLE:
+                return TowerCastle.getRange(level);
+            case Tower.TOWER_LIGHT:
+                return TowerLight.getRange(level);
+            case Tower.TOWER_HEAVY:
+                return TowerHeavy.getRange(level);
+            default:
+                System.out.println("Texture for id: " + towerId + " is missing!");
+                System.exit(-1);
+        }
+        return -1;
     }
 
 }

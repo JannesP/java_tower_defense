@@ -4,7 +4,6 @@ import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Textures;
 import game.framework.screens.ScreenBase;
-import game.framework.screens.ScreenManager;
 import game.ui.container.UIElementContainer;
 import game.ui.element.Label;
 import game.ui.element.UIElement;
@@ -24,7 +23,7 @@ public class ScreenCredit extends ScreenBase implements IUIActionReceiver {
         switch (buttonAction) {
             case UIElement.BUTTON_BACK:
                 super.requestScreen(new ScreenOption("optionScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.ScreenState.SHUTDOWN;
+                super.unload();
                 break;
             default:
                 System.out.println("BUTTON FAILURE! Action: '" + buttonAction + "' not defined in " + this.getClass().toString());

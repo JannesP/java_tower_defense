@@ -28,7 +28,7 @@ public class ScreenFps extends ScreenBase {
 
 	@Override
 	public void update(double timeScale, long timeDiff) {
-        if (super.state == ScreenManager.ScreenState.ACTIVE) {
+        if (super.getState() == ScreenManager.ScreenState.ACTIVE) {
             currIndex = (currIndex + 1) % lastFps.length;
             lastFps[currIndex] = (float) (Util.NANO_SECOND_SECOND / timeDiff);
             calcFps = calculateAverage(lastFps);
@@ -65,7 +65,11 @@ public class ScreenFps extends ScreenBase {
 		for (KeyEvent e : events){
 			if (e.getID() == KeyEvent.KEY_PRESSED) {
 				if (e.getKeyCode() == 112){
-					this.state = this.state == ScreenManager.ScreenState.ACTIVE ? ScreenManager.ScreenState.HIDDEN : ScreenManager.ScreenState.ACTIVE;
+					if (this.getState() == ScreenManager.ScreenState.ACTIVE) {
+                        hide();
+                    } else if (this.getState() == ScreenManager.ScreenState.HIDDEN) {
+                        show();
+                    }
 
 				}
 			}

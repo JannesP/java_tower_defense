@@ -16,11 +16,14 @@ import java.util.ArrayList;
  * Created by Jannes Peters on 2/22/2015.
  */
 public class ScreenGame extends ScreenBase {
-    private TileMap tileMap;
-    private EnemyMap enemyMap;
+    private final ScreenUI screenUI;
+    private final TileMap tileMap;
+    private final EnemyMap enemyMap;
+
     private Player player;
-    private ScreenUI screenUI;
+
     public boolean gamePaused = false;
+    private boolean building = false;
 
     public ScreenGame(String name, int width, int height, Graphics2D g) {
         super(name, width, height, g);
@@ -44,8 +47,13 @@ public class ScreenGame extends ScreenBase {
             if (event.getID() == KeyEvent.KEY_PRESSED && !gamePaused) {
                 switch (event.getKeyCode()) {
                     case KeyEvent.VK_ESCAPE:
-                        super.requestScreen(new ScreenInGameOptions("inGameOptionsScreen", this.width, this.height, super.graphics2D, this));
-                        gamePaused = true;
+                        event.consume();
+                        if (building) {
+                            building = false;
+                        } else {
+                            super.requestScreen(new ScreenInGameOptions("inGameOptionsScreen", this.width, this.height, super.graphics2D, this));
+                            gamePaused = true;
+                        }
                         break;
                 }
             }
@@ -86,5 +94,17 @@ public class ScreenGame extends ScreenBase {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public TileMap getTileMap() {
+        return tileMap;
+    }
+
+    public boolean isBuilding() {
+        return building;
+    }
+
+    public void setBuilding(boolean building) {
+        this.building = building;
     }
 }

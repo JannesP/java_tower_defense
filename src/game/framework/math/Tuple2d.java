@@ -121,10 +121,11 @@ public abstract class Tuple2d implements java.io.Serializable, Cloneable {
      * @param t1 the first tuple
      * @param t2 the second tuple
      */
-    public final void add(Tuple2d t1, Tuple2d t2)
+    public final Tuple2d add(Tuple2d t1, Tuple2d t2)
     {
         this.x = t1.x + t2.x;
         this.y = t1.y + t2.y;
+        return this;
     }
 
 
@@ -203,10 +204,11 @@ public abstract class Tuple2d implements java.io.Serializable, Cloneable {
      * of itself.
      * @param s the scalar value
      */
-    public final void scale(double s)
+    public final Tuple2d scale(double s)
     {
         this.x *= s;
         this.y *= s;
+        return this;
     }
 
 
@@ -554,5 +556,9 @@ public abstract class Tuple2d implements java.io.Serializable, Cloneable {
      */
     public final void setY(double y) {
         this.y = y;
+    }
+
+    public static int getDistance(Tuple2d t1, Tuple2d t2) {
+        return (int)Math.sqrt(Math.pow(t1.getX() - t2.getX(), 2) + Math.pow(t1.getY() - t2.getY(), 2));
     }
 }

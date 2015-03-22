@@ -6,7 +6,6 @@ import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
 import game.framework.resources.Textures;
 import game.framework.screens.ScreenBase;
-import game.framework.screens.ScreenManager;
 import game.framework.screens.ingame.ScreenInGameOptions;
 import game.ui.container.UIElementContainer;
 import game.ui.element.DropDownMenu;
@@ -30,15 +29,15 @@ public class ScreenOption extends ScreenBase implements IUIActionReceiver {
                 break;
             case UIElement.BUTTON_CREDITS:
                 super.requestScreen(new ScreenCredit("creditScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.ScreenState.SHUTDOWN;
+                super.unload();
                 break;
             case UIElement.BUTTON_BACK:
                 super.requestScreen(new ScreenMainTitle("mainScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.ScreenState.SHUTDOWN;
+                super.unload();
             break;
             case UIElement.BUTTON_TEST:
                 super.requestScreen(new ScreenInGameOptions("testScreen", this.width, this.height, super.graphics2D, this));
-                super.state = ScreenManager.ScreenState.SHUTDOWN;
+                super.unload();
                 break;
             default:
                 System.out.println("BUTTON FAILURE! Action: '" + buttonAction + "' not defined in " + this.getClass().toString());

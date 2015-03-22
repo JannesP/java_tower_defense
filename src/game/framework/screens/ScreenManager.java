@@ -28,7 +28,7 @@ public class ScreenManager {
 
     @SuppressWarnings("Saved for later.!")
     public enum ZOrder {
-        BACKGROUND(0), MIDDLE(1), FOREGROUND(2), UI(3), OVER_UI(4);
+        BACKGROUND(0), MIDDLE(1), FOREGROUND(2), UI(3), OVER_UI(4), TOP_MOST(5);
         private int index;
 
         private ZOrder(int index) {
@@ -66,7 +66,7 @@ public class ScreenManager {
 
 		// REMOVE DEAD SCREENS
 		for (ScreenBase foundScreen : screens){
-			if (foundScreen.state == ScreenState.SHUTDOWN){
+			if (foundScreen.getState() == ScreenState.SHUTDOWN){
                 screens.remove(foundScreen);
                 break;
 			} else {
@@ -132,7 +132,7 @@ public class ScreenManager {
             setAlignments(dimensions, g);   //recalculate drawing positions for UI
         }
 		for (ScreenBase foundScreen : screens){ //draw all screens
-			if (foundScreen.state == ScreenState.ACTIVE){   //if screen should be drawn
+			if (foundScreen.getState() == ScreenState.ACTIVE){   //if screen should be drawn
 				foundScreen.draw(g);    //draw screen
 			}
 		}

@@ -4,7 +4,6 @@ import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Textures;
 import game.framework.screens.ScreenBase;
-import game.framework.screens.ScreenManager;
 import game.framework.screens.ingame.ScreenGame;
 import game.ui.container.UIElementContainer;
 import game.ui.element.UIElement;
@@ -25,11 +24,11 @@ public class ScreenMainTitle extends ScreenBase implements IUIActionReceiver {
         switch (actionId) {
             case UIElement.BUTTON_START:
                 super.requestScreen(new ScreenGame("gameScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.ScreenState.SHUTDOWN;
+                super.unload();
                 break;
             case UIElement.BUTTON_OPTIONS:
                 super.requestScreen(new ScreenOption("optionScreen", this.width, this.height, super.graphics2D));
-                super.state = ScreenManager.ScreenState.SHUTDOWN;
+                super.unload();
                 break;
             case UIElement.BUTTON_EXIT:
                 super.closeGame();

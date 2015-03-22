@@ -34,7 +34,7 @@ public class InGameBuildMenu implements UIContainer {
         for (int i = 0; i < availableTowers.length; i++) {
             int towerId = availableTowers[i];
             ButtonImage button = new ButtonTower(this.x + Util.PADDING + i * (this.height - Util.PADDING), this.y + Util.PADDING, this.height - 2 * Util.PADDING, this.height - 2 * Util.PADDING, actionReceiver, towerId);
-            button.setDisabled(true);
+
             elements.add(button);
         }
 

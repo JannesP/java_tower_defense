@@ -12,7 +12,7 @@ public class EnemyDummy extends Enemy {
      * Basic constructor for a <code>Dummy</code>
      * @param wayPoints  - the wayPoints on which this enemy should follow in calculated x/y coordinates!
      */
-    protected EnemyDummy(Vector2d[] wayPoints) {
-        super(Textures.runnerTexture, 100, 1.0d, 550, wayPoints);
+    public EnemyDummy(Vector2d[] wayPoints) {
+        super(Textures.runnerTexture, 20, 1.0d, 550, wayPoints);
     }
 }

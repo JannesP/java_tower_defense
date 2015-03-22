@@ -21,9 +21,7 @@ public class Tile implements IPaintableUpdatableObject{
     protected Vector2d center;
 
     public Tile(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.center = new Vector2d(x + TileMap.tileSize / 2d, y + TileMap.tileSize / 2d);
+        this(x, y, false);
     }
 
     public Tile(int x, int y, boolean isRoad) {
@@ -31,16 +29,16 @@ public class Tile implements IPaintableUpdatableObject{
     }
 
     public Tile(int x, int y, boolean isRoad, boolean isBuildable) {
-        this(x, y);
-        this.isRoad = isRoad;
-        if (this.isRoad) {
-            this.isBuildable = false;
-        }
+        this(x, y, isRoad, isBuildable, false);
     }
 
     public Tile(int x, int y, boolean isRoad, boolean isBuildable, boolean isEntrance) {
-        this(x, y, isRoad, isBuildable);
+        this.x = x;
+        this.y = y;
+        this.isRoad = isRoad;
+        this.isBuildable = isBuildable;
         this.isEntrance = isEntrance;
+        this.center = new Vector2d(x + TileMap.tileSize / 2d, y + TileMap.tileSize / 2d);
     }
 
     public void setTileObject(Tower tower) {
@@ -82,10 +80,18 @@ public class Tile implements IPaintableUpdatableObject{
     }
 
     public boolean isBuildable() {
-        return isBuildable;
+        return (isBuildable && tower == null);
     }
 
     public boolean hasCastle() {
         return (tower != null && tower instanceof TowerCastle);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 }

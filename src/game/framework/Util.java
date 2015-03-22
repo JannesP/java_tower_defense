@@ -98,6 +98,20 @@ public final class Util {
         return (a << 24) | (calcGrey << 16) | (calcGrey << 8) | calcGrey;
     }
 
+    public static void fillCenteredCircle(Graphics2D g, int x, int y, int r, Color color) {
+        g.setColor(color);
+        x = x-(r/2);
+        y = y-(r/2);
+        g.fillOval(x,y,r,r);
+    }
+
+    public static void drawCenteredCircle(Graphics2D g, int x, int y, int r, Color color) {
+        g.setColor(color);
+        x = x-(r/2);
+        y = y-(r/2);
+        g.drawOval(x,y,r,r);
+    }
+
     //80-150ms
     /*
     public static BufferedImage createGreyScaledImage(BufferedImage original, int srcX1, int srcY1, int srcX2, int srcY2) {

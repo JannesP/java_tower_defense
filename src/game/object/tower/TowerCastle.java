@@ -1,7 +1,11 @@
 package game.object.tower;
 
+import game.framework.math.Vector2d;
 import game.framework.resources.Textures;
+import game.object.enemy.Enemy;
 import game.object.tile.TileMap;
+import game.object.tower.shot.Shot;
+import game.object.tower.shot.TestShot;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,22 +15,28 @@ import java.awt.image.BufferedImage;
  * Created by Jannes Peters on 2/21/2015.
  */
 public class TowerCastle extends Tower {
+    public static final double[] fireRate = new double[] {0.3, 0.4, 0.5, 0.6, 0,8};
+    public static final int[] cost = new int[] {125, 75, 125, 150, 200};
+    public static final int[] damage = new int[] {10, 15, 20, 30, 40};
+    public static final int[] range = new int[] {90, 105, 120, 140, 160};
+    public static final int[] sellValue = new int[] {0, 0, 0, 0, 0};
+    public static final float[] critRate = new float[] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+
     private static int castlesCreated = 0;
     private boolean isFirstCastle = false;
 
-    public TowerCastle(int ownerId) {
-        super(ownerId);
+    public TowerCastle(int ownerId, Vector2d center) {
+        super(ownerId, Textures.castleTexture, center, sellValue, critRate, range, damage, fireRate, cost);
         if (TowerCastle.castlesCreated++ == 0) {
             isFirstCastle = true;
         } else if (TowerCastle.castlesCreated == 4) {
             TowerCastle.castlesCreated = 0;
         }
-        super.texture = Textures.castleTexture;
-        super.costPerLevel = new int[]{0, 100, 250, 500, 1000};
-        super.fireRatePerLevel = new double[]{0, 0, 0, 0, 0};
-        super.damagePerLevel = new int[]{0, 0, 0, 0, 0};
-        super.rangePerLevel = new int[]{0, 0, 0, 0, 0};
-        super.critRate = new float[] {0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+    }
+
+    @Override
+    public Shot getShot(Vector2d start, Enemy destinationEnemy, float speed, int damage) {
+        return new TestShot(super.center, destinationEnemy, speed, damage);
     }
 
     @Override
@@ -42,11 +52,11 @@ public class TowerCastle extends Tower {
     }
 
     @Override
-    protected void fire() {
-    }
-
-    @Override
     public BufferedImage getTexture() {
         return null;
+    }
+
+    public static int getRange(int level) {
+        return range[level];
     }
 }

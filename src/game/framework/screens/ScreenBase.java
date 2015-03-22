@@ -16,7 +16,7 @@ public abstract class ScreenBase implements IPaintableUpdatableObject {
     /**
      * Indicates the current status of the screen.
      */
-    public ScreenState state = ScreenState.ACTIVE;
+    private ScreenState state = ScreenState.ACTIVE;
 
     private ScreenBase[] requestedScreens = null;
 	protected String name = "";
@@ -70,6 +70,14 @@ public abstract class ScreenBase implements IPaintableUpdatableObject {
 		state = ScreenState.SHUTDOWN;
 	}
 
+    public void show() {
+        state = ScreenState.ACTIVE;
+    }
+
+    public void hide() {
+        state = ScreenState.HIDDEN;
+    }
+
     /**
      * Creates a new screen based on the given parameters.
      * @param name - Name or ID of the screen
@@ -93,6 +101,10 @@ public abstract class ScreenBase implements IPaintableUpdatableObject {
 	public ScreenBase(String name, double width, double height, Graphics2D g) {
 		this(name, (int)width, (int)height, g);
 	}
+
+    public ScreenState getState() {
+        return state;
+    }
 
     /**
      * Should be overwritten when it should do something!
