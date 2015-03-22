@@ -14,7 +14,7 @@ public class EnemyWave implements IPaintableUpdatableObject {
     private ArrayList<Enemy> enemies = new ArrayList<>();
 
     public EnemyWave(Vector2d[] wayPoints) {
-        enemies.add(new Dummy(wayPoints));
+        enemies.add(new EnemyDummy(wayPoints));
     }
 
     public ArrayList<Enemy> getEnemies() {

@@ -6,9 +6,9 @@ import game.framework.resources.Textures;
 /**
  * Created by Addy on 23.02.2015.
  */
-public class Runner extends Enemy {
+public class EnemyRunner extends Enemy {
 
-    public Runner(Vector2d[] wayPoints) {
+    public EnemyRunner(Vector2d[] wayPoints) {
         super(Textures.runnerTexture, 5, 2.0d, 1, wayPoints);
     }
 }

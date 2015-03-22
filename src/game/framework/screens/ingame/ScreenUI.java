@@ -3,7 +3,7 @@ package game.framework.screens.ingame;
 import game.framework.BackgroundMusicPlayer;
 import game.framework.Manager;
 import game.framework.input.IUIActionReceiver;
-import game.framework.screens.ChildScreen;
+import game.framework.screens.ScreenChild;
 import game.framework.screens.ScreenManager;
 import game.object.player.Player;
 import game.object.tile.TileMap;
@@ -12,7 +12,7 @@ import game.ui.container.StatusBar;
 import game.ui.element.DropDownMenu;
 import game.ui.element.Slider;
 import game.ui.element.UIElement;
-import game.ui.element.button.MultiImageButton;
+import game.ui.element.button.ButtonMultiImage;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -23,14 +23,14 @@ import java.util.ArrayList;
  * Screen which displays the UI over the game.
  * Created by Jannes Peters on 23.02.2015.
  */
-public class UIScreen extends ChildScreen implements IUIActionReceiver {
+public class ScreenUI extends ScreenChild implements IUIActionReceiver {
 
     private Rectangle bottomDrawBorder;
 
     private final StatusBar statusBar;
     private final InGameBuildMenu buildMenu;
 
-    public UIScreen(String name, int width, int height, Graphics2D g, GameScreen parent, Player player) {
+    public ScreenUI(String name, int width, int height, Graphics2D g, ScreenGame parent, Player player) {
         super(name, width, height, g, parent);
 
         statusBar = new StatusBar(width, height, g, this, player);
@@ -85,10 +85,10 @@ public class UIScreen extends ChildScreen implements IUIActionReceiver {
             case UIElement.BUTTON_MUTE:
                 if (BackgroundMusicPlayer.isPlaying()) {
                     BackgroundMusicPlayer.pause();
-                    ((MultiImageButton) sender).setImageIndex(1);
+                    ((ButtonMultiImage) sender).setImageIndex(1);
                 } else {
                     BackgroundMusicPlayer.play();
-                    ((MultiImageButton) sender).setImageIndex(0);
+                    ((ButtonMultiImage) sender).setImageIndex(0);
                 }
                 break;
             case UIElement.SLIDER_VOLUME:

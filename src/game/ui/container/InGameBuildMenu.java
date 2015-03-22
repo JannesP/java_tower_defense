@@ -4,8 +4,8 @@ import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.object.player.Player;
 import game.ui.element.UIElement;
-import game.ui.element.button.ImageButton;
-import game.ui.element.button.TowerButton;
+import game.ui.element.button.ButtonImage;
+import game.ui.element.button.ButtonTower;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -33,7 +33,7 @@ public class InGameBuildMenu implements UIContainer {
         int[] availableTowers = player.getPossibleTowers();
         for (int i = 0; i < availableTowers.length; i++) {
             int towerId = availableTowers[i];
-            ImageButton button = new TowerButton(this.x + Util.PADDING + i * (this.height - Util.PADDING), this.y + Util.PADDING, this.height - 2 * Util.PADDING, this.height - 2 * Util.PADDING, actionReceiver, towerId);
+            ButtonImage button = new ButtonTower(this.x + Util.PADDING + i * (this.height - Util.PADDING), this.y + Util.PADDING, this.height - 2 * Util.PADDING, this.height - 2 * Util.PADDING, actionReceiver, towerId);
             button.setDisabled(true);
             elements.add(button);
         }

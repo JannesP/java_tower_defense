@@ -1,6 +1,6 @@
 package game.framework.resources;
 
-import game.framework.screens.menu.SplashLoadScreen;
+import game.framework.screens.menu.ScreenSplashLoad;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -41,13 +41,13 @@ public class Sounds {
 
     public static MediaPlayer loadMusic(String path) {
         System.out.println("Loading " + path + " ...");
-        SplashLoadScreen.elementLoaded();
+        ScreenSplashLoad.elementLoaded();
         return new MediaPlayer(new Media(Paths.get(path).toUri().toString()));
     }
 
     public static AudioClip loadSound(String path) {
         System.out.println("Loading " + path + " ...");
-        SplashLoadScreen.elementLoaded();
+        ScreenSplashLoad.elementLoaded();
         return new AudioClip(Paths.get(path).toUri().toString());
     }
 

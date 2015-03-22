@@ -8,7 +8,7 @@ import game.framework.resources.Maps;
 import game.framework.resources.Textures;
 import game.object.enemy.Enemy;
 import game.object.player.Player;
-import game.object.tower.Castle;
+import game.object.tower.TowerCastle;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -50,7 +50,7 @@ public class TileMap implements IPaintableUpdatableObject {
                         break;
                     case CASTLE:
                         tileMap[x][y] = new Tile((int)(x * tileSize), (int)(y * tileSize), false, true);
-                        tileMap[x][y].setTileObject(new Castle(player.getId()));
+                        tileMap[x][y].setTileObject(new TowerCastle(player.getId()));
                         break;
                 }
             }
@@ -130,7 +130,7 @@ public class TileMap implements IPaintableUpdatableObject {
     public Point getCastleCoordinates() throws Exception {
         for (int x = 0; x < Map.WIDTH; x++) {
             for (int y = 0; y < Map.HEIGHT; y++) {
-                if (tileMap[x][y].tower instanceof Castle) {
+                if (tileMap[x][y].tower instanceof TowerCastle) {
                     return new Point(x, y);
                 }
             }

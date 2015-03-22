@@ -10,16 +10,16 @@ import java.awt.image.BufferedImage;
  * Castle which is basically a tower which renders over 4 Tiles.
  * Created by Jannes Peters on 2/21/2015.
  */
-public class Castle extends Tower {
+public class TowerCastle extends Tower {
     private static int castlesCreated = 0;
     private boolean isFirstCastle = false;
 
-    public Castle(int ownerId) {
+    public TowerCastle(int ownerId) {
         super(ownerId);
-        if (Castle.castlesCreated++ == 0) {
+        if (TowerCastle.castlesCreated++ == 0) {
             isFirstCastle = true;
-        } else if (Castle.castlesCreated == 4) {
-            Castle.castlesCreated = 0;
+        } else if (TowerCastle.castlesCreated == 4) {
+            TowerCastle.castlesCreated = 0;
         }
         super.texture = Textures.castleTexture;
         super.costPerLevel = new int[]{0, 100, 250, 500, 1000};

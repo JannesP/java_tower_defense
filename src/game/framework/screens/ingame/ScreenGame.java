@@ -1,6 +1,6 @@
 package game.framework.screens.ingame;
 
-import game.framework.screens.BaseScreen;
+import game.framework.screens.ScreenBase;
 import game.framework.screens.ScreenManager;
 import game.object.enemy.EnemyMap;
 import game.object.player.Player;
@@ -15,18 +15,18 @@ import java.util.ArrayList;
  * Screen that handles the game.
  * Created by Jannes Peters on 2/22/2015.
  */
-public class GameScreen extends BaseScreen {
+public class ScreenGame extends ScreenBase {
     private TileMap tileMap;
     private EnemyMap enemyMap;
     private Player player;
-    private UIScreen uiScreen;
+    private ScreenUI screenUI;
     public boolean gamePaused = false;
 
-    public GameScreen(String name, int width, int height, Graphics2D g) {
+    public ScreenGame(String name, int width, int height, Graphics2D g) {
         super(name, width, height, g);
         this.player = new Player("SPlayerName", 0, 100);
-        uiScreen = new UIScreen("uiScreen", width, height, g, this, player);
-        super.requestScreen(uiScreen);
+        screenUI = new ScreenUI("uiScreen", width, height, g, this, player);
+        super.requestScreen(screenUI);
         tileMap = new TileMap(0, player);
         enemyMap = new EnemyMap(0, tileMap);
         super.zOrder = ScreenManager.ZOrder.BACKGROUND;
@@ -34,7 +34,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void unload() {
-        uiScreen.unload();
+        screenUI.unload();
         super.unload();
     }
 
@@ -44,7 +44,7 @@ public class GameScreen extends BaseScreen {
             if (event.getID() == KeyEvent.KEY_PRESSED && !gamePaused) {
                 switch (event.getKeyCode()) {
                     case KeyEvent.VK_ESCAPE:
-                        super.requestScreen(new InGameOptionScreen("inGameOptionsScreen", this.width, this.height, super.graphics2D, this));
+                        super.requestScreen(new ScreenInGameOptions("inGameOptionsScreen", this.width, this.height, super.graphics2D, this));
                         gamePaused = true;
                         break;
                 }

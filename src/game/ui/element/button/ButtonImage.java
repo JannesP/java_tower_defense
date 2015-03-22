@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  * Button class for use with not often changing icons.
  * Created by Jannes Peters on 2/25/2015.
  */
-public class ImageButton extends Button {
+public class ButtonImage extends Button {
     protected static final int PADDING = 1;
 
     protected BufferedImage image;
@@ -26,7 +26,7 @@ public class ImageButton extends Button {
      * @param height - height of the whole button
      * @param image - image to draw on the button
      */
-    public ImageButton(int x, int y, int width, int height, IUIActionReceiver actionReceiver, BufferedImage image, int action){
+    public ButtonImage(int x, int y, int width, int height, IUIActionReceiver actionReceiver, BufferedImage image, int action){
         super(x, y, width, height, action, actionReceiver, Textures.buttonBackground);
         this.setImage(image);
     }

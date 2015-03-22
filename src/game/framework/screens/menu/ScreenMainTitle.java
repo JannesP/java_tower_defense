@@ -3,12 +3,12 @@ package game.framework.screens.menu;
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Textures;
-import game.framework.screens.BaseScreen;
+import game.framework.screens.ScreenBase;
 import game.framework.screens.ScreenManager;
-import game.framework.screens.ingame.GameScreen;
+import game.framework.screens.ingame.ScreenGame;
 import game.ui.container.UIElementContainer;
 import game.ui.element.UIElement;
-import game.ui.element.button.TextButton;
+import game.ui.element.button.ButtonText;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -18,17 +18,17 @@ import java.util.ArrayList;
 /**
  * Title screen which shows the main menu.
  */
-public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
+public class ScreenMainTitle extends ScreenBase implements IUIActionReceiver {
 
     @Override
     public void performAction(UIElement sender, int actionId) {
         switch (actionId) {
             case UIElement.BUTTON_START:
-                super.requestScreen(new GameScreen("gameScreen", this.width, this.height, super.graphics2D));
+                super.requestScreen(new ScreenGame("gameScreen", this.width, this.height, super.graphics2D));
                 super.state = ScreenManager.ScreenState.SHUTDOWN;
                 break;
             case UIElement.BUTTON_OPTIONS:
-                super.requestScreen(new OptionScreen("optionScreen", this.width, this.height, super.graphics2D));
+                super.requestScreen(new ScreenOption("optionScreen", this.width, this.height, super.graphics2D));
                 super.state = ScreenManager.ScreenState.SHUTDOWN;
                 break;
             case UIElement.BUTTON_EXIT:
@@ -41,7 +41,7 @@ public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
 
     private UIElementContainer uiElementContainer;
 
-	public MainTitleScreen(String name, int width, int height, Graphics2D g) {
+	public ScreenMainTitle(String name, int width, int height, Graphics2D g) {
 		super(name, width, height, g);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
         ArrayList<UIElement> elements = new ArrayList<>();
@@ -97,7 +97,7 @@ public class MainTitleScreen extends BaseScreen implements IUIActionReceiver {
         super.closeGame();
     }
 
-    private class MenuButton extends TextButton {
+    private class MenuButton extends ButtonText {
         public static final int WIDTH = 200;
         public static final int HEIGHT = 50;
 

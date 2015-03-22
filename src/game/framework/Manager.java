@@ -3,8 +3,8 @@ package game.framework;
 import game.framework.input.Input;
 import game.framework.resources.Settings;
 import game.framework.screens.ScreenManager;
-import game.framework.screens.menu.SplashLoadScreen;
-import game.framework.screens.overlays.FpsScreen;
+import game.framework.screens.menu.ScreenSplashLoad;
+import game.framework.screens.overlays.ScreenFps;
 import game.object.tile.TileMap;
 import javafx.embed.swing.JFXPanel;
 
@@ -76,8 +76,8 @@ public class Manager implements Thread.UncaughtExceptionHandler{
 
     private void initGame() {
         if ((win.getWidth() == (TileMap.WIDTH * TileMap.DEFAULT_TILE_SIZE + win.getFrameWidth()) * Settings.resolutionScale)) {
-            screenManager.addScreen(new SplashLoadScreen("splashScreen", (int) win.getSurface().getBounds().getWidth(), (int) win.getSurface().getBounds().getHeight(), (Graphics2D)win.getSurface().getGraphics()));
-            screenManager.addScreen(new FpsScreen("fpsScreen", (int) win.getSurface().getBounds().getWidth(), (int) win.getSurface().getBounds().getHeight(), (Graphics2D)win.getSurface().getGraphics()));
+            screenManager.addScreen(new ScreenSplashLoad("splashScreen", (int) win.getSurface().getBounds().getWidth(), (int) win.getSurface().getBounds().getHeight(), (Graphics2D)win.getSurface().getGraphics()));
+            screenManager.addScreen(new ScreenFps("fpsScreen", (int) win.getSurface().getBounds().getWidth(), (int) win.getSurface().getBounds().getHeight(), (Graphics2D)win.getSurface().getGraphics()));
             updateThread.start();
         } else {
             SwingUtilities.invokeLater(this::initGame);

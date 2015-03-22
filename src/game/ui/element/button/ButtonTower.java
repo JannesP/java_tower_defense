@@ -10,10 +10,10 @@ import java.awt.image.BufferedImage;
 /**
  * Created by Jannes Peters on 3/14/2015.
  */
-public class TowerButton extends ImageButton {
+public class ButtonTower extends ButtonImage {
     private BufferedImage disabledImage;
 
-    public TowerButton(int x, int y, int width, int height, IUIActionReceiver actionReceiver, int towerId) {
+    public ButtonTower(int x, int y, int width, int height, IUIActionReceiver actionReceiver, int towerId) {
         super(x, y, width, height, actionReceiver, TowerTypes.getTextureById(towerId).getSubimage(0, 0, TowerTypes.getTextureById(towerId).getHeight(), TowerTypes.getTextureById(towerId).getHeight()), UIElement.BUTTON_TOWER + towerId);
         this.disabledImage = TowerTypes.getGreyTextureById(towerId);
     }

@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
  * Button class for use with toggle functions or other things.
  * Created by Jannes Peters on 2/25/2015.
  */
-public class MultiImageButton extends Button {
+public class ButtonMultiImage extends Button {
 
     protected static final int PADDING = 2;
 
@@ -31,7 +31,7 @@ public class MultiImageButton extends Button {
      * @param spriteCount - count of the horizontally aligned sprites
      * @param g - current graphics for calculating text bounds
      */
-    public MultiImageButton(int x, int y, int width, int height, BufferedImage backgroundImage, IUIActionReceiver actionReceiver, BufferedImage image, int spriteCount, Graphics2D g, int action){
+    public ButtonMultiImage(int x, int y, int width, int height, BufferedImage backgroundImage, IUIActionReceiver actionReceiver, BufferedImage image, int spriteCount, Graphics2D g, int action){
         super(x, y, width, height, action, actionReceiver, backgroundImage);
         this.spriteCount = spriteCount;
         this.setImage(image, g);

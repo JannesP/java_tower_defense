@@ -11,14 +11,14 @@ import java.util.ArrayList;
 /**
  * Basic Screen.
  */
-public abstract class BaseScreen implements IPaintableUpdatableObject {
+public abstract class ScreenBase implements IPaintableUpdatableObject {
 
     /**
      * Indicates the current status of the screen.
      */
     public ScreenState state = ScreenState.ACTIVE;
 
-    private BaseScreen[] requestedScreens = null;
+    private ScreenBase[] requestedScreens = null;
 	protected String name = "";
     protected int width, height;
     protected ScreenManager.ZOrder zOrder = ScreenManager.ZOrder.MIDDLE;
@@ -77,7 +77,7 @@ public abstract class BaseScreen implements IPaintableUpdatableObject {
      * @param height - height of the screen
      * @param g - graphics on which it should be created
      */
-	public BaseScreen(String name, int width, int height, Graphics2D g) {
+	public ScreenBase(String name, int width, int height, Graphics2D g) {
 		this.name = name;
         this.graphics2D = g;
 		realign(width, height, g);
@@ -90,7 +90,7 @@ public abstract class BaseScreen implements IPaintableUpdatableObject {
      * @param height - height of the screen
      * @param g - graphics on which it should be created
      */
-	public BaseScreen(String name, double width, double height, Graphics2D g) {
+	public ScreenBase(String name, double width, double height, Graphics2D g) {
 		this(name, (int)width, (int)height, g);
 	}
 
@@ -103,13 +103,13 @@ public abstract class BaseScreen implements IPaintableUpdatableObject {
      * Requests a new screen to be displayed.
      * @param screen - the new screen
      */
-    protected void requestScreen(BaseScreen screen) {
+    protected void requestScreen(ScreenBase screen) {
         //synchronized (ScreenManager.THREADLOCK_REQUESTED_SCREENS) {
             if (requestedScreens == null) {
-                requestedScreens = new BaseScreen[1];
+                requestedScreens = new ScreenBase[1];
             } else {
-                BaseScreen[] buffer = requestedScreens.clone();
-                requestedScreens = new BaseScreen[buffer.length + 1];
+                ScreenBase[] buffer = requestedScreens.clone();
+                requestedScreens = new ScreenBase[buffer.length + 1];
                 for (int i = 0; i < buffer.length; i++) {
                     requestedScreens[i] = buffer[i];
                 }
@@ -122,7 +122,7 @@ public abstract class BaseScreen implements IPaintableUpdatableObject {
      * Returns all requested screens that should be loaded.
      * @return - null or array with screens
      */
-    public BaseScreen[] getRequestedScreens() {
+    public ScreenBase[] getRequestedScreens() {
         //synchronized (ScreenManager.THREADLOCK_REQUESTED_SCREENS) {
             return requestedScreens;
         //}

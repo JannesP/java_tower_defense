@@ -3,8 +3,8 @@ package game.object.tile;
 import game.drawable.IPaintableUpdatableObject;
 import game.framework.math.Vector2d;
 import game.object.enemy.Enemy;
-import game.object.tower.Castle;
 import game.object.tower.Tower;
+import game.object.tower.TowerCastle;
 
 import java.awt.*;
 
@@ -86,6 +86,6 @@ public class Tile implements IPaintableUpdatableObject{
     }
 
     public boolean hasCastle() {
-        return (tower != null && tower instanceof Castle);
+        return (tower != null && tower instanceof TowerCastle);
     }
 }

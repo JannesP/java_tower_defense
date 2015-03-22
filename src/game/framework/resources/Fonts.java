@@ -1,6 +1,6 @@
 package game.framework.resources;
 
-import game.framework.screens.menu.SplashLoadScreen;
+import game.framework.screens.menu.ScreenSplashLoad;
 
 import java.awt.*;
 import java.io.File;
@@ -31,7 +31,7 @@ public class Fonts {
         }
     }
     public static Font loadFont(String path) throws IOException, FontFormatException {
-        SplashLoadScreen.elementLoaded();
+        ScreenSplashLoad.elementLoaded();
         return Font.createFont(Font.TRUETYPE_FONT, new File(path));
     }
 

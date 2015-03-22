@@ -5,23 +5,23 @@ import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
 import game.framework.resources.Fonts;
 import game.framework.resources.Textures;
-import game.framework.screens.BaseScreen;
-import game.framework.screens.ChildScreen;
+import game.framework.screens.ScreenBase;
+import game.framework.screens.ScreenChild;
 import game.framework.screens.ScreenManager;
-import game.framework.screens.menu.MainTitleScreen;
+import game.framework.screens.menu.ScreenMainTitle;
 import game.ui.container.UIElementContainer;
 import game.ui.element.DropDownMenu;
 import game.ui.element.Label;
 import game.ui.element.Slider;
 import game.ui.element.UIElement;
-import game.ui.element.button.TextButton;
+import game.ui.element.button.ButtonText;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-public class InGameOptionScreen extends ChildScreen implements IUIActionReceiver {
+public class ScreenInGameOptions extends ScreenChild implements IUIActionReceiver {
     private static final Color COLOR_BACKGROUND = new Color(0f,0f,0f, 0.85f);
 
     @Override
@@ -31,12 +31,12 @@ public class InGameOptionScreen extends ChildScreen implements IUIActionReceiver
                 BackgroundMusicPlayer.setVolume(((Slider) sender).getValue());
                 break;
             case UIElement.BUTTON_RESUME:
-                if (super.getParent() instanceof GameScreen)
-                    ((GameScreen)super.getParent()).gamePaused = false;
+                if (super.getParent() instanceof ScreenGame)
+                    ((ScreenGame)super.getParent()).gamePaused = false;
                 super.unload();
                 break;
             case UIElement.BUTTON_BACK:
-                super.requestScreen(new MainTitleScreen("mainScreen", this.width, this.height, super.graphics2D));
+                super.requestScreen(new ScreenMainTitle("mainScreen", this.width, this.height, super.graphics2D));
                 super.getParent().unload();
                 super.unload();
                 break;
@@ -47,7 +47,7 @@ public class InGameOptionScreen extends ChildScreen implements IUIActionReceiver
 
     private UIElementContainer uiElementContainer;
 
-    public InGameOptionScreen(String name, int width, int height, Graphics2D g, BaseScreen parent) {
+    public ScreenInGameOptions(String name, int width, int height, Graphics2D g, ScreenBase parent) {
         super(name, width, height, g, parent);
         g.setFont(Fonts.defaultFont);
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
@@ -112,7 +112,7 @@ public class InGameOptionScreen extends ChildScreen implements IUIActionReceiver
         super.closeGame();
     }
 
-    private class MenuButton extends TextButton {
+    private class MenuButton extends ButtonText {
         public static final int WIDTH = 200;
         public static final int HEIGHT = 50;
 

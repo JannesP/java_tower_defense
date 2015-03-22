@@ -45,8 +45,8 @@ public class ScreenManager {
 	private Window win;
 
     private boolean screensChanged = true;
-	private ArrayList<BaseScreen> screens = new ArrayList<>();
-	private ArrayList<BaseScreen> newScreens = new ArrayList<>();
+	private ArrayList<ScreenBase> screens = new ArrayList<>();
+	private ArrayList<ScreenBase> newScreens = new ArrayList<>();
 	
 	private static final ArrayList<MouseEvent> mouseEvents = new ArrayList<>();
 	private static final ArrayList<KeyEvent> keyEvents = new ArrayList<>();
@@ -57,7 +57,7 @@ public class ScreenManager {
 	
 	public void update(double timeScale, long timeDiff){
         // ADD REQUESTED SCREENS
-        for (BaseScreen foundScreen : screens) {
+        for (ScreenBase foundScreen : screens) {
             if (foundScreen.getRequestedScreens() != null) {
                 Collections.addAll(newScreens, foundScreen.getRequestedScreens());
                 foundScreen.clearRequestedScreens();
@@ -65,7 +65,7 @@ public class ScreenManager {
         }
 
 		// REMOVE DEAD SCREENS
-		for (BaseScreen foundScreen : screens){
+		for (ScreenBase foundScreen : screens){
 			if (foundScreen.state == ScreenState.SHUTDOWN){
                 screens.remove(foundScreen);
                 break;
@@ -75,7 +75,7 @@ public class ScreenManager {
 		}
 		
 		// ADD NEW SCREENS TO MANAGER LIST
-		for (BaseScreen foundScreen : newScreens){
+		for (ScreenBase foundScreen : newScreens){
 			screens.add(foundScreen);
             screensChanged = true;
 		}
@@ -95,7 +95,7 @@ public class ScreenManager {
 		synchronized (keyEvents) {
             synchronized (mouseEvents) {
                 // HANDLE INPUT FOR FOCUSED SCREEN
-                for (BaseScreen foundScreen : screens) {
+                for (ScreenBase foundScreen : screens) {
                     foundScreen.handleKeyInput(keyEvents);
                     foundScreen.handleMouseInput(mouseEvents);
                     if (foundScreen.isCloseGame()) {
@@ -108,13 +108,13 @@ public class ScreenManager {
         }
 
         // UPDATE ALL SCREENS
-        for (BaseScreen foundScreen : screens) {
+        for (ScreenBase foundScreen : screens) {
             foundScreen.update(timeScale, timeDiff);
         }
 
         //Handle game closing
         if (closeRequested) {
-            for (BaseScreen foundScreen : screens) {
+            for (ScreenBase foundScreen : screens) {
                 foundScreen.closeRequested();
             }
             closeRequested = false;
@@ -131,7 +131,7 @@ public class ScreenManager {
             dimensions = win.getSurface().getBounds();
             setAlignments(dimensions, g);   //recalculate drawing positions for UI
         }
-		for (BaseScreen foundScreen : screens){ //draw all screens
+		for (ScreenBase foundScreen : screens){ //draw all screens
 			if (foundScreen.state == ScreenState.ACTIVE){   //if screen should be drawn
 				foundScreen.draw(g);    //draw screen
 			}
@@ -139,13 +139,13 @@ public class ScreenManager {
 	}
 	
 	private void setAlignments(Rectangle rect, Graphics2D g) {
-		for (BaseScreen foundScreen : screens) {
+		for (ScreenBase foundScreen : screens) {
 			foundScreen.realign(rect, g);
 		}
 		
 	}
 
-	public void addScreen(BaseScreen screen){
+	public void addScreen(ScreenBase screen){
 		newScreens.add(screen);
 	}
 	

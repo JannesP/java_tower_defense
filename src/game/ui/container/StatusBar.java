@@ -6,7 +6,7 @@ import game.framework.resources.Fonts;
 import game.framework.resources.Textures;
 import game.object.player.Player;
 import game.ui.element.*;
-import game.ui.element.button.MultiImageButton;
+import game.ui.element.button.ButtonMultiImage;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -30,8 +30,8 @@ public class StatusBar implements UIContainer {
         border = new Rectangle(0, 0, width, calcHeight);
 
         ArrayList<UIElement> elements = new ArrayList<>();
-        elements.add(new MultiImageButton(Util.PADDING, Util.PADDING, this.getHeight() - Util.PADDING * 2, this.getHeight() - Util.PADDING * 2, Textures.buttonBackground, actionReceiver, Textures.iconSpeaker, 2, g, UIElement.BUTTON_MUTE));
-        ((MultiImageButton)elements.get(0)).setImageIndex(1);
+        elements.add(new ButtonMultiImage(Util.PADDING, Util.PADDING, this.getHeight() - Util.PADDING * 2, this.getHeight() - Util.PADDING * 2, Textures.buttonBackground, actionReceiver, Textures.iconSpeaker, 2, g, UIElement.BUTTON_MUTE));
+        ((ButtonMultiImage)elements.get(0)).setImageIndex(1);
         elements.add(new Slider(elements.get(0).getRightBorder() + Util.PADDING, Util.PADDING, 250, this.getHeight() - Util.PADDING * 2, UIElement.SLIDER_VOLUME, actionReceiver));
         elements.add(new TextBox(350 + Util.PADDING, Util.PADDING, 200, this.getHeight() - Util.PADDING * 2, UIElement.TEXTBOX_INPUT, actionReceiver, "Example TextBox", 50));
         elements.add(new CheckBox(elements.get(elements.size() - 1).getRightBorder() + Util.PADDING, Util.PADDING, this.getHeight() - Util.PADDING * 2, UIElement.CHECKBOX_EXAMPLE, actionReceiver, "Example CB", g.getFontRenderContext()));

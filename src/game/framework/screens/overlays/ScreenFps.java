@@ -3,7 +3,7 @@ package game.framework.screens.overlays;
 import game.framework.Manager;
 import game.framework.Util;
 import game.framework.resources.Fonts;
-import game.framework.screens.BaseScreen;
+import game.framework.screens.ScreenBase;
 import game.framework.screens.ScreenManager;
 
 import java.awt.*;
@@ -14,14 +14,14 @@ import java.util.ArrayList;
 /**
  * A screen that displays the current fps.
  */
-public class FpsScreen extends BaseScreen {
+public class ScreenFps extends ScreenBase {
 	private int x, y;
     private int currIndex = 0;
     private float[] lastFps = new float[20];
     private int calcFps = 60;
     private double lastTargetFps = Manager.targetFps;
 
-	public FpsScreen(String name, int width, int height, Graphics2D g) {
+	public ScreenFps(String name, int width, int height, Graphics2D g) {
 		super(name, width, height, g);
         super.zOrder = ScreenManager.ZOrder.OVER_UI;
 	}

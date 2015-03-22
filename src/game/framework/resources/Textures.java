@@ -1,7 +1,7 @@
 package game.framework.resources;
 
 import game.framework.Util;
-import game.framework.screens.menu.SplashLoadScreen;
+import game.framework.screens.menu.ScreenSplashLoad;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -80,13 +80,13 @@ public class Textures {
 
     private static BufferedImage loadImage(String path) throws IOException {
         System.out.println("Loading " + path + " ...");
-        SplashLoadScreen.elementLoaded();
+        ScreenSplashLoad.elementLoaded();
         return ImageIO.read(new File(path));
     }
 
     private static BufferedImage createGreyCopy(BufferedImage texture, int srcX, int srcY, int srcX2, int srcY2) {
         BufferedImage greyCopy = Util.createGreyScaledImage(texture, srcX, srcY, srcX2, srcY2);
-        SplashLoadScreen.elementLoaded();
+        ScreenSplashLoad.elementLoaded();
         return greyCopy;
     }
 

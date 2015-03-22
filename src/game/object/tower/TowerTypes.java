@@ -12,11 +12,11 @@ public class TowerTypes {
     public static Tower getNewTowerById(int towerId, int ownerId) {
         switch (towerId) {
             case Tower.TOWER_CASTLE:
-                return new Castle(ownerId);
+                return new TowerCastle(ownerId);
             case Tower.TOWER_LIGHT:
-                return new LightTower(ownerId);
+                return new TowerLight(ownerId);
             case Tower.TOWER_HEAVY:
-                return new HeavyTower(ownerId);
+                return new TowerHeavy(ownerId);
             default:
                 System.out.println("Texture for id: " + towerId + " is missing!");
                 System.exit(-1);

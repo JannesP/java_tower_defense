@@ -2,7 +2,7 @@ package game.framework.resources;
 
 import game.framework.Map;
 import game.framework.Util;
-import game.framework.screens.menu.SplashLoadScreen;
+import game.framework.screens.menu.ScreenSplashLoad;
 
 import java.awt.*;
 import java.io.File;
@@ -91,7 +91,7 @@ public class Maps {
         }
 
         map = new Map(matrix, pathArray);
-        SplashLoadScreen.elementLoaded();
+        ScreenSplashLoad.elementLoaded();
         return map;
     }
 

@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  * Button with text on it.
  * Created by Jannes Peters on 2/25/2015.
  */
-public class TextButton extends Button {
+public class ButtonText extends Button {
     protected String text;
     protected int stringX = 0, stringY = 0;
     protected Color textColor = Color.BLACK;
@@ -25,7 +25,7 @@ public class TextButton extends Button {
      * @param text - text to draw on the button
      * @param g - current graphics for calculating text bounds
      */
-    public TextButton(int x, int y, int width, int height, BufferedImage backgroundImage, IUIActionReceiver actionReceiver, String text, Graphics2D g, int action){
+    public ButtonText(int x, int y, int width, int height, BufferedImage backgroundImage, IUIActionReceiver actionReceiver, String text, Graphics2D g, int action){
         super(x, y, width, height, action, actionReceiver, backgroundImage);
         this.setText(text, g);
     }
