@@ -124,6 +124,8 @@ public class Slider extends UIElement {
 
     @Override
     public void draw(Graphics2D g) {
+        g.setFont(super.font);
+
         //draw first separator
         g.setColor(UIElement.COLOR_NORMAL);
         g.fillRect(super.x, super.y, 3, super.height);

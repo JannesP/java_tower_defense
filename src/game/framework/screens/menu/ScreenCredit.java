@@ -2,6 +2,7 @@ package game.framework.screens.menu;
 
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
+import game.framework.resources.Fonts;
 import game.framework.resources.Textures;
 import game.framework.screens.ScreenBase;
 import game.ui.container.UIElementContainer;
@@ -37,18 +38,29 @@ public class ScreenCredit extends ScreenBase implements IUIActionReceiver {
         int menuButtonCenterX = Util.calculateCenterPosition(this.width, MenuButton.WIDTH);
         ArrayList<UIElement> elements = new ArrayList<>();
         String[] labelTexts = new String []{
+                "Project Lead and Main Programming:",
+                "Jannes Peters",
                 "Sound Artists:",
                 "Fynn König, Julian Böteführ",
                 "Creative Artists:",
                 "Tjorven Hoppe, Niclas Kirstein, Lars Pfeiffer",
-                "Producer:",
-                "Jannes Peters, Adrian Kurth"
+                "Menu Layout and Programming:",
+                "Adrian Kurth"
         };
-        for(int i = 0 ; i < labelTexts.length; i++){
-            int labelCenterX = Util.calculateCenterPosition(this.width,Util.getStringWidth(labelTexts[i],g) );
-            elements.add(new Label(labelCenterX,(i * (Util.getFontHeight(g) + 20) + Util.getFontHeight(g) + 20),0,labelTexts[i]));
+        final int SPACING = 10;
+        int nextY = Util.calculateCenterPosition(height, labelTexts.length * (Util.getFontHeight(g) + (int)((double)SPACING * 1.5d)) + SPACING * 3 + MenuButton.HEIGHT);
+
+        for(int i = 1 ; i < labelTexts.length + 1; i++){
+            String text = labelTexts[i - 1];
+            nextY += (i == 1) ? 0 : (Util.getFontHeight(g) + SPACING + (i % 2 * SPACING));
+            int labelCenterX = Util.calculateCenterPosition(this.width,Util.getStringWidth(text, g));
+            Label label = new Label(labelCenterX, nextY, 0, text);
+            if (i % 2 == 1) {
+                label.setFont(Fonts.getDefaultFont().deriveFont(Font.ITALIC));
+            }
+            elements.add(label);
         }
-        elements.add(new MenuButton(menuButtonCenterX, 310, "Back", g, UIElement.BUTTON_BACK, this));
+        elements.add(new MenuButton(menuButtonCenterX, nextY + SPACING * 3, "Back", g, UIElement.BUTTON_BACK, this));
         uiElementContainer = new UIElementContainer(elements);
     }
 

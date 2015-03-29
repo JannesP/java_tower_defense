@@ -3,6 +3,7 @@ package game.ui.element;
 import game.drawable.IPaintableUpdatableObject;
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
+import game.framework.resources.Fonts;
 import game.object.tower.Tower;
 
 import java.awt.*;
@@ -55,6 +56,7 @@ public abstract class UIElement implements IPaintableUpdatableObject{
     protected boolean hasFocus = false;
     protected boolean isMouseOver = false;
     protected boolean isMouseDown = false;
+    protected Font font;
 
     private boolean isDisabled = false;
 
@@ -78,9 +80,14 @@ public abstract class UIElement implements IPaintableUpdatableObject{
         } else {
             this.actionReceiver = actionReceiver;
         }
+        this.font = Fonts.getDefaultFont();
     }
 
     protected void handleKeyEvent(KeyEvent event) {}
+
+    public void setFont(Font font) {
+        this.font = font;
+    }
 
     public boolean isDisabled() {
         return isDisabled;

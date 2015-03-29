@@ -76,6 +76,7 @@ public class CheckBox extends UIElement {
 
     @Override
     public void draw(Graphics2D g) {
+        g.setFont(super.font);
         if (super.width == 0) {
             super.width = (int)Fonts.getDefaultFont().getStringBounds(this.description, g.getFontRenderContext()).getWidth() + super.height + Util.PADDING;
         }

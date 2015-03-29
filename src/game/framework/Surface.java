@@ -46,6 +46,7 @@ public class Surface extends JPanel{
 
 	/**
 	 * Should be called when something has to be redrawn
+	 * @param sm the screen manager that handles the stuff inside the surface
 	 */
 	public void paint(ScreenManager sm) {
 		this.sm = sm;

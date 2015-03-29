@@ -116,6 +116,8 @@ public class TextBox extends UIElement {
 
     @Override
     public void draw(Graphics2D g) {
+        g.setFont(super.font);
+
         //draw background
         g.setColor(TextBox.COLOR_BACKGROUND);
         g.fillRect(super.x, super.y, super.width, super.height);

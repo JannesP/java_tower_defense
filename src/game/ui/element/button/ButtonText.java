@@ -2,7 +2,6 @@ package game.ui.element.button;
 
 import game.framework.Util;
 import game.framework.input.IUIActionReceiver;
-import game.framework.resources.Fonts;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -37,7 +36,6 @@ public class ButtonText extends Button {
     @Override
     public void draw(Graphics2D g) {
         super.draw(g);
-        g.setFont(Fonts.getDefaultFont());
         g.setColor(textColor);
         g.drawString(text, stringX, stringY);
     }

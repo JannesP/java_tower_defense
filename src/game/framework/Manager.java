@@ -71,7 +71,7 @@ public class Manager implements Thread.UncaughtExceptionHandler{
 	}
 
     public static boolean hasGameCrashed() {
-        return (gameCrashed || updateThread == null || updateThread.isAlive());
+        return (gameCrashed || updateThread == null || !updateThread.isAlive());
     }
 
     private void initGame() {
@@ -122,6 +122,7 @@ public class Manager implements Thread.UncaughtExceptionHandler{
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
+        System.out.println("Game crashed:");
         e.printStackTrace();
         if (t.getName().equals("updateThread")) Manager.gameCrashed = true;
     }

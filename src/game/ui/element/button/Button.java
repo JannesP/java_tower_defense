@@ -36,6 +36,7 @@ public abstract class Button extends UIElement {
 
     @Override
 	public void draw(Graphics2D g) {
+        g.setFont(super.font);
         if (super.isDisabled()) {
             g.drawImage(disabledBackgroundImage, x, y, width, height, null);
         } else {

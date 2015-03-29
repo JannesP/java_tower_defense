@@ -1,7 +1,5 @@
 package game.ui.element;
 
-import game.framework.resources.Fonts;
-
 import java.awt.*;
 
 /**
@@ -26,7 +24,7 @@ public class Label extends UIElement {
 
     @Override
     public void draw(Graphics2D g) {
-        g.setFont(Fonts.getDefaultFont());
+        g.setFont(super.font);
         g.drawString(text, this.x - (g.getFontMetrics().getHeight() / 2), this.y);
     }
 
